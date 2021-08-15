@@ -73,6 +73,7 @@ const RegisterScreen = () => {
     const [userRePassword,setUserRePassword] = useState('')
     const [loading, setLoading] = useState(false);
     const [errorText, setErrorText] = useState('');
+    const [isRegistraionSuccess,setIsRegistraionSuccess] = useState(false);
 
     const lastNameInputRef = createRef();
     const emailInputRef = createRef();
@@ -118,7 +119,9 @@ const RegisterScreen = () => {
 
         console.log(dataToSend)
 
-        if (dataToSend){
+        setIsRegistraionSuccess(true)
+        
+        if (isRegistraionSuccess){
             setLoading(false)
             return (
                 <View
