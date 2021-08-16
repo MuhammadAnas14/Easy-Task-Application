@@ -4,10 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import SignUp from "./App/Screens/Signup"
 import Login from "./App/Screens/Login"
 import SplashScreen from "./App/Screens/Splash.js"
+import OtpScreen from './App/Screens/otp';
+
 export default function App() {
   return (
 
-      <Login/>
+      <OtpScreen/>
       
     
   );
