@@ -5,11 +5,12 @@ import SignUp from "./App/Screens/Signup"
 import Login from "./App/Screens/Login"
 import SplashScreen from "./App/Screens/Splash.js"
 import OtpScreen from './App/Screens/otp';
+import ForgetPassword from './App/Screens/ForgetPassword'
 
 export default function App() {
   return (
 
-      <OtpScreen/>
+      <ForgetPassword/>
       
     
   );
