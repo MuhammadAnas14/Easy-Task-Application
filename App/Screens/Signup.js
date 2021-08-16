@@ -15,6 +15,36 @@ import {
 import Loader from '../Components/Loader';
 
 const styles = StyleSheet.create({
+
+    // Container: {
+    //     height:550,
+    //     borderColor:"black",
+    //     shadowColor: "#000",
+    //     paddingTop:30,
+    //     shadowOffset: {
+    //         width: 0,
+    //         height: 5,
+    //     },
+    //     shadowOpacity: 0.48,
+    //     shadowRadius: 8.0,
+    //     elevation: 10,
+        
+
+    // },
+    Container: {
+        flex:3,
+        height:500,
+        marginLeft: 15,
+        marginRight:15,
+        justifyContent:"center",
+        borderRadius:30,
+        borderColor:"#95c3ca",
+        shadowOpacity:10,
+        shadowRadius: 8.0,
+        shadowColor: "#95c3ca",
+        borderWidth:5
+
+    },
     SectionStyle: {
       flexDirection: 'row',
       height: 40,
@@ -24,13 +54,13 @@ const styles = StyleSheet.create({
       margin: 10,
     },
     buttonStyle: {
-      backgroundColor: '#7DE24E',
+      backgroundColor: '#3dabbc',
       borderWidth: 0,
       color: '#FFFFFF',
       borderColor: '#7DE24E',
       height: 40,
       alignItems: 'center',
-      borderRadius: 30,
+      borderRadius: 10,
       marginLeft: 35,
       marginRight: 35,
       marginTop: 20,
@@ -43,7 +73,7 @@ const styles = StyleSheet.create({
     },
     inputStyle: {
       flex: 1,
-      color: 'white',
+      color: 'black',
       paddingLeft: 15,
       paddingRight: 15,
       borderWidth: 1,
@@ -148,7 +178,7 @@ const RegisterScreen = () => {
     }
 
     return (
-        <View style={{flex: 1, backgroundColor: '#307ecc'}}>
+        <View style={{flex: 1, backgroundColor: '#fff'}}>
           <Loader loading={loading} />
           <ScrollView
             keyboardShouldPersistTaps="handled"
@@ -168,6 +198,7 @@ const RegisterScreen = () => {
               />
             </View>
             <KeyboardAvoidingView enabled>
+            <View style= {styles.Container}>
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
@@ -186,6 +217,8 @@ const RegisterScreen = () => {
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
+                  label = "Last Name"
+                  mode="outlined"
                   onChangeText={(userLastName) => setUserLastName(userLastName)}
                   underlineColorAndroid="#f000"
                   placeholder="Enter Last Name"
@@ -279,7 +312,8 @@ const RegisterScreen = () => {
                 onPress={handleSubmitButton}>
                 <Text style={styles.buttonTextStyle}>REGISTER</Text>
               </TouchableOpacity>
-            </KeyboardAvoidingView>
+              </View>
+            </KeyboardAvoidingView>          
           </ScrollView>
         </View>
       );
