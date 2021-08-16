@@ -1,4 +1,5 @@
 import React, {useState, createRef} from 'react';
+import Loader from '../Components/Loader';
 import {
   StyleSheet,
   TextInput,
@@ -12,7 +13,6 @@ import {
 } from 'react-native';
 
 
-import Loader from '../Components/Loader';
 
 const styles = StyleSheet.create({
     SectionStyle: {
@@ -158,7 +158,7 @@ const RegisterScreen = () => {
             }}>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../../assets/EasyAppLogo.png')}
+                source={require('../../assets/logo.png')}
                 style={{
                   width: '50%',
                   height: 100,
