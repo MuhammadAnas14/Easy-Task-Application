@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
         fontSize:20,
         textAlign:"center",
         fontWeight: 'bold',
+        color:"#5c5c5c"
     },
     containerInput:{
         flexDirection: "row",
