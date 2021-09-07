@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PostTask from './PostStack';
 
   
 
@@ -31,35 +32,6 @@ function SettingsStack() {
     </View>
     );
   }
-function PostTask() {
-    return (
-       <View style={styles.container}>
-         <FlatList
-            data={[ { key: "Plumber" },
-            { key: "Carpenter" },
-            { key: "Delivery Boy" },
-            { key: "Driver" },
-            { key: "Graphic Designer" },
-            { key: "Tailor" },
-            { key: "Bhangi" },
-            { key: "Jamadar" },
-            { key: "Police" },
-            { key: "Web dev" },
-            { key: "Pentester" },
-            { key: "Hacker" },
-            { key: "Database Eng" },
-            { key: "Rikshaw" },
-            { key: "Sweeper" },
-            { key: "Dora" },] }
-            renderItem={ ({item}) =>
-              <View style={styles.GridViewContainer}>
-               <Text style={styles.GridViewTextLayout} > {item.key} </Text>
-              </View> }
-            numColumns={3}
-         />
-       </View>
-    );
-}
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
   
@@ -149,25 +121,4 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       textAlign: 'center',
     },
-    headerText: {
-      fontSize: 20,
-      textAlign: "center",
-      margin: 10,
-      fontWeight: "bold"
-    },
-    GridViewContainer: {
-     flex:1,
-     justifyContent: 'center',
-     alignItems: 'center',
-     height: 100,
-     margin: 5,
-     backgroundColor: '#7B1FA2'
-  },
-  GridViewTextLayout: {
-     fontSize: 20,
-     fontWeight: 'bold',
-     justifyContent: 'center',
-     color: '#fff',
-     padding: 10,
-   },
 })
