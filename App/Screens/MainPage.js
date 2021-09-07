@@ -1,8 +1,9 @@
 import React from 'react';
-import {View,Text,StyleSheet} from 'react-native';
+import {Platform, FlatList, Alert ,View,Text,StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
   
 
@@ -10,7 +11,7 @@ function HomeStack() {
     return (
         <View style={styles.mainBody}>
         <Text>Hello, Peter</Text>
-        <Text>ALL CATEGOORIES WITH ICON and add other stacks</Text>
+        <Text>ALL CATEGORIES WITH ICON and add other stacks</Text>
         </View>
     );
 }
@@ -30,6 +31,35 @@ function SettingsStack() {
     </View>
     );
   }
+function PostTask() {
+    return (
+       <View style={styles.container}>
+         <FlatList
+            data={[ { key: "Plumber" },
+            { key: "Carpenter" },
+            { key: "Delivery Boy" },
+            { key: "Driver" },
+            { key: "Graphic Designer" },
+            { key: "Tailor" },
+            { key: "Bhangi" },
+            { key: "Jamadar" },
+            { key: "Police" },
+            { key: "Web dev" },
+            { key: "Pentester" },
+            { key: "Hacker" },
+            { key: "Database Eng" },
+            { key: "Rikshaw" },
+            { key: "Sweeper" },
+            { key: "Dora" },] }
+            renderItem={ ({item}) =>
+              <View style={styles.GridViewContainer}>
+               <Text style={styles.GridViewTextLayout} > {item.key} </Text>
+              </View> }
+            numColumns={3}
+         />
+       </View>
+    );
+}
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
   
@@ -39,34 +69,71 @@ const MainPage = () => {
         <NavigationContainer>
         <Tab.Navigator
           initialRouteName="Feed"
-          tabBarOptions={{
-            activeTintColor: '#42f44b',
+          screenOptions={{
+            activeTintColor: '#3CAABB',
           }}>
           <Tab.Screen
             name="HomeStack"
             component={HomeStack}
             options={{
+              title: 'Home',
+              headerStyle: {
+                backgroundColor: '#3CAABB',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
               tabBarLabel: 'Home',
-            //   tabBarIcon: ({ color, size }) => (
-            //     <MaterialCommunityIcons
-            //       name="home"
-            //       color={color}
-            //       size={size}
-            //     />
-            //   ),
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="home"
+                  color={color}
+                  size={size}
+                />
+              ),
             }}  />
           <Tab.Screen
             name="SettingsStack"
             component={SettingsStack}
             options={{
+                title: 'Account Settings',
+                headerStyle: {
+                  backgroundColor: '#3CAABB',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
               tabBarLabel: 'Settings',
-            //   tabBarIcon: ({ color, size }) => (
-            //     <MaterialCommunityIcons
-            //       name="settings"
-            //       color={color}
-            //       size={size}
-            //     />
-            //   ),
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="account-settings"
+                  color={color}
+                  size={size}
+                />
+              ),
+            }} />
+        <Tab.Screen
+            name="PostStack"
+            component={PostTask}
+            options={{
+                title: 'Select task category',
+                headerStyle: {
+                  backgroundColor: '#3CAABB',
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              tabBarLabel: 'Post a Task',
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons
+                  name="mapbox"
+                  color={color}
+                  size={size}
+                />
+              ),
             }} />
         </Tab.Navigator>
       </NavigationContainer>
@@ -82,4 +149,25 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       textAlign: 'center',
     },
+    headerText: {
+      fontSize: 20,
+      textAlign: "center",
+      margin: 10,
+      fontWeight: "bold"
+    },
+    GridViewContainer: {
+     flex:1,
+     justifyContent: 'center',
+     alignItems: 'center',
+     height: 100,
+     margin: 5,
+     backgroundColor: '#7B1FA2'
+  },
+  GridViewTextLayout: {
+     fontSize: 20,
+     fontWeight: 'bold',
+     justifyContent: 'center',
+     color: '#fff',
+     padding: 10,
+   },
 })
