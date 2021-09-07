@@ -18,7 +18,7 @@ function Item({ item }) {
         <Text></Text>
       </View>
       <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}}>
-        <Text style={{color:"green"}}>Open</Text>
+        <Text style={{color:"white",backgroundColor:""}}>Open</Text>
       </TouchableOpacity>
     </View>
   );
