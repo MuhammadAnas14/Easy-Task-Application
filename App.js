@@ -8,11 +8,12 @@ import OtpScreen from './App/Screens/otp';
 import ForgetPassword from './App/Screens/ForgetPassword'
 import MainPage from './App/Screens/MainPage'
 import PostedTask from './App/Screens/PostedTask'
+import MyTask from './App/Screens/MyTask'
 
 export default function App() {
   return (
 
-      <PostedTask />
+      <MyTask />
       
     
   );
