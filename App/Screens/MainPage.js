@@ -4,17 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PostTask from './PostStack';
+import HomeStack from './HomeStack'
 
-  
-
-function HomeStack() {
-    return (
-        <View style={styles.mainBody}>
-        <Text>Hello, Peter</Text>
-        <Text>ALL CATEGORIES WITH ICON and add other stacks</Text>
-        </View>
-    );
-}
 function SettingsStack() {
     return (
     //   <Stack.Navigator
@@ -31,35 +23,6 @@ function SettingsStack() {
     </View>
     );
   }
-function PostTask() {
-    return (
-       <View style={styles.container}>
-         <FlatList
-            data={[ { key: "Plumber" },
-            { key: "Carpenter" },
-            { key: "Delivery Boy" },
-            { key: "Driver" },
-            { key: "Graphic Designer" },
-            { key: "Tailor" },
-            { key: "Bhangi" },
-            { key: "Jamadar" },
-            { key: "Police" },
-            { key: "Web dev" },
-            { key: "Pentester" },
-            { key: "Hacker" },
-            { key: "Database Eng" },
-            { key: "Rikshaw" },
-            { key: "Sweeper" },
-            { key: "Dora" },] }
-            renderItem={ ({item}) =>
-              <View style={styles.GridViewContainer}>
-               <Text style={styles.GridViewTextLayout} > {item.key} </Text>
-              </View> }
-            numColumns={3}
-         />
-       </View>
-    );
-}
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
   
@@ -129,7 +92,7 @@ const MainPage = () => {
               tabBarLabel: 'Post a Task',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
-                  name="mapbox"
+                  name="folder-image"
                   color={color}
                   size={size}
                 />
@@ -155,19 +118,4 @@ const styles = StyleSheet.create({
       margin: 10,
       fontWeight: "bold"
     },
-    GridViewContainer: {
-     flex:1,
-     justifyContent: 'center',
-     alignItems: 'center',
-     height: 100,
-     margin: 5,
-     backgroundColor: '#7B1FA2'
-  },
-  GridViewTextLayout: {
-     fontSize: 20,
-     fontWeight: 'bold',
-     justifyContent: 'center',
-     color: '#fff',
-     padding: 10,
-   },
 })
