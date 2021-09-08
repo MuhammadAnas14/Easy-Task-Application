@@ -8,24 +8,8 @@ import PostTask from "./PostStack";
 import HomeStack from "./PostedTask";
 import MyTaskStack from "./MyTask";
 import MessageStack from './ChatRoom'
+import SettingsStack from './Setting'
 
-
-function SettingsStack() {
-  return (
-    //   <Stack.Navigator
-    //     initialRouteName="Settings"
-    //     screenOptions={{
-    //       headerStyle: { backgroundColor: '#42f44b' },
-    //       headerTintColor: '#fff',
-    //       headerTitleStyle: { fontWeight: 'bold' }
-    //     }}>
-    //   </Stack.Navigator>
-    <View style={styles.mainBody}>
-      <Text>Hello, Peter 2</Text>
-      <Text>USER AVAILABLE</Text>
-    </View>
-  );
-}
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
