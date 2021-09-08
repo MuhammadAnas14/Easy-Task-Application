@@ -13,7 +13,7 @@ import MyTask from './App/Screens/MyTask'
 export default function App() {
   return (
 
-      <MyTask />
+      <MainPage />
       
     
   );
