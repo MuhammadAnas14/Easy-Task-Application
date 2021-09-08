@@ -6,17 +6,11 @@ import Login from "./App/Screens/Login"
 import SplashScreen from "./App/Screens/Splash.js"
 import OtpScreen from './App/Screens/otp';
 import ForgetPassword from './App/Screens/ForgetPassword'
-import MainPage from './App/Screens/MainPage'
-import PostedTask from './App/Screens/PostedTask'
-import MyTask from './App/Screens/MyTask'
+import ScreenManager from './App/Screens/ScreenManager'
 
 export default function App() {
   return (
-
-      <MainPage />
-
-      
-    
+      <ScreenManager />
   );
 }
 
