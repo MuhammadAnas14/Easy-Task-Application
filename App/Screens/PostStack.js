@@ -1,16 +1,24 @@
 import React, {useState} from 'react';
 import {Platform, FlatList, Alert ,View,Text,StyleSheet} from 'react-native';
+import Categories from './Data/Categories.json'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PostTask = () => {
-    const[services,setservices]=useState([])
+    const[services,setservices]=useState(Categories)
     return (
        <View style={styles.container}>
          <FlatList
-            data={ }
+            data={services}
             renderItem={ ({item}) =>
               <View style={styles.GridViewContainer}>
+               <MaterialCommunityIcons  
+              name={item.icon}
+              size= {60}
+              color= "#3CAABB"/>
                <Text style={styles.GridViewTextLayout} > {item.key} </Text>
-              </View> }
+              </View>  
+              
+            }
             numColumns={3}
          />
        </View>
@@ -19,25 +27,19 @@ const PostTask = () => {
 export default PostTask;
 
 const styles = StyleSheet.create({
-headerText: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10,
-    fontWeight: "bold"
-  },
   GridViewContainer: {
    flex:1,
    justifyContent: 'center',
    alignItems: 'center',
-   height: 100,
-   margin: 5,
-   backgroundColor: '#7B1FA2'
+   height: 150,
+   margin: 0,
+   backgroundColor: 'white'
 },
 GridViewTextLayout: {
-   fontSize: 20,
+   fontSize: 10,
    fontWeight: 'bold',
    justifyContent: 'center',
-   color: '#fff',
+   color: '#000',
    padding: 10,
  },
 })

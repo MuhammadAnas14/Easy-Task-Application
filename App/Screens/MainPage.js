@@ -5,17 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PostTask from './PostStack';
+import HomeStack from './HomeStack'
 
-  
-
-function HomeStack() {
-    return (
-        <View style={styles.mainBody}>
-        <Text>Hello, Peter</Text>
-        <Text>ALL CATEGORIES WITH ICON and add other stacks</Text>
-        </View>
-    );
-}
 function SettingsStack() {
     return (
     //   <Stack.Navigator
@@ -101,7 +92,7 @@ const MainPage = () => {
               tabBarLabel: 'Post a Task',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons
-                  name="mapbox"
+                  name="folder-image"
                   color={color}
                   size={size}
                 />
@@ -120,5 +111,11 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       alignContent: 'center',
       textAlign: 'center',
+    },
+    headerText: {
+      fontSize: 20,
+      textAlign: "center",
+      margin: 10,
+      fontWeight: "bold"
     },
 })

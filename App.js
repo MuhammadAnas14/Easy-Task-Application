@@ -12,7 +12,7 @@ import PostedTask from './App/Screens/PostedTask'
 export default function App() {
   return (
 
-      <PostedTask />
+      <MainPage />
       
     
   );
