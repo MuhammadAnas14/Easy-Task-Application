@@ -10,13 +10,14 @@ import MainPage from './App/Screens/MainPage'
 import PostedTask from './App/Screens/PostedTask'
 import MyTask from './App/Screens/MyTask'
 import Feedback from './App/Screens/Feedback';
+import ScreenManager from './App/Screens/ScreenManager'
+
+    
+
 
 export default function App() {
   return (
-
-      <Feedback />
-      
-    
+      <ScreenManager />
   );
 }
 
