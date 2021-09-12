@@ -149,6 +149,12 @@ const LoginScreen = ({navigation}) => {
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate('ForgetPasswordScreen')}>
+              <Text style={styles.registerTextStyle}>Forget Password</Text>
+            </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>
             <View style={styles.cont}>
             <SocialIcon style={styles.icons} onPress={() => {}} type='google' />
