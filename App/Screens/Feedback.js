@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   titleStyle: {
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 25,
     fontSize: 30,
     textAlign: "center",
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     color: "black",
   },
   textAreaContainer: {
-    borderColor: "black",
+    borderColor: "#3CAABB",
     borderWidth: 1,
-    padding: 5,
-
+    borderRadius:10,
+    padding: 10,
     marginLeft: 40,
     marginRight: 40,
   },

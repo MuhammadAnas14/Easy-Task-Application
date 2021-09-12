@@ -11,13 +11,12 @@ import MessageStack from './ChatRoom'
 import SettingsStack from './Setting'
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+
 
 const MainPage = () => {
   return (
-    <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Feed"
+        initialRouteName="Home"
         screenOptions={{
           tabBarActiveTintColor: '#3cbbac',
           tabBarInactiveTintColor: '#f4f1de',
@@ -129,10 +128,13 @@ const MainPage = () => {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
+
+
 export default MainPage;
+
+
 
 const styles = StyleSheet.create({
   mainBody: {
