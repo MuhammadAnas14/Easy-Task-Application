@@ -152,10 +152,9 @@ const LoginScreen = ({navigation}) => {
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              
               activeOpacity={0.5}
               onPress={() => navigation.navigate('ForgetPasswordScreen')}>
-              <Text style={styles.registerTextStyle}>Forget Password</Text>
+              <Text style={styles.forgetTextStyle}>Forget Password ?</Text>
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>
             <View style={styles.cont}>
@@ -220,11 +219,18 @@ const styles = StyleSheet.create({
   registerTextStyle: {
     color: 'black',
     textAlign: 'center',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     fontSize: 10,
     alignSelf: 'center',
     padding: 5,
     marginTop: 70, 
+  },
+  forgetTextStyle:{
+    color:'black',
+    textAlign:'center',
+    fontWeight:"bold",
+    fontSize: 15,
+    padding: 5,
   },
   errorTextStyle: {
     color: 'red',
