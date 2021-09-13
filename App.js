@@ -13,11 +13,7 @@ import MyTask from './App/Screens/MyTask'
 export default function App() {
   return (
 
-<<<<<<< HEAD
-      <MainPage />
-=======
       <MyTask />
->>>>>>> 51abbb532bbad32fff310df3d6064e061d98eec1
       
     
   );
