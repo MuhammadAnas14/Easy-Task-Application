@@ -2,6 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
+import { NavigationContainer } from '@react-navigation/native';
 import React, {useState, createRef} from 'react';
 import {
   StyleSheet,
@@ -38,7 +39,8 @@ const LoginScreen = ({navigation}) => {
       alert('Please fill Password');
       return;
     }
-    setLoading(true);
+    setLoading(false);
+    navigation.replace('ScreenManager');
     // let dataToSend = {email: userEmail, password: userPassword};
     // let formBody = [];
     // for (let key in dataToSend) {
@@ -148,6 +150,12 @@ const LoginScreen = ({navigation}) => {
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              
+              activeOpacity={0.5}
+              onPress={() => navigation.navigate('ForgetPasswordScreen')}>
+              <Text style={styles.registerTextStyle}>Forget Password</Text>
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>
             <View style={styles.cont}>

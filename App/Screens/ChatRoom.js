@@ -1,26 +1,14 @@
 import React ,{useState}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
-import Data from './Data/MyTaskData.json'
-import Entypo from 'react-native-vector-icons/Entypo';
-import { color } from 'react-native-elements/dist/helpers';
+import MessageData from './Data/Chat.json'
 
 function Item({ item }) {
   return (
     <View style={styles.listItem}>
       <Image source={{uri:item.photo}}  style={{width:60, height:60,borderRadius:30}} />
-      <View style={{alignItems:"center",flex:1}}>
-        <Text style={{fontWeight:"bold"}}>{item.name}</Text>
-        <View style={styles.location}>
-            <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.position}</Text>
-        </View>
-        <Text>{item.comments} Comments</Text>
-      </View>
-      <View style={styles.bugget}>
-      <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}}>
-        <Text style={{color:"white",backgroundColor:"#3CAABB",padding:5}}>Open</Text>
-      </TouchableOpacity>
-      <Text style={{color:"#3CAABB",paddingRight:5}}>Rs.{item.cost}</Text>
+      <View style={{margin:4,flex:1}}>
+        <Text style={{fontWeight:"bold",margin:3}}>{item.name}</Text>
+        <Text style={{margin:3}}>{item.chat} </Text>
       </View>
     </View>
   );
@@ -28,7 +16,7 @@ function Item({ item }) {
 
 const PostedTask  = () => {
     
-    const [TaskData, setTaskData] = useState(Data)
+    const [TaskData, setTaskData] = useState(MessageData)
 
 
     return (
@@ -53,7 +41,7 @@ const styles = StyleSheet.create({
     margin:10,
     padding:10,
     backgroundColor:"#FFF",
-    width:"80%",
+    width:"90%",
     flex:1,
     alignSelf:"center",
     flexDirection:"row",

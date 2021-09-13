@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
   });
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
     const [userFirstName, setUserFirstName] = useState('');
     const [userLastName, setUserLastName] = useState('');
@@ -136,6 +136,7 @@ const RegisterScreen = () => {
           alert('Please fill Password');
           return;
         }
+
         //Show Loader
         setLoading(true);
         
@@ -150,30 +151,33 @@ const RegisterScreen = () => {
         console.log(dataToSend)
 
         setIsRegistraionSuccess(true)
-        
-        if (isRegistraionSuccess){
-            setLoading(false)
-            return (
-                <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: '#307ecc',
-                    justifyContent: 'center',
-                  }}>
-                  <Image
-                    source={require('../../assets/success.png')}
-                    style={{
-                      height: 150,
-                      resizeMode: 'contain',
-                      alignSelf: 'center'
-                    }}
-                  />
-                  <Text style={styles.successTextStyle}>
-                    Registration Successful
-                  </Text>
-                </View>
-              );
-        }
+
+        setLoading(false);
+        navigation.replace("OtpScreen") 
+        // if (isRegistraionSuccess){
+        //     setLoading(false)
+            // return (
+            //     <View
+            //       style={{
+            //         flex: 1,
+            //         backgroundColor: '#307ecc',
+            //         justifyContent: 'center',
+            //       }}>
+            //       <Image
+            //         source={require('../../assets/success.png')}
+            //         style={{
+            //           height: 150,
+            //           resizeMode: 'contain',
+            //           alignSelf: 'center'
+            //         }}
+            //       />
+            //       <Text style={styles.successTextStyle}>
+            //         Registration Successful
+            //       </Text> 
+            //     </View>
+            //   );
+            // navigation.replace("OtpScreen")
+        // }
 
     }
 

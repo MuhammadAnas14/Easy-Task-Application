@@ -100,7 +100,7 @@ const ForgetPasswordScreen = ({navigation}) => {
               <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={handleSubmitPress}>
+                onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.buttonTextStyle}>SUBMIT</Text>
               </TouchableOpacity>
             </KeyboardAvoidingView>
