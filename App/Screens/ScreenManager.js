@@ -7,13 +7,42 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import PostTask from "./PostStack";
 import HomeStack from "./PostedTask";
 import MyTaskStack from "./MyTask";
-import MessageStack from './ChatRoom'
+import MessageScreen from './Messages/MessageScreen'
+import ChatScreen from "./Messages/ChatScreen";
 import SettingsStack from './Setting'
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
+const MessageStack = ({navigation}) =>(
+  <Stack.Navigator>
+    <Stack.Screen name="Messages" component={MessageScreen}/>
+    <Stack.Screen 
+    name="Chat" 
+    component={ChatScreen}
+    options={({route})=>({
+      title: route.params.userName,
+      headerBackTitle:false,
+      tabBarVisible: false,
+    })
+    }
+    />
+  </Stack.Navigator>
 
-const MainPage = () => {
+);
+
+const MainPage = ({navigation}) => {
+  const getTabBarVisibility = (route) => {
+    const routeName = route.state
+      ? route.state.routes[route.state.index].name
+      : '';
+
+    if (routeName === 'Chat') {
+      return false;
+    }
+    return true;
+  };
+
   return (
       <Tab.Navigator
         initialRouteName="Home"
@@ -84,18 +113,11 @@ const MainPage = () => {
           }}
         />
         <Tab.Screen
-          name="Messages"
+        name="Message"
           component={MessageStack}
-          options={{
-            title: "Messages",
-            headerStyle: {
-              backgroundColor: "#3CAABB",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            tabBarLabel: "Messages",
+          options={({route})=> ({
+            tabBarVisible: getTabBarVisibility(route),
+            headerShown: false, 
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="android-messages"
@@ -103,7 +125,7 @@ const MainPage = () => {
                 size={size}
               />
             ),
-          }}
+          })}
         />
         <Tab.Screen
           name="SettingsStack"
