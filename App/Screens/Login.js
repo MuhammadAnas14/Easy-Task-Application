@@ -1,7 +1,3 @@
-// Example of Splash, Login and Sign Up in React Native
-// https://aboutreact.com/react-native-login-and-signup/
-
-// Import React and Component
 import { NavigationContainer } from '@react-navigation/native';
 import React, {useState, createRef} from 'react';
 import {
@@ -16,10 +12,11 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { SocialIcon } from 'react-native-elements'
-
 // import AsyncStorage from '@react-native-community/async-storage';
-
 import Loader from '../Components/Loader';
+import * as Google from "expo-google-app-auth";
+import * as AppAuth from 'expo-app-auth';
+
 
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('');
@@ -28,6 +25,28 @@ const LoginScreen = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
 
   const passwordInputRef = createRef();
+
+  const GoogleSignIn = async () => {
+    
+    console.log("LoginScreen.js 6 | loggin in");
+
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: `970167067036-ub30vkj9m0m4mrud6et3lv8hd6ss6uac.apps.googleusercontent.com`,
+        scopes: ['profile','email'],
+        redirectUrl: "com.muhammadanas14.easyapp:/oauthredirect"
+      });
+      console.log(result.type)
+
+      if (result.type === "success") {
+        // Then you can use the Google REST API
+        console.log("LoginScreen.js 17 | success, navigating to profile");
+        navigation.replace('ScreenManager');
+      }
+    } catch (error) {
+      console.log("LoginScreen.js 19 | error with login", error);
+    }
+  };
 
   const handleSubmitPress = () => {
     setErrortext('');
@@ -158,7 +177,7 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>
             <View style={styles.cont}>
-            <SocialIcon style={styles.icons} onPress={() => {}} type='google' />
+            <SocialIcon style={styles.icons} onPress={GoogleSignIn} type='google' />
             <SocialIcon style={styles.icons} onPress={() => {}} type='facebook' />
             </View>
             <Text
