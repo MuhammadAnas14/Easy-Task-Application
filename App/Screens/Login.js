@@ -32,9 +32,11 @@ const LoginScreen = ({navigation}) => {
 
     try {
       const result = await Google.logInAsync({
-        androidClientId: `970167067036-ub30vkj9m0m4mrud6et3lv8hd6ss6uac.apps.googleusercontent.com`,
+        clientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
+        androidClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
+        androidStandaloneAppClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
         scopes: ['profile','email'],
-        redirectUrl: "com.muhammadanas14.easyapp:/oauthredirect"
+        redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
       });
       console.log(result.type)
 
