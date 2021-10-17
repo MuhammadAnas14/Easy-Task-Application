@@ -17,7 +17,7 @@ const SplashScreen = ({navigation}) => {
       setAnimating(false);
       AsyncStorage.getItem('token').then((value) =>
         navigation.replace(
-          value === null ? 'login' : 'ScreenManager'
+          value === null ? 'LoginScreen' : 'ScreenManager'
         ),
       );
     }, 3000);
