@@ -1,5 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
-import React, {useState, createRef} from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -12,13 +11,16 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { SocialIcon } from 'react-native-elements'
-// import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../Components/Loader';
 import * as Google from "expo-google-app-auth";
 import * as AppAuth from 'expo-app-auth';
+import * as Facebook from 'expo-facebook';
 
 
-const LoginScreen = ({navigation}) => {
+
+const LoginScreen = ({ navigation }) => {
+
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,79 +29,117 @@ const LoginScreen = ({navigation}) => {
   const passwordInputRef = createRef();
 
   const GoogleSignIn = async () => {
-    
-    console.log("LoginScreen.js 6 | loggin in");
 
     try {
       const result = await Google.logInAsync({
         clientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
         androidClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
         androidStandaloneAppClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
-        scopes: ['profile','email'],
-        redirectUrl:`${AppAuth.OAuthRedirect}:/oauth2redirect/google`
+        scopes: ['profile', 'email'],
+        redirectUrl: `${AppAuth.OAuthRedirect}:/oauth2redirect/google`
       });
-      console.log(result.type)
 
-      if (result.type === "success") {
-        // Then you can use the Google REST API
-        console.log("LoginScreen.js 17 | success, navigating to profile");
-        navigation.replace('ScreenManager');
-      }
-    } catch (error) {
+      return result
+    }
+
+    catch (error) {
       console.log("LoginScreen.js 19 | error with login", error);
+      return { error: error };
     }
   };
 
-  const handleSubmitPress = () => {
+
+  const initFbLogin = async () => {
+    try {
+      await Facebook.initializeAsync({ appId: "166792142307456" });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fbLogin = async () => {
+
+    initFbLogin();
+
+    try {
+      const { token, type } = await Facebook.logInWithReadPermissionsAsync(
+        {
+          appId: "166792142307456",
+          permissions: ['public_profile', 'email'],
+        }
+      );
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name`
+      );
+      const user = await response.json();
+
+      const pictureResponse = await fetch(
+        `https://graph.facebook.com/v8.0/${user.id}/picture?width=500&redirect=false&access_token=${token}`
+      );
+      const pictureOBject = await pictureResponse.json();
+      const userObject = {
+        ...user,
+        photoUrl: pictureOBject.data.url,
+      };
+
+      return { type, token, user: userObject };
+    } catch (e) {
+      return { error: e };
+    }
+  };
+
+
+  const validate = (email) => {
+    const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+
+    return expression.test(String(email).toLowerCase())
+}
+
+  
+
+  const handleSubmitPress = async () => {
     setErrortext('');
-    if (!userEmail) {
-      alert('Please fill Email');
+
+    console.log("aaa")
+
+    setLoading(true)
+
+    if (!userEmail || !validate(userEmail)) {
+      // alert('Please fill Email');
+      setErrortext("Please fill with correct email")
       return;
     }
     if (!userPassword) {
-      alert('Please fill Password');
+      setErrortext("Please fill with correct email")
       return;
-    }
-    setLoading(false);
-    navigation.replace('ScreenManager');
-    // let dataToSend = {email: userEmail, password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
-
-    // fetch('http://localhost:3000/api/user/login', {
-    //   method: 'POST',
-    //   body: formBody,
-    //   headers: {
-    //     //Header Defination
-    //     'Content-Type':
-    //     'application/x-www-form-urlencoded;charset=UTF-8',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.log(responseJson);
-    //     // If server response message same as Data Matched
-    //     if (responseJson.status === 'success') {
-    //       AsyncStorage.setItem('user_id', responseJson.data.email);
-    //       console.log(responseJson.data.email);
-    //       navigation.replace('DrawerNavigationRoutes');
-    //     } else {
-    //       setErrortext(responseJson.msg);
-    //       console.log('Please check your email id or password');
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.error(error);
-    //   });
+    };
+    
+    let dataToSend = {Email: userEmail, Password: userPassword};
+    console.log(JSON.stringify(dataToSend))
+  
+    await fetch('http://192.168.0.111:8080/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(dataToSend),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then((response) => {
+        if (response.success) {
+          AsyncStorage.setItem('token', response.token);
+          navigation.replace('ScreenManager');
+        } else {
+          setErrortext(response.error);
+          console.log('Please check your email id or password');
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        
+        console.error(error);
+      });
   };
 
   return (
@@ -114,7 +154,7 @@ const LoginScreen = ({navigation}) => {
         }}>
         <View>
           <KeyboardAvoidingView enabled>
-            <View style={{alignItems: 'center'}}>
+            <View style={{ alignItems: 'center' }}>
               <Image
                 source={require('../../assets/logo.png')}
                 style={{
@@ -125,6 +165,11 @@ const LoginScreen = ({navigation}) => {
                 }}
               />
             </View>
+            {errortext != '' ? (
+              <Text style={styles.errorTextStyle}>
+                {errortext}
+              </Text>
+            ) : null}
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
@@ -161,11 +206,7 @@ const LoginScreen = ({navigation}) => {
                 returnKeyType="next"
               />
             </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}>
-                {errortext}
-              </Text>
-            ) : null}
+            
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
@@ -179,8 +220,8 @@ const LoginScreen = ({navigation}) => {
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>
             <View style={styles.cont}>
-            <SocialIcon style={styles.icons} onPress={GoogleSignIn} type='google' />
-            <SocialIcon style={styles.icons} onPress={() => {}} type='facebook' />
+              <SocialIcon style={styles.icons} onPress={GoogleSignIn} type='google' />
+              <SocialIcon style={styles.icons} onPress={fbLogin} type='facebook' />
             </View>
             <Text
               style={styles.registerTextStyle}
@@ -244,12 +285,12 @@ const styles = StyleSheet.create({
     fontSize: 10,
     alignSelf: 'center',
     padding: 5,
-    marginTop: 70, 
+    marginTop: 70,
   },
-  forgetTextStyle:{
-    color:'black',
-    textAlign:'center',
-    fontWeight:"bold",
+  forgetTextStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: "bold",
     fontSize: 15,
     padding: 5,
   },
@@ -258,21 +299,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
   },
-  
-  icons:{
+
+  icons: {
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 80,
   },
-  option:{
-    alignItems:'center',
+  option: {
+    alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
 
-  }, 
-  cont:{
-    flex:1,
-    flexDirection:'row',
+  },
+  cont: {
+    flex: 1,
+    flexDirection: 'row',
     alignSelf: 'center',
     alignContent: 'center',
   }
