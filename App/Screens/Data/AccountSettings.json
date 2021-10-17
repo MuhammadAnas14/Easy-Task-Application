@@ -4,7 +4,6 @@
     { "key": "Change Password" },
     { "key": "Verifications"},
     { "key": "About Us"},
-    { "key": "Terms & Conditins"},
+    { "key": "Terms & Conditions"},
     { "key": "Privacy Policy" },
-    { "key": "Contact Us" },
-    { "key": "Logout" }]
+    { "key": "Contact Us" }]
