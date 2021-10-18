@@ -11,6 +11,8 @@ import {
   Pressable,
 } from "react-native";
 import AccountSettings from "./Data/AccountSettings.json";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -22,6 +24,13 @@ const Settings = ({ navigation }) => {
       console.log(event.target.value);
     }
   };
+
+  const handleLogout =  () => {
+
+    AsyncStorage.clear();
+
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -77,7 +86,7 @@ const Settings = ({ navigation }) => {
             <View style={styles.buttonView}>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={handleLogout}
             >
               <Text style={styles.textStyle}>Confirm</Text>
             </Pressable>
@@ -146,19 +155,19 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 14,
     elevation: 2,
-    margin: 15,
+    margin: 25,
   },
   button1: {
     color: 'black',
     backgroundColor: "white",
     height: 50,
     padding: 10,
-    marginLeft: 10,
     justifyContent: "center",
   },
   ButtonText:{
     color: "black",
     fontSize: 20,
+    marginLeft:10,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",

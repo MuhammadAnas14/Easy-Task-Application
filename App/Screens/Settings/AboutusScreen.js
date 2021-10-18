@@ -10,6 +10,7 @@ const Feedback = () => {
     setStarRatings(rating);
   };
 
+ 
   return (
     <View style={styles.mainBody}>
       <Text style={styles.titleStyle}>Feedback</Text>
