@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
   Pressable,
 } from "react-native";
 import AccountSettings from "./Data/AccountSettings.json";
@@ -34,6 +35,7 @@ const Settings = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <FlatList
         data={services}
         renderItem={({ item }) => (
@@ -51,7 +53,7 @@ const Settings = ({ navigation }) => {
       />
       <Pressable
         style={[styles.button1]}
-        onPress={() => setModalVisible(true)}
+        onPress={handleLogout}
       >
         <Text style={styles.ButtonText}>Logout</Text>
       </Pressable>
@@ -101,6 +103,7 @@ const Settings = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+      </ScrollView>
     </View>
   );
 };

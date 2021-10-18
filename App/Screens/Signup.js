@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginRight:15,
         justifyContent:"center",
-        borderRadius:30,
-        borderColor:"#95c3ca",
-        shadowOpacity:10,
-        shadowRadius: 8.0,
-        shadowColor: "#95c3ca",
-        borderWidth:5
+        // borderRadius:30,
+        // borderColor:"#95c3ca",
+        // shadowOpacity:10,
+        // shadowRadius: 8.0,
+        // shadowColor: "#95c3ca",
+        // borderWidth:5
 
     },
     SectionStyle: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
       paddingRight: 15,
       borderWidth: 1,
       borderRadius: 30,
-      borderColor: '#dadae8',
+      borderColor: '#3CAABB',
     },
     errorTextStyle: {
       color: 'red',
@@ -109,37 +109,44 @@ const RegisterScreen = ({navigation}) => {
     const emailInputRef = createRef();
     const phoneInputRef = createRef();
     const passwordInputRef = createRef();
-    
+    const validate = (email) => {
+      const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+  
+      return expression.test(String(email).toLowerCase())
+  }
+  
     const handleSubmitButton = () => {
         setErrorText('');
         if (!userFirstName) {
-          alert('Please fill First Name');
+          setErrorText('Please fill First Name');
           return;
         }
         if (!userLastName) {
-            alert('Please fill First Name');
+          setErrorText('Please fill Last Name');
             return;
           }
-        if (!userEmail) {
-          alert('Please fill Email');
+        if (!userEmail || !validate(userEmail)) {
+          setErrorText("Please fill with correct email")
           return;
         }
-        if (!userPhoneNo && userPhoneNo.length != 13) {
-          let prefix = UserPhoneNo.slice(0,3);
-          let suffix = UserPhoneNo.slice(4,13);
-          if (prefix === "+92"){
-            isNumeric(suffix);
-            return;
-          }
-          alert('Please fill phone no');
+        if (!userPhoneNo || (userPhoneNo.length != 13) || (userPhoneNo.slice(0,3) != +92)) {
+          setErrorText('Please fill phone no with correct format \n (i.e +921234567891)');
           return;
         }
         if (!userRePassword) {
-          alert('Please fill Re password');
+          setErrorText('Please fill password');
           return;
         }
         if (!userPassword) {
-          alert('Please fill Password');
+          setErrorText('Please fill Password');
+          return;
+        }
+        if (userPassword.length < 5) {
+          setErrorText('Password must be of 6 letters');
+          return;
+        }
+        if(userPassword != userRePassword){
+          alert('Passoword not matched')
           return;
         }
 
@@ -208,6 +215,11 @@ const RegisterScreen = ({navigation}) => {
               />
             </View>
             <KeyboardAvoidingView enabled>
+            {errorText != '' ? (
+                <Text style={styles.errorTextStyle}>
+                  {errorText}
+                </Text>
+              ) : null}
             <View style= {styles.Container}>
               <View style={styles.SectionStyle}>
                 <TextInput
@@ -311,11 +323,6 @@ const RegisterScreen = ({navigation}) => {
                   blurOnSubmit={false}
                 />
               </View>
-              {errorText != '' ? (
-                <Text style={styles.errorTextStyle}>
-                  {errorText}
-                </Text>
-              ) : null}
               <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
