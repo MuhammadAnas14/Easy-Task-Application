@@ -39,8 +39,34 @@ const LoginScreen = ({ navigation }) => {
         redirectUrl: `${AppAuth.OAuthRedirect}:/oauth2redirect/google`
       });
 
-      return result
+      if (result.type == "success"){
+        let SendGoogleData = result.user
+
+        await fetch('http://192.168.0.111:8080/auth/Googlelogin', {
+        method: 'POST',
+        body: JSON.stringify(SendGoogleData),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        })
+      .then(res => res.json())
+      .then((response) => {
+          if (response.success) {
+            AsyncStorage.setItem('token', response.token);
+            navigation.replace('ScreenManager');
+          } else {
+            setErrortext(response.error);
+            console.log('Please check your email id or password');
+            setLoading(false);
+          }
+      })
+      .catch((error) => {
+        
+        console.error(error);
+      });
     }
+  }
 
     catch (error) {
       console.log("LoginScreen.js 19 | error with login", error);
