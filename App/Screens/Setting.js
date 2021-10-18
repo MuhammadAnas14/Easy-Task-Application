@@ -28,6 +28,7 @@ const Settings = ({ navigation }) => {
   const handleLogout =  () => {
 
     AsyncStorage.clear();
+    navigation.navigate("SplashScreen")
 
   }
 
