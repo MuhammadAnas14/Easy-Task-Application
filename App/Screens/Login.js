@@ -117,7 +117,7 @@ const LoginScreen = ({ navigation }) => {
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch('http://192.168.0.111:8080/auth/login', {
+    await fetch('http://192.168.18.40:8080/auth/login', {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {

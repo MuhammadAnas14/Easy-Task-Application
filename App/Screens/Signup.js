@@ -124,7 +124,13 @@ const RegisterScreen = ({navigation}) => {
           alert('Please fill Email');
           return;
         }
-        if (!userPhoneNo) {
+        if (!userPhoneNo && userPhoneNo.length != 13) {
+          let prefix = UserPhoneNo.slice(0,3);
+          let suffix = UserPhoneNo.slice(4,13);
+          if (prefix === "+92"){
+            isNumeric(suffix);
+            return;
+          }
           alert('Please fill phone no');
           return;
         }

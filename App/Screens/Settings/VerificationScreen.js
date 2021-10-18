@@ -35,7 +35,7 @@ function Item({ item }) {
   );
 }
 
-const PostedTask = () => {
+const VerificationScreen = () => {
   const Data = [
     {
       id: "1",
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default PostedTask;
+export default VerificationScreen;
