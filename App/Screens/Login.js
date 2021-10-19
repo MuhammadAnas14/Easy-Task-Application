@@ -40,9 +40,10 @@ const LoginScreen = ({ navigation }) => {
       });
 
       if (result.type == "success"){
-        let SendGoogleData = result.user
         
-        await fetch('http://192.168.1.108:8080/auth/Googlelogin', {
+        let SendGoogleData = result.user
+
+        await fetch('http:/192.168.1.107:8080/auth/GoogleLogin', {
         method: 'POST',
         body: JSON.stringify(SendGoogleData),
         headers: {
@@ -107,8 +108,37 @@ const LoginScreen = ({ navigation }) => {
         ...user,
         photoUrl: pictureOBject.data.url,
       };
+      
+      const SendFacebookData = userObject
 
-      return { type, token, user: userObject };
+      if (type == "success"){
+        
+
+        await fetch('http:/192.168.1.107:8080/auth/FacebookLogin', {
+        method: 'POST',
+        body: JSON.stringify(SendFacebookData),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        })
+      .then(res => res.json())
+      .then((response) => {
+          if (response.success) {
+            AsyncStorage.setItem('token', response.token);
+            navigation.replace('ScreenManager');
+          } else {
+            setErrortext(response.error);
+            console.log('Please check your email id or password');
+            setLoading(false);
+          }
+      })
+      .catch((error) => {
+        
+        console.error(error);
+      });
+    }
+      
     } catch (e) {
       return { error: e };
     }
@@ -136,14 +166,14 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
     if (!userPassword) {
-      setErrortext("Please fill with correct email")
+      setErrortext("Please fill with correct password")
       return;
     };
     
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch('http://192.168.1.108:8080/auth/login', {
+    await fetch('http://192.168.10.26:8080/auth/login', {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {

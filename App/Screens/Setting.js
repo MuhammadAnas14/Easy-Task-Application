@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [services, setservices] = useState(AccountSettings);
+  
   const OnPress = (event) => {
     console.log("handler working");
     event.preventDefault();
@@ -53,7 +54,8 @@ const Settings = ({ navigation }) => {
       />
       <Pressable
         style={[styles.button1]}
-        onPress={handleLogout}
+        // onPress={() => setModalVisible(true)}
+        onPress= {handleLogout}
       >
         <Text style={styles.ButtonText}>Logout</Text>
       </Pressable>
