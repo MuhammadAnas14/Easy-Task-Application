@@ -41,8 +41,8 @@ const LoginScreen = ({ navigation }) => {
 
       if (result.type == "success"){
         let SendGoogleData = result.user
-
-        await fetch('http://192.168.0.111:8080/auth/Googlelogin', {
+        
+        await fetch('http://192.168.1.108:8080/auth/Googlelogin', {
         method: 'POST',
         body: JSON.stringify(SendGoogleData),
         headers: {
@@ -143,7 +143,7 @@ const LoginScreen = ({ navigation }) => {
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch('http://192.168.18.40:8080/auth/login', {
+    await fetch('http://192.168.1.108:8080/auth/login', {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {

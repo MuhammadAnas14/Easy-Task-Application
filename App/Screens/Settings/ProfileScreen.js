@@ -1,14 +1,39 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
 import StarRating from "react-native-star-rating";
+
+function Item({ item }) {
+  return (
+    <View style={styles.listItem}>  
+        <View style={{flex: 1 }}>
+        <Text style={styles.Heading}>{item.title}</Text>
+      </View>
+    </View>
+  );
+}
+
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(3.5);
-  const changeRating = (rating) => {
+    const changeRating = (rating) => {
     setStarRatings(rating);
   };
-
+  const Data = [
+    {
+      id: "1",
+      title: "You previous task was completed",
+      icons: "email",
+      obj: "Email",
+    },
+    {
+      id: "2",
+      title: "Are you looking for a Carpenter? Check this",
+      icons: "phone",
+      obj: "Phone Number",
+    },
+  ];
   return (
     <View style={styles.container}>
+      <ScrollView>
       <View style={styles.header}></View>
       <Image
         style={styles.avatar}
@@ -29,12 +54,16 @@ const Profile = () => {
           selectedStar={(rating) => changeRating(rating)}
         />
         <Text style={styles.description}>No Completion Rate </Text>
+        </View>
+        <View>
+        <FlatList
+        style={{ flex: 1 }}
+        data={Data}
+        renderItem={({ item }) => <Item item={item} />}
+        keyExtractor={(item) => item.id}
+      />
       </View>
-      <FlatList>
-          <View style={styles.bodyContent }>
-              <Text style={styles.name}>Text</Text>
-          </View>
-      </FlatList>
+      </ScrollView>
     </View>
   );
 };
@@ -47,7 +76,6 @@ const styles = StyleSheet.create({
     height: 150,
   },
   star: {
-    marginTop: 50,
     textAlign: "center",
     marginRight: 90,
     marginLeft: 90,
@@ -91,6 +119,23 @@ const styles = StyleSheet.create({
     color: "#696969",
     marginTop: 10,
     textAlign: "center",
+  },
+  Heading: {
+    margin:0,
+    fontSize: 16,
+    color: "#696969",
+    marginTop: 10,
+    padding: 10,
+    flexDirection:"row",
+    display: "flex",
+  },
+  listItem: {
+    padding: 10,
+    backgroundColor: "#FFF",
+    width: "100%",
+    flex: 1,
+    borderRadius: 5,
+    flexDirection: 'row',
   },
   buttonContainer: {
     marginTop: 10,

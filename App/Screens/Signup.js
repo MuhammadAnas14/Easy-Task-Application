@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 
-
 const styles = StyleSheet.create({
 
     // Container: {
@@ -115,7 +114,7 @@ const RegisterScreen = ({navigation}) => {
       return expression.test(String(email).toLowerCase())
   }
   
-    const handleSubmitButton = () => {
+    const handleSubmitButton = async () => {
         setErrorText('');
         if (!userFirstName) {
           setErrorText('Please fill First Name');
@@ -149,20 +148,20 @@ const RegisterScreen = ({navigation}) => {
           alert('Passoword not matched')
           return;
         }
-
+        
+        let dataSend = { FirstName:userFirstName, LastName:userLastName, Email:userEmail, Password:userPassword, Phone:userPhoneNo };
+        console.log(JSON.stringify(dataSend))
+  
+       await fetch('http://192.168.1.108:8080/auth/signUp', {
+          method: 'POST',
+          body: JSON.stringify(dataSend),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        })
         //Show Loader
         setLoading(true);
-        
-        var dataToSend = {
-          firstName : userFirstName,
-          lastName : userLastName,
-          phoneNo: userPhoneNo,
-          email: userEmail,
-          password: userPassword,
-        };
-
-        console.log(dataToSend)
-
         setIsRegistraionSuccess(true)
 
         setLoading(false);
