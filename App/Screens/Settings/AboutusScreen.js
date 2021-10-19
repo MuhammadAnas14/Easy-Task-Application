@@ -1,98 +1,108 @@
-import StarRating from "react-native-star-rating";
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import Entypo from "react-native-vector-icons/Entypo";
+import { color } from "react-native-elements/dist/helpers";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const Feedback = () => {
-  const [StarRatings, setStarRatings] = useState(2);
-  const [textInputValue, setTextInputValue] = useState("");
-
-  const changeRating = (rating) => {
-    setStarRatings(rating);
-  };
-
- 
+function Item({ item }) {
   return (
-    <View style={styles.mainBody}>
-      <Text style={styles.titleStyle}>Feedback</Text>
-      <Text style={styles.titleStyle}>Rating</Text>
-      <Text style={styles.titleStyle2}>Write a Review</Text>
-      <View style={styles.textAreaContainer}>
-        <TextInput
-          style={styles.textArea}
-          underlineColorAndroid="transparent"
-          placeholder="Type something"
-          placeholderTextColor="grey"
-          numberOfLines={10}
-          multiline={true}
+    <View style={styles.listItem}>
+      <View style={{ alignItems: "center", flex: 1 }}>
+        <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
+      </View>
+      </View>
+  );
+}
+
+const AboutUs = () => {
+  const Data = [
+    {
+      id: "1",
+      title: "Please Verify your Email",
+      icons: "email",
+      obj: "Email",
+    },
+    {
+      id: "2",
+      title: "Please Verify your Phone number",
+      icons: "phone",
+      obj: "Phone Number",
+    },
+  ];
+  return (
+    <View style={styles.container}>
+      <View style={styles.ImageView}>
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={{ width: "35%", resizeMode: "contain" }}
         />
       </View>
-      <TouchableOpacity
-        style={styles.buttonStyle}
-        activeOpacity={0.5}
-      >
-        <Text style={styles.buttonTextStyle}>SUBMIT</Text>
-      </TouchableOpacity>
+      <View style={styles.SloganParent}>
+      <Text style={styles.slogan}>Everything within your area</Text>
+      </View>
+      <View style={{marginLeft:30,marginRight:30}}>
+        <Text style={styles.pargraph}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra nibh quis posuere dictum. Cras finibus nulla non odio suscipit, et varius felis ullamcorper. Donec id urna posuere, fermentum justo hendrerit, volutpat orci.
+    {"\n"}{"\n"}
+Ut nec tellus risus. Praesent facilisis ultrices quam, vel ornare risus aliquet id. Nunc sagittis mi id mauris pharetra hendrerit. Phasellus at neque vitae velit posuere aliquam. Ut sagittis lobortis nisl a mattis. Mauris consequat sit amet erat eu maximus. Duis non est finibus, laoreet diam et, tempus risus. Sed sit amet eros non ex volutpat rhoncus. Duis auctor quis est ut mattis.</Text>
+      </View>
+      <FlatList
+        style={{ flex: 1 }}
+        data={Data}
+        renderItem={({ item }) => <Item item={item} />}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainBody: {
+  container: {
     flex: 1,
+    backgroundColor: "#F7F7F7",
+  },
+  slogan: {
+    color: "black",
+    flex:1,
+    justifyContent: "center",
     textAlign: "center",
+    marginTop: -40,
+  },
+  SloganParent:{
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  paragraph:{
+    margin:50,
+  },
+  listItem: {
+    padding: 10,
+    backgroundColor: "#FFF",
+    width: "80%",
+    flex: 1,
+    alignSelf: "center",
+    borderRadius: 5,
+    margin: 10,
+  },
+  icons: {
+    margin: 5,
+  },
+  ImageView: {
+    marginTop: -40,
+    flexDirection: "row",
     justifyContent: "center",
   },
-  star: {
+  verifButton: {
+    justifyContent: "center",
     textAlign: "center",
-    marginRight: 40,
-    marginLeft: 40,
-  },
-  titleStyle: {
-    marginTop: 10,
-    marginBottom: 25,
-    fontSize: 30,
-    textAlign: "center",
-    fontWeight: "bold",
-    color: "black",
-  },
-  titleStyle2: {
-    marginTop: 20,
-    marginBottom: 25,
-    fontSize: 30,
-    textAlign:"center",
-    fontWeight: "bold",
-    color: "black",
-  },
-  textAreaContainer: {
-    borderColor: "#3CAABB",
-    borderWidth: 1,
-    borderRadius:10,
+    flexDirection: "row",
     padding: 10,
-    marginLeft: 40,
-    marginRight: 40,
-  },
-  textArea: {
-    height: 150,
-    justifyContent: "flex-start",
-  },
-  buttonStyle: {
-    backgroundColor: '#3CAABB',
-    borderWidth: 0,
-    color: '#000000',
-    borderColor: '#7AC4CF',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 25,
-  },
-  buttonTextStyle: {
-    color: 'white',
-    paddingVertical: 10,
-    fontSize: 16,
   },
 });
-
-export default Feedback;
+export default AboutUs;

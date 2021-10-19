@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 
-const Feedback = () => {
+const ContactUs = () => {
   const [StarRatings, setStarRatings] = useState(2);
   const [textInputValue, setTextInputValue] = useState("");
 
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Feedback;
+export default ContactUs;

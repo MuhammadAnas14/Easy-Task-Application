@@ -16,6 +16,10 @@ import PasswordScreen from './Settings/PasswordScreen'
 import PaymentScreen from "./Settings/PaymentScreen";
 import VerificationScreen from './Settings/VerificationScreen'
 import LogoutScreen from './Settings/LogoutScreen'
+import AboutusScreen from './Settings/AboutusScreen'
+import TermsandConditions from './Settings/TermsScreen'
+import PrivacyPolicy from "./Settings/PrivacyScreen";
+import NotificationScreen from "./Settings/NotificationScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -59,7 +63,7 @@ const SettingsStack = ({ navigation }) => (
     />
     <Stack.Screen
       name="Notifications"
-      component={ProfileScreen}
+      component={NotificationScreen}
       options={({ route }) => ({
         title: route.params.userName,
         headerBackTitle: false,
@@ -86,7 +90,7 @@ const SettingsStack = ({ navigation }) => (
     />
     <Stack.Screen
       name="About Us"
-      component={ProfileScreen}
+      component={AboutusScreen}
       options={({ route }) => ({
         title: route.params.userName,
         headerBackTitle: false,
@@ -95,7 +99,7 @@ const SettingsStack = ({ navigation }) => (
     />
     <Stack.Screen
       name="Terms & Conditions"
-      component={ProfileScreen}
+      component={TermsandConditions}
       options={({ route }) => ({
         title: route.params.userName,
         headerBackTitle: false,
@@ -104,7 +108,7 @@ const SettingsStack = ({ navigation }) => (
     />
     <Stack.Screen 
     name="Privacy Policy" 
-    component={ProfileScreen}
+    component={PrivacyPolicy}
     options={({route})=>({
       title: route.params.userName,
       headerBackTitle:false,
