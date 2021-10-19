@@ -16,15 +16,15 @@ import Loader from '../Components/Loader';
 import * as Google from "expo-google-app-auth";
 import * as AppAuth from 'expo-app-auth';
 import * as Facebook from 'expo-facebook';
-
+import envs from "../../Config/env"
 
 
 const LoginScreen = ({ navigation }) => {
-
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
+
 
   const passwordInputRef = createRef();
 
@@ -32,9 +32,9 @@ const LoginScreen = ({ navigation }) => {
 
     try {
       const result = await Google.logInAsync({
-        clientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
-        androidClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
-        androidStandaloneAppClientId: `970167067036-mo8djnjeeee36tj5kqumic8cbtgseg3o.apps.googleusercontent.com`,
+        clientId: `${envs.GOOGLE_ID}`,
+        androidClientId: `${envs.GOOGLE_ID}`,
+        androidStandaloneAppClientId: `${envs.GOOGLE_ID}`,
         scopes: ['profile', 'email'],
         redirectUrl: `${AppAuth.OAuthRedirect}:/oauth2redirect/google`
       });
@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
         
         let SendGoogleData = result.user
 
-        await fetch('http:/192.168.0.111:8080/auth/GoogleLogin', {
+        await fetch(`http:/${envs.LoginAPI}:8080/auth/GoogleLogin`, {
         method: 'POST',
         body: JSON.stringify(SendGoogleData),
         headers: {
@@ -114,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
       if (type == "success"){
         
 
-        await fetch('http:/192.168.0.111:8080/auth/FacebookLogin', {
+        await fetch(`http:/${envs.LoginAPI}:8080/auth/FacebookLogin`, {
         method: 'POST',
         body: JSON.stringify(SendFacebookData),
         headers: {
@@ -173,7 +173,7 @@ const LoginScreen = ({ navigation }) => {
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch('http://192.168.0.111:8080/auth/login', {
+    await fetch(`http://${envs.LoginAPI}:8080/auth/login`, {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {
