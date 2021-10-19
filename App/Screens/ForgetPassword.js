@@ -19,8 +19,8 @@ const ForgetPasswordScreen = ({ route,navigation}) => {
     const [userReNewPassword, setUserReNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errortext, setErrorText] = useState('');
-  
-    const passwordInputRef = createRef();
+
+    const reNewPasswordInputRef = createRef();
   
     const handleSubmitPress = async () => {
       setErrorText('');
@@ -94,8 +94,9 @@ const ForgetPasswordScreen = ({ route,navigation}) => {
                   placeholder="New Password" //12345
                   placeholderTextColor="#8b9cb5"
                   keyboardType="default"
-                  ref={passwordInputRef}
-                  onSubmitEditing={Keyboard.dismiss}
+                  onSubmitEditing={() =>
+                    reNewPasswordInputRef.current && reNewPasswordInputRef.current.focus()
+                  }
                   blurOnSubmit={false}
                   secureTextEntry={true}
                   underlineColorAndroid="#f000"
@@ -116,7 +117,7 @@ const ForgetPasswordScreen = ({ route,navigation}) => {
                   placeholder="Re Password" //12345
                   placeholderTextColor="#8b9cb5"
                   keyboardType="default"
-                  ref={passwordInputRef}
+                  ref={reNewPasswordInputRef}
                   onSubmitEditing={Keyboard.dismiss}
                   blurOnSubmit={false}
                   secureTextEntry={true}

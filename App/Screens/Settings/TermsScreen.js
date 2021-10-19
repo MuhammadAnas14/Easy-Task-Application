@@ -7,35 +7,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import { color } from "react-native-elements/dist/helpers";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-function Item({ item }) {
-  return (
-    <View style={styles.listItem}>
-      <View style={{ alignItems: "center", flex: 1 }}>
-        <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
-      </View>
-      </View>
-  );
-}
 
 const TermsandConditions = () => {
-  const Data = [
-    {
-      id: "1",
-      title: "Please Verify your Email",
-      icons: "email",
-      obj: "Email",
-    },
-    {
-      id: "2",
-      title: "Please Verify your Phone number",
-      icons: "phone",
-      obj: "Phone Number",
-    },
-  ];
   return (
     <View style={styles.container}>
       <View style={styles.ImageView}>
@@ -52,12 +25,6 @@ const TermsandConditions = () => {
     {"\n"}{"\n"}
 Ut nec tellus risus. Praesent facilisis ultrices quam, vel ornare risus aliquet id. Nunc sagittis mi id mauris pharetra hendrerit. Phasellus at neque vitae velit posuere aliquam. Ut sagittis lobortis nisl a mattis. Mauris consequat sit amet erat eu maximus. Duis non est finibus, laoreet diam et, tempus risus. Sed sit amet eros non ex volutpat rhoncus. Duis auctor quis est ut mattis.</Text>
       </View>
-      <FlatList
-        style={{ flex: 1 }}
-        data={Data}
-        renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) => item.id}
-      />
     </View>
   );
 };

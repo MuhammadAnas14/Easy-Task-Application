@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   ImageView:{
-    marginTop: -40,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'center'
   },

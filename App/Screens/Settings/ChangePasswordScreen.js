@@ -1,5 +1,5 @@
 import StarRating from "react-native-star-rating";
-import React, { useState } from "react";
+import React, { useState,createRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,64 +7,64 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Keyboard,
 } from "react-native";
 
 const Password = () => {
-  const [StarRatings, setStarRatings] = useState(2);
-  const [textInputValue, setTextInputValue] = useState("");
+  const [userOldPassword, setUserOldPassword] = useState("");
+  const [userNewPassword, setUserNewPassword] = useState("");
+  const [userReNewPassword, setUserReNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errortext, setErrorText] = useState("");
 
-  const changeRating = (rating) => {
-    setStarRatings(rating);
-  };
+  const newPasswordInputRef = createRef();
+  const reNewPasswordInputRef = createRef();
 
   return (
     <View style={styles.mainBody}>
-      <Text style={styles.titleStyle2}>Please Validate your old password first</Text>
+      <Text style={styles.titleStyle}>{"CHANGE PASSWORD"}</Text>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-          placeholder="Enter Old Password" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
+          onChangeText={(oldPassword) => setUserOldPassword(oldPassword)}
           underlineColorAndroid="#f000"
+          placeholder="Enter Old Password"
+          placeholderTextColor="#8b9cb5"
+          returnKeyType="next"
+          secureTextEntry={true}
+          onSubmitEditing={() =>
+            newPasswordInputRef.current && newPasswordInputRef.current.focus()
+          }
           blurOnSubmit={false}
         />
       </View>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-          placeholder="Enter New Password" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
+          onChangeText={(newPassword) => setUserNewPassword(newPassword)}
           underlineColorAndroid="#f000"
+          placeholder="Enter New Password"
+          placeholderTextColor="#8b9cb5"
+          returnKeyType="next"
+          ref= {newPasswordInputRef}
+          secureTextEntry={true}
+          onSubmitEditing={() =>
+            reNewPasswordInputRef.current && reNewPasswordInputRef.current.focus()
+          }
           blurOnSubmit={false}
         />
-      </View>
-      <View style={styles.SectionStyle}>
+        </View>
+        <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-          placeholder="Re-Enter New Password" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
+          onChangeText={(reNewPassword) => setUserReNewPassword(reNewPassword)}
           underlineColorAndroid="#f000"
+          placeholder="Re-Enter Password"
+          placeholderTextColor="#8b9cb5"
+          returnKeyType="next"
+          ref= {newPasswordInputRef}
+          secureTextEntry={true}
+          onSubmitEditing={Keyboard.dismiss}
           blurOnSubmit={false}
         />
       </View>
@@ -82,35 +82,31 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
-  ImageView:{
-    marginTop: -40,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
   SectionStyle: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 40,
     marginTop: 10,
     marginLeft: 40,
     marginRight: 40,
-    marginBottom:10,
+    marginBottom: 10,
   },
   inputStyle: {
     flex: 1,
-    color: 'black',
+    color: "black",
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
-    borderRadius: 10,
-    borderColor: '#3CAABB',
+    borderRadius: 30,
+    borderColor: "#3CAABB",
   },
   titleStyle: {
-    marginBottom: 10,
-    fontSize: 15,
+    marginBottom: 25,
+    fontSize: 20,
     textAlign: "center",
-    color: "grey",
+    fontWeight: "bold",
+    color: "#5c5c5c",
   },
-  titleStyle2: { 
+  titleStyle2: {
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
