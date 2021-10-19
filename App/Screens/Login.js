@@ -17,6 +17,7 @@ import * as Google from "expo-google-app-auth";
 import * as AppAuth from 'expo-app-auth';
 import * as Facebook from 'expo-facebook';
 import envs from "../../Config/env"
+import Url from '../Components/Url';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -24,6 +25,8 @@ const LoginScreen = ({ navigation }) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
+
+  
 
 
   const passwordInputRef = createRef();
@@ -43,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
         
         let SendGoogleData = result.user
 
-        await fetch(`http:/${envs.LoginAPI}:8080/auth/GoogleLogin`, {
+        await fetch(`${Url}/auth/GoogleLogin`, {
         method: 'POST',
         body: JSON.stringify(SendGoogleData),
         headers: {
@@ -114,7 +117,7 @@ const LoginScreen = ({ navigation }) => {
       if (type == "success"){
         
 
-        await fetch(`http:/${envs.LoginAPI}:8080/auth/FacebookLogin`, {
+        await fetch(`${Url}/auth/FacebookLogin`, {
         method: 'POST',
         body: JSON.stringify(SendFacebookData),
         headers: {
@@ -173,7 +176,7 @@ const LoginScreen = ({ navigation }) => {
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch(`http://${envs.LoginAPI}:8080/auth/login`, {
+    await fetch(`${Url}/auth/login`, {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {

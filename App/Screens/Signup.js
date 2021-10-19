@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import Url from '../Components/Url';
 
 
 const styles = StyleSheet.create({
@@ -152,7 +153,7 @@ const RegisterScreen = ({navigation}) => {
         let dataSend = { FirstName:userFirstName, LastName:userLastName, Email:userEmail, Password:userPassword, Phone:userPhoneNo };
         console.log(JSON.stringify(dataSend))
   
-       await fetch('http://192.168.0.111:8080/auth/signUp', {
+       await fetch(`${Url}/auth/signUp`, {
           method: 'POST',
           body: JSON.stringify(dataSend),
           headers: {
