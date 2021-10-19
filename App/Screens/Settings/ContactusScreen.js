@@ -1,5 +1,5 @@
 import StarRating from "react-native-star-rating";
-import React, { useState } from "react";
+import React, { useState, createRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,57 +7,113 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Keyboard
 } from "react-native";
+import { ScrollView } from "react-native";
+import Loader from "../../Components/Loader";
+import Url from "../../Components/Url";
 
 const ContactUs = () => {
-  const [StarRatings, setStarRatings] = useState(2);
-  const [textInputValue, setTextInputValue] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userMassage, setUserMassage] = useState("");
 
-  const changeRating = (rating) => {
-    setStarRatings(rating);
+  const emailInputRef = createRef();
+  const massageInputRef = createRef();
+
+  const validate = (email) => {
+    const expression =
+      /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return expression.test(String(email).toLowerCase());
+  };
+
+  const handlerSubmitButton = async () => {
+    setErrorText("");
+    setLoading(true);
+
+    if (!userName) {
+      setErrorText("Please fill Name");
+      return;
+    }
+    if (!userEmail || !validate(userEmail)) {
+      setErrorText("Please fill with correct email");
+      return;
+    }
+    if (!userMassage) {
+      setErrorText("Please fill Massage");
+      return;
+    }
+
+    let dataSend = { Name:userName, Email:UserEmail, Massage : userMassage };
+
+    await fetch(`${Url}/settings/contactUsMassage`, {
+      method: 'POST',
+      body: JSON.stringify(dataSend),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then((response) => {
+      if(response.success){
+        navigation.replace('ScreenManager')
+      }
+      else{
+        setErrorText(response.error)
+        setLoading(false)
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setLoading(false)
+    });
+
   };
 
   return (
     <View style={styles.mainBody}>
       <View style={styles.ImageView}>
-      <Image
-        source={require('../../../assets/logo.png')}
-        style={{width: '35%', resizeMode: 'contain'}}
-      />
+        <Image
+          source={require("../../../assets/logo.png")}
+          style={{ width: "35%", resizeMode: "contain" }}
+        />
       </View>
-      <Text style={styles.titleStyle2}>WE'D LOVE TO HELP YOU IN EMAIL OR VIA CALL!</Text>
+      <Text style={styles.titleStyle2}>
+        WE'D LOVE TO HELP YOU {"\n"} IN EMAIL OR VIA CALL!
+      </Text>
       <Text style={styles.titleStyle}>Contact Us At: +92310254638</Text>
       <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-          placeholder="Enter Full Name" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
-          underlineColorAndroid="#f000"
-          blurOnSubmit={false}
-        />
+      <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={(Name) => setUserName(Name)}
+                  underlineColorAndroid="#f000"
+                  placeholder="Enter Full Name"
+                  placeholderTextColor="#8b9cb5"
+                  autoCapitalize="sentences"
+                  returnKeyType="next"
+                  onSubmitEditing={() =>
+                    emailInputRef.current && emailInputRef.current.focus()
+                  }
+                  blurOnSubmit={false}
+                />
       </View>
       <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(UserEmail) => setUserEmail(UserEmail)}
-          placeholder="Enter Email" //dummy@abc.com
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            passwordInputRef.current && passwordInputRef.current.focus()
-          }
-          underlineColorAndroid="#f000"
-          blurOnSubmit={false}
-        />
+      <TextInput
+                  style={styles.inputStyle}
+                  onChangeText={(Email) => setUserEmail(Email)}
+                  underlineColorAndroid="#f000"
+                  placeholder="Enter Email"
+                  placeholderTextColor="#8b9cb5"
+                  keyboardType="email-address"
+                  ref={emailInputRef}
+                  returnKeyType="next"
+                  onSubmitEditing={() =>
+                    massageInputRef.current &&
+                    massageInputRef.current.focus()
+                  }
+                  blurOnSubmit={false}
+                />
       </View>
       <View style={styles.textAreaContainer}>
         <TextInput
@@ -65,11 +121,13 @@ const ContactUs = () => {
           underlineColorAndroid="transparent"
           placeholder="Your Message"
           placeholderTextColor="grey"
-          numberOfLines={10}
+          numberOfLines={6}
           multiline={true}
+          onSubmitEditing={Keyboard.dismiss}
+          ref={massageInputRef}
         />
       </View>
-      <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+      <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={handlerSubmitButton}>
         <Text style={styles.buttonTextStyle}>SUBMIT</Text>
       </TouchableOpacity>
     </View>
@@ -83,39 +141,42 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
-  ImageView:{
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'center'
+  ImageView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: -20,
   },
   SectionStyle: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 40,
     marginTop: 10,
     marginLeft: 40,
     marginRight: 40,
-    marginBottom:10,
+    marginBottom: 10,
   },
   inputStyle: {
     flex: 1,
-    color: 'black',
+    color: "black",
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#3CAABB',
+    borderColor: "#3CAABB",
   },
   titleStyle: {
+    marginTop: 10,
     marginBottom: 10,
     fontSize: 15,
     textAlign: "center",
-    color: "grey",
+    color: "black",
+    fontWeight: "bold",
   },
-  titleStyle2: { 
+  titleStyle2: {
+    marginTop: -10,
     fontSize: 20,
     textAlign: "center",
     fontWeight: "bold",
-    color: "black",
+    color: "#5c5c5c",
   },
   textAreaContainer: {
     borderColor: "#3CAABB",
@@ -126,7 +187,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   textArea: {
-    height: 150,
+    height: 120,
     justifyContent: "flex-start",
   },
   buttonStyle: {

@@ -42,7 +42,7 @@ const Password = (navigation) => {
     }
 
     let dataToSend = {
-      id:"616e85c9b413249971dd3ddc",
+      UserId:"616e85c9b413249971dd3ddc",
       OldPassword:userOldPassword,
       NewPassword:userNewPassword
     }
@@ -57,8 +57,8 @@ const Password = (navigation) => {
     })
     .then(res => res.json())
     .then((response) => {
-      if(response.succes){
-        navigation.replace('Settings')
+      if(response.success){
+        navigation.replace('ScreenManager')
       }
       else{
         setErrorText(response.error)
