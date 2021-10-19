@@ -76,6 +76,11 @@ const Password = (navigation) => {
     <View style={styles.mainBody}>
       <Loader loading={loading} />
       <Text style={styles.titleStyle}>{"CHANGE PASSWORD"}</Text>
+      {errortext != '' ? (
+              <Text style={styles.errorTextStyle}>
+                {errortext}
+              </Text>
+            ) : null}
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}

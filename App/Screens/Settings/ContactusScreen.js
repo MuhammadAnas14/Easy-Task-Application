@@ -7,17 +7,18 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Keyboard
+  Keyboard,
 } from "react-native";
 import { ScrollView } from "react-native";
 import Loader from "../../Components/Loader";
 import Url from "../../Components/Url";
 
-const ContactUs = () => {
+const ContactUs = (navigation) => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userMassage, setUserMassage] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const [errortext, setErrorText] = useState("");
   const emailInputRef = createRef();
   const massageInputRef = createRef();
 
@@ -44,35 +45,40 @@ const ContactUs = () => {
       return;
     }
 
-    let dataSend = { Name:userName, Email:UserEmail, Massage : userMassage };
+    let dataSend = { 
+      UserId : "616e85c9b413249971dd3ddc",
+      Name: userName, 
+      Email: userEmail, 
+      Massage: userMassage 
+    };
 
     await fetch(`${Url}/settings/contactUsMassage`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(dataSend),
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     })
-    .then(res => res.json())
-    .then((response) => {
-      if(response.success){
-        navigation.replace('ScreenManager')
-      }
-      else{
-        setErrorText(response.error)
-        setLoading(false)
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      setLoading(false)
-    });
-
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.success) {
+          // navigation.navigate('Settings');
+          setErrorText("Massage Sended");
+        } else {
+          setErrorText(response.error);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
   };
 
   return (
     <View style={styles.mainBody}>
+      <Loader loading={loading} />
       <View style={styles.ImageView}>
         <Image
           source={require("../../../assets/logo.png")}
@@ -83,42 +89,47 @@ const ContactUs = () => {
         WE'D LOVE TO HELP YOU {"\n"} IN EMAIL OR VIA CALL!
       </Text>
       <Text style={styles.titleStyle}>Contact Us At: +92310254638</Text>
+      {errortext != '' ? (
+              <Text style={styles.errorTextStyle}>
+                {errortext}
+              </Text>
+            ) : null}
       <View style={styles.SectionStyle}>
-      <TextInput
-                  style={styles.inputStyle}
-                  onChangeText={(Name) => setUserName(Name)}
-                  underlineColorAndroid="#f000"
-                  placeholder="Enter Full Name"
-                  placeholderTextColor="#8b9cb5"
-                  autoCapitalize="sentences"
-                  returnKeyType="next"
-                  onSubmitEditing={() =>
-                    emailInputRef.current && emailInputRef.current.focus()
-                  }
-                  blurOnSubmit={false}
-                />
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(Name) => setUserName(Name)}
+          underlineColorAndroid="#f000"
+          placeholder="Enter Full Name"
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onSubmitEditing={() =>
+            emailInputRef.current && emailInputRef.current.focus()
+          }
+          blurOnSubmit={false}
+        />
       </View>
       <View style={styles.SectionStyle}>
-      <TextInput
-                  style={styles.inputStyle}
-                  onChangeText={(Email) => setUserEmail(Email)}
-                  underlineColorAndroid="#f000"
-                  placeholder="Enter Email"
-                  placeholderTextColor="#8b9cb5"
-                  keyboardType="email-address"
-                  ref={emailInputRef}
-                  returnKeyType="next"
-                  onSubmitEditing={() =>
-                    massageInputRef.current &&
-                    massageInputRef.current.focus()
-                  }
-                  blurOnSubmit={false}
-                />
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(Email) => setUserEmail(Email)}
+          underlineColorAndroid="#f000"
+          placeholder="Enter Email"
+          placeholderTextColor="#8b9cb5"
+          keyboardType="email-address"
+          ref={emailInputRef}
+          returnKeyType="next"
+          onSubmitEditing={() =>
+            massageInputRef.current && massageInputRef.current.focus()
+          }
+          blurOnSubmit={false}
+        />
       </View>
       <View style={styles.textAreaContainer}>
         <TextInput
           style={styles.textArea}
           underlineColorAndroid="transparent"
+          onChangeText={(Massage) => setUserMassage(Massage)}
           placeholder="Your Message"
           placeholderTextColor="grey"
           numberOfLines={6}
@@ -127,7 +138,11 @@ const ContactUs = () => {
           ref={massageInputRef}
         />
       </View>
-      <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5} onPress={handlerSubmitButton}>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        onPress={handlerSubmitButton}
+      >
         <Text style={styles.buttonTextStyle}>SUBMIT</Text>
       </TouchableOpacity>
     </View>
