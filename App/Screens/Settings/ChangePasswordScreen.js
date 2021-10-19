@@ -1,4 +1,3 @@
-import StarRating from "react-native-star-rating";
 import React, { useState,createRef } from "react";
 import {
   StyleSheet,
@@ -9,8 +8,11 @@ import {
   Image,
   Keyboard,
 } from "react-native";
+import Loader from '../../Components/Loader';
+import Url from "../../Components/Url";
 
-const Password = () => {
+
+const Password = (navigation) => {
   const [userOldPassword, setUserOldPassword] = useState("");
   const [userNewPassword, setUserNewPassword] = useState("");
   const [userReNewPassword, setUserReNewPassword] = useState("");
@@ -20,8 +22,59 @@ const Password = () => {
   const newPasswordInputRef = createRef();
   const reNewPasswordInputRef = createRef();
 
+  const handleSubmitPress = async () => {
+
+    setErrorText('');
+    setLoading(true);
+
+    if (userOldPassword.length <= 5) {
+      setErrorText('Password must be of 6 letters');
+      return;
+    }
+
+    if (userNewPassword.length <= 5) {
+      setErrorText('Password must be of 6 letters');
+      return;
+    }
+    if(userNewPassword != userReNewPassword){
+      setErrorText('Password not matched')
+      return;
+    }
+
+    let dataToSend = {
+      id:"616e85c9b413249971dd3ddc",
+      OldPassword:userOldPassword,
+      NewPassword:userNewPassword
+    }
+
+    await fetch(`${Url}/settings/changePassword`,{
+      method:'PUT',
+      body:JSON.stringify(dataToSend),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then((response) => {
+      if(response.succes){
+        navigation.replace('Settings')
+      }
+      else{
+        setErrorText(response.error)
+        setLoading(false)
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setLoading(false)
+    });
+    
+  }
+
   return (
     <View style={styles.mainBody}>
+      <Loader loading={loading} />
       <Text style={styles.titleStyle}>{"CHANGE PASSWORD"}</Text>
       <View style={styles.SectionStyle}>
         <TextInput
@@ -68,7 +121,7 @@ const Password = () => {
           blurOnSubmit={false}
         />
       </View>
-      <TouchableOpacity style={styles.buttonStyle} activeOpacity={0.5}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={handleSubmitPress} activeOpacity={0.5}>
         <Text style={styles.buttonTextStyle}>SAVE</Text>
       </TouchableOpacity>
     </View>
