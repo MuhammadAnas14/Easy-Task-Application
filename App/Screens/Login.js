@@ -152,14 +152,26 @@ const LoginScreen = ({ navigation }) => {
     const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 
     return expression.test(String(email).toLowerCase())
-}
+  }
+
+  const handleForgetScreen = async () => {
+
+    setErrortext('');
+
+    if (!userEmail || !validate(userEmail)) {
+      // alert('Please fill Email');
+      setErrortext("Please fill with correct email to continue to forget screen")
+      return;
+    }
+
+    navigation.navigate('ForgetPasswordScreen',{email:userEmail})
+  }
+
 
   
 
   const handleSubmitPress = async () => {
     setErrortext('');
-
-    console.log("aaa")
 
     setLoading(true)
 
@@ -188,7 +200,7 @@ const LoginScreen = ({ navigation }) => {
     .then((response) => {
         if (response.success) {
           AsyncStorage.setItem('token', response.token);
-          navigation.replace('ScreenManager');
+          navigation.navigate('ScreenManager');
         } else {
           setErrortext(response.error);
           console.log('Please check your email id or password');
@@ -274,7 +286,7 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => navigation.navigate('ForgetPasswordScreen')}>
+              onPress={handleForgetScreen}>
               <Text style={styles.forgetTextStyle}>Forget Password ?</Text>
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>

@@ -12,26 +12,53 @@ import {
 } from 'react-native';
 
 import Loader from '../Components/Loader';
+import Url from '../Components/Url';
 
-const ForgetPasswordScreen = ({navigation}) => {
+const ForgetPasswordScreen = ({ route,navigation}) => {
     const [userNewPassword, setUserNewPassword] = useState('');
     const [userReNewPassword, setUserReNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [errortext, setErrortext] = useState('');
+    const [errortext, setErrorText] = useState('');
   
     const passwordInputRef = createRef();
   
-    const handleSubmitPress = () => {
-      setErrortext('');
-      if (!userNewPassword) {
-        alert('Please fill Password');
-        return;
-      }
-      if (!userReNewPassword) {
-        alert('Please fill Password');
-        return;
-      }
+    const handleSubmitPress = async () => {
+      setErrorText('');
       setLoading(true);
+      if (userNewPassword.length <= 5) {
+        setErrorText('Password must be of 6 letters');
+        return;
+      }
+      if(userNewPassword != userReNewPassword){
+        setErrorText('Password not matched')
+        return;
+      }
+
+      let dataToSend = {Email: route.params.email,NewPassword:userNewPassword}
+
+      await fetch(`${Url}/auth/forgetPassword`,{
+        method:'PUT',
+        body:JSON.stringify(dataToSend),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(res => res.json())
+      .then((response)=>{
+
+        if (response.success){
+          navigation.replace('LoginScreen')
+        }
+        else{
+          setErrorText(response.error);
+          setLoading(false)
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false)
+      });
     };
   
     return (
@@ -75,11 +102,16 @@ const ForgetPasswordScreen = ({navigation}) => {
                   returnKeyType="next"
                 />
               </View>
+              {errortext != '' ? (
+                <Text style={styles.errorTextStyle}>
+                  {errortext}
+                </Text>
+              ) : null}
               <View style={styles.SectionStyle}>
                 <TextInput
                   style={styles.inputStyle}
                   onChangeText={(UserPassword) =>
-                    setUserRePassword(UserPassword)
+                    setUserReNewPassword(UserPassword)
                   }
                   placeholder="Re Password" //12345
                   placeholderTextColor="#8b9cb5"
@@ -92,15 +124,10 @@ const ForgetPasswordScreen = ({navigation}) => {
                   returnKeyType="next"
                 />
               </View>
-              {errortext != '' ? (
-                <Text style={styles.errorTextStyle}>
-                  {errortext}
-                </Text>
-              ) : null}
               <TouchableOpacity
                 style={styles.buttonStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('LoginScreen')}>
+                onPress={handleSubmitPress}>
                 <Text style={styles.buttonTextStyle}>SUBMIT</Text>
               </TouchableOpacity>
             </KeyboardAvoidingView>

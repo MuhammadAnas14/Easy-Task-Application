@@ -109,6 +109,7 @@ const RegisterScreen = ({navigation}) => {
     const emailInputRef = createRef();
     const phoneInputRef = createRef();
     const passwordInputRef = createRef();
+    const passwordReInputRef = createRef()
     const validate = (email) => {
       const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
   
@@ -117,6 +118,7 @@ const RegisterScreen = ({navigation}) => {
   
     const handleSubmitButton = async () => {
         setErrorText('');
+        setLoading(true);
         if (!userFirstName) {
           setErrorText('Please fill First Name');
           return;
@@ -141,12 +143,12 @@ const RegisterScreen = ({navigation}) => {
           setErrorText('Please fill Password');
           return;
         }
-        if (userPassword.length < 5) {
+        if (userPassword.length <= 5) {
           setErrorText('Password must be of 6 letters');
           return;
         }
         if(userPassword != userRePassword){
-          alert('Passoword not matched')
+          setErrorText('Passoword not matched')
           return;
         }
         
@@ -162,7 +164,7 @@ const RegisterScreen = ({navigation}) => {
           },
         })
         //Show Loader
-        setLoading(true);
+        
         setIsRegistraionSuccess(true)
 
         setLoading(false);
@@ -301,8 +303,8 @@ const RegisterScreen = ({navigation}) => {
                   returnKeyType="next"
                   secureTextEntry={true}
                   onSubmitEditing={() =>
-                    ageInputRef.current &&
-                    ageInputRef.current.focus()
+                    passwordReInputRef.current &&
+                    passwordReInputRef.current.focus()
                   }
                   blurOnSubmit={false}
                 />
@@ -316,7 +318,7 @@ const RegisterScreen = ({navigation}) => {
                   underlineColorAndroid="#f000"
                   placeholder="Enter Re Password"
                   placeholderTextColor="#8b9cb5"
-                  ref={passwordInputRef}
+                  ref={passwordReInputRef}
                   returnKeyType="next"
                   secureTextEntry={true}
                   onSubmitEditing={Keyboard.dismiss}
