@@ -201,7 +201,8 @@ const LoginScreen = ({ navigation }) => {
     .then(res => res.json())
     .then((response) => {
         if (response.success) {
-          AsyncStorage.multiSet(['token', response.token],['user',response.user]);
+          AsyncStorage.multiSet([['token', response.token],['user',response.user]]);
+          console.log("Responseeeee",response);
           navigation.navigate('ScreenManager');
         } else {
           setErrortext(response.error);
