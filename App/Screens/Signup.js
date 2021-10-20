@@ -118,7 +118,7 @@ const RegisterScreen = ({navigation}) => {
   
     const handleSubmitButton = async () => {
         setErrorText('');
-        setLoading(true);
+        // setLoading(true);
         if (!userFirstName) {
           setErrorText('Please fill First Name');
           return;
@@ -148,7 +148,7 @@ const RegisterScreen = ({navigation}) => {
           return;
         }
         if(userPassword != userRePassword){
-          setErrorText('Passoword not matched')
+          setErrorText('Password not matched')
           return;
         }
         
@@ -163,6 +163,23 @@ const RegisterScreen = ({navigation}) => {
             'Content-Type': 'application/json'
           },
         })
+        .then(res => res.json())
+        .then((response) => {
+            if (response.success) {
+               
+               setIsRegistraionSuccess(true)
+               console.log("inside")
+              setLoading(false);
+            } else {
+              console.log('Something in use');
+              setLoading(false);
+
+            }
+          })
+          .catch((error) => {
+            
+            console.error(error);
+          });
         //Show Loader
         
         setIsRegistraionSuccess(true)

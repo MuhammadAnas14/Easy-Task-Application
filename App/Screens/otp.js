@@ -114,9 +114,8 @@ const OtpScreen = ({ navigation }) => {
   const [countdown, setCountdown] = useState(defaultCountdown);
   const [enableResend, setEnableResend] = useState(false);
 
-  const onChangeText = (val) => {
+  const onChangeText = async (val) => {
     setInternalVal(val);
-    console.log(val);
   };
 
   useEffect(()=>{
@@ -149,7 +148,7 @@ const OtpScreen = ({ navigation }) => {
     }
   };
 
-  const ResendOTPhandler = () => {
+  const ResendOTPhandler = async () => {
     if (enableResend) {
       setCountdown(defaultCountdown);
       setEnableResend(false);
@@ -157,8 +156,21 @@ const OtpScreen = ({ navigation }) => {
       clockCall = setInterval(() => {
         decrementClock(0);
       }, 1000);
+    //otp replacing
+    let ReqNewOtp = 12345;
+    console.log(ReqNewOtp);
+          await fetch(`${Url}/auth/OtpReplace`, {
+            method: 'POST',
+            body: JSON.stringify(ReqNewOtp),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+          })
+          .then(res => console.log(res))
+          .catch(res => console.log(res))
+        }
     }
-  };
 
   const inputs = Array(lengthInput).fill("");
 

@@ -296,7 +296,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <Text
               style={styles.registerTextStyle}
-              onPress={() => navigation.navigate('RegisterScreen')}>
+              onPress={() => navigation.navigate('OtpScreen')}>
               DON'T HAVE AN ACCOUNT ? CREATE AN ACCOUNT
             </Text>
           </KeyboardAvoidingView>
