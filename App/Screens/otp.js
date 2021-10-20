@@ -12,6 +12,7 @@ import {
   Button,
 } from "react-native";
 import Loader from "../Components/Loader";
+import Url from '../Components/Url'
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -110,13 +111,12 @@ const OtpScreen = ({ navigation }) => {
   const lengthInput = 5;
   let clockCall = null;
   let textInput = useRef(null);
-  const defaultCountdown = 30;
+  const defaultCountdown = 5;
   const [countdown, setCountdown] = useState(defaultCountdown);
   const [enableResend, setEnableResend] = useState(false);
 
-  const onChangeText = (val) => {
+  const onChangeText = async (val) => {
     setInternalVal(val);
-    console.log(val);
   };
 
   useEffect(()=>{
@@ -149,16 +149,31 @@ const OtpScreen = ({ navigation }) => {
     }
   };
 
-  const ResendOTPhandler = () => {
+  const ResendOTPhandler = async () => {
     if (enableResend) {
       setCountdown(defaultCountdown);
       setEnableResend(false);
-      clearInterval(this.clockCall);
+      clearInterval(clockCall);
       clockCall = setInterval(() => {
         decrementClock(0);
       }, 1000);
     }
-  };
+    //otp replacing
+    let ReqNewOtp = {otp:12345};
+    console.log(ReqNewOtp);
+          await fetch(`${Url}/auth/otpReplace`, {
+            method: 'POST',
+            body: JSON.stringify(ReqNewOtp),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+          })
+          .then(res => console.log(res)) 
+          .then(res => console.log(res)) 
+          .catch(res => console.log(res))
+        
+    }
 
   const inputs = Array(lengthInput).fill("");
 
