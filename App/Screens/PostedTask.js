@@ -31,8 +31,9 @@ const PostedTask  = () => {
     
     const [TaskData, setTaskData] = useState(Data)
 
-    const x = AsyncStorage.getItem("user")
-    console.log(x)
+    AsyncStorage.multiGet(['token', 'user'], (err, items) => {
+      console.log({ items });
+    });
 
 
     return (
