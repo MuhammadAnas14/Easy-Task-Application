@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  SegmentedControlIOSComponent,
 } from "react-native";
 import Loader from "../Components/Loader";
 import Url from '../Components/Url'
@@ -119,6 +120,30 @@ const OtpScreen = ({ navigation }) => {
     setInternalVal(val);
   };
 
+  //Verify Button
+  const RedirectButton = async () =>{
+    const OtpValue = {otp:internalVal};
+    if(internalVal.length < 5){
+      return;
+    }
+    await fetch(`${Url}/auth/verifyOtp`, {
+      method: 'POST',
+      body: JSON.stringify(OtpValue),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json()) 
+    .then(response => {console.log(response.success)
+    if(response.success){
+      navigation.replace("ScreenManager")
+    }
+    }) 
+    .catch(res => console.log(res))
+    // navigation.navigate("PostedTask");
+  }
+  //
   useEffect(()=>{
   let timer = setTimeout(() => {
   textInput.current.focus()
@@ -159,7 +184,7 @@ const OtpScreen = ({ navigation }) => {
       }, 1000);
     }
     //otp replacing
-    let ReqNewOtp = {otp:12345};
+    let ReqNewOtp = {otp:10554};
     console.log(ReqNewOtp);
           await fetch(`${Url}/auth/otpReplace`, {
             method: 'POST',
@@ -241,7 +266,7 @@ const OtpScreen = ({ navigation }) => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              onPress={()=> navigation.replace("ScreenManager")}
+              onPress={RedirectButton}
             >
               <Text style={styles.buttonTextStyle}>SUBMIT</Text>
             </TouchableOpacity>

@@ -52,6 +52,7 @@ const Settings = ({ navigation }) => {
         )}
         numColumns={1}
       />
+      </ScrollView>
       <Pressable
         style={[styles.button1]}
         // onPress={() => setModalVisible(true)}
@@ -105,7 +106,6 @@ const Settings = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      </ScrollView>
     </View>
   );
 };
