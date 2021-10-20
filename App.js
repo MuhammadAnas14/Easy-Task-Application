@@ -4,8 +4,6 @@ import RegisterScreen from "./App/Screens/Signup"
 import LoginScreen from "./App/Screens/Login"
 import SplashScreen from "./App/Screens/Splash.js"
 import OtpScreen from './App/Screens/otp';
-import ForgetPassword from './App/Screens/ForgetPassword';
-import Feedback from './App/Screens/Feedback';
 import ScreenManager from './App/Screens/ScreenManager'
 import ForgetPasswordScreen from './App/Screens/ForgetPassword';
 import { NavigationContainer } from "@react-navigation/native";

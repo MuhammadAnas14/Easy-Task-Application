@@ -14,9 +14,9 @@ function Item({ item }) {
 
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(3.5);
-    const changeRating = (rating) => {
-    setStarRatings(rating);
-  };
+  //   const changeRating = (rating) => {
+  //   setStarRatings(rating);
+  // };
   const Data = [
     {
       id: "1",
@@ -34,11 +34,12 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
       <Image
         style={styles.avatar}
         source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
       />  
+      </View>
       <View style={styles.body}>
         <View style={styles.bodyContent}>
           <Text style={styles.name}>Syed Saad Zahidi</Text>
@@ -51,11 +52,11 @@ const Profile = () => {
           maxStars={5}
           fullStarColor={'#3CAABB'}
           rating={StarRatings}
-          selectedStar={(rating) => changeRating(rating)}
         />
-        <Text style={styles.description}>No Completion Rate </Text>
         </View>
-        <View>
+        <Text style={styles.description}>No Completion Rate </Text>
+      <View>
+
         <FlatList
         style={{ flex: 1 }}
         data={Data}
@@ -71,14 +72,21 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
+  mainBody: {
+    flex: 1,
+    marginTop: 0,
+    textAlign: "center",
+    justifyContent: "center",
+  },
   header: {
     backgroundColor: "#00BFFF",
-    height: 150,
+    height: 100,
   },
   star: {
     textAlign: "center",
     marginRight: 90,
     marginLeft: 90,
+    marginTop:-15
   },
   avatar: {
     width: 130,
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: "center",
     position: "absolute",
-    marginTop: 80,
+    marginTop: 35,
   },
   name: {
     fontSize: 22,
@@ -108,6 +116,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#696969",
     fontWeight: "600",
+    fontFamily:""
   },
   info: {
     fontSize: 16,

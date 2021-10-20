@@ -17,6 +17,7 @@ import * as Google from "expo-google-app-auth";
 import * as AppAuth from 'expo-app-auth';
 import * as Facebook from 'expo-facebook';
 import envs from "../../Config/env"
+import Url from '../Components/Url';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -24,6 +25,8 @@ const LoginScreen = ({ navigation }) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
+
+  
 
 
   const passwordInputRef = createRef();
@@ -43,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
         
         let SendGoogleData = result.user
 
-        await fetch(`http:/${envs.LoginAPI}:8080/auth/GoogleLogin`, {
+        await fetch(`${Url}/auth/GoogleLogin`, {
         method: 'POST',
         body: JSON.stringify(SendGoogleData),
         headers: {
@@ -114,7 +117,7 @@ const LoginScreen = ({ navigation }) => {
       if (type == "success"){
         
 
-        await fetch(`http:/${envs.LoginAPI}:8080/auth/FacebookLogin`, {
+        await fetch(`${Url}/auth/FacebookLogin`, {
         method: 'POST',
         body: JSON.stringify(SendFacebookData),
         headers: {
@@ -149,14 +152,26 @@ const LoginScreen = ({ navigation }) => {
     const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 
     return expression.test(String(email).toLowerCase())
-}
+  }
+
+  const handleForgetScreen = async () => {
+
+    setErrortext('');
+
+    if (!userEmail || !validate(userEmail)) {
+      // alert('Please fill Email');
+      setErrortext("Please fill with correct email to continue to forget screen")
+      return;
+    }
+
+    navigation.navigate('ForgetPasswordScreen',{email:userEmail})
+  }
+
 
   
 
   const handleSubmitPress = async () => {
     setErrortext('');
-
-    console.log("aaa")
 
     setLoading(true)
 
@@ -173,7 +188,7 @@ const LoginScreen = ({ navigation }) => {
     let dataToSend = {Email: userEmail, Password: userPassword};
     console.log(JSON.stringify(dataToSend))
   
-    await fetch(`http://${envs.LoginAPI}:8080/auth/login`, {
+    await fetch(`${Url}/auth/login`, {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {
@@ -185,7 +200,7 @@ const LoginScreen = ({ navigation }) => {
     .then((response) => {
         if (response.success) {
           AsyncStorage.setItem('token', response.token);
-          navigation.replace('ScreenManager');
+          navigation.navigate('ScreenManager');
         } else {
           setErrortext(response.error);
           console.log('Please check your email id or password');
@@ -271,7 +286,7 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.5}
-              onPress={() => navigation.navigate('ForgetPasswordScreen')}>
+              onPress={handleForgetScreen}>
               <Text style={styles.forgetTextStyle}>Forget Password ?</Text>
             </TouchableOpacity>
             <Text style={styles.option}>LOGIN WITH</Text>

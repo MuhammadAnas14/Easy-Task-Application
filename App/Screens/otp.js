@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const OtpScreen = () => {
+const OtpScreen = ({ navigation }) => {
   const [internalVal, setInternalVal] = useState("");
   const lengthInput = 5;
   let clockCall = null;
@@ -226,7 +226,7 @@ const OtpScreen = () => {
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
-              //onPress={handleSubmitPress}
+              onPress={()=> navigation.replace("ScreenManager")}
             >
               <Text style={styles.buttonTextStyle}>SUBMIT</Text>
             </TouchableOpacity>
