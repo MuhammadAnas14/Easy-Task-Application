@@ -116,6 +116,7 @@ const OtpScreen = ({ navigation }) => {
 
   const onChangeText = (val) => {
     setInternalVal(val);
+    console.log(val);
   };
 
   useEffect(()=>{
