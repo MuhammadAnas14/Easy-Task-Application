@@ -116,6 +116,7 @@ const OtpScreen = () => {
 
   const onChangeText = (val) => {
     setInternalVal(val);
+    console.log(val);
   };
 
   useEffect(()=>{
