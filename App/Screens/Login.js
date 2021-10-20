@@ -57,7 +57,9 @@ const LoginScreen = ({ navigation }) => {
       .then(res => res.json())
       .then((response) => {
           if (response.success) {
+
             AsyncStorage.setItem('token', response.token);
+            AsyncStorage.setItem('user',response.user)
             navigation.replace('ScreenManager');
           } else {
             setErrortext(response.error);
@@ -199,7 +201,7 @@ const LoginScreen = ({ navigation }) => {
     .then(res => res.json())
     .then((response) => {
         if (response.success) {
-          AsyncStorage.setItem('token', response.token);
+          AsyncStorage.setItem('token', response.token,response.user);
           navigation.navigate('ScreenManager');
         } else {
           setErrortext(response.error);
