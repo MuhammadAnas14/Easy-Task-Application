@@ -26,9 +26,6 @@ const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
-  
-
-
   const passwordInputRef = createRef();
 
   const GoogleSignIn = async () => {

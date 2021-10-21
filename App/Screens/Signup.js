@@ -118,6 +118,7 @@ const RegisterScreen = ({navigation}) => {
   
     const handleSubmitButton = async () => {
         setErrorText('');
+        console.log("This is handler")
         setLoading(true);
         if (!userFirstName) {
           setErrorText('Please fill First Name');
@@ -151,7 +152,6 @@ const RegisterScreen = ({navigation}) => {
           setErrorText('Passoword not matched')
           return;
         }
-        
         let dataSend = { FirstName:userFirstName, LastName:userLastName, Email:userEmail, Password:userPassword, Phone:userPhoneNo };
         console.log(JSON.stringify(dataSend))
   
@@ -163,6 +163,7 @@ const RegisterScreen = ({navigation}) => {
             'Content-Type': 'application/json'
           },
         })
+      
         //Show Loader
         
         setIsRegistraionSuccess(true)
