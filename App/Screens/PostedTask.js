@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react
 import Data from './Data/Data.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { color } from 'react-native-elements/dist/helpers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Item({ item }) {
   return (
@@ -29,6 +30,10 @@ function Item({ item }) {
 const PostedTask  = () => {
     
     const [TaskData, setTaskData] = useState(Data)
+
+    AsyncStorage.multiGet(['token', 'user'], (err, items) => {
+      console.log({ items });
+    });
 
 
     return (

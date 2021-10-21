@@ -54,7 +54,9 @@ const LoginScreen = ({ navigation }) => {
       .then(res => res.json())
       .then((response) => {
           if (response.success) {
+
             AsyncStorage.setItem('token', response.token);
+            AsyncStorage.setItem('user',response.user)
             navigation.replace('ScreenManager');
           } else {
             setErrortext(response.error);
@@ -196,7 +198,8 @@ const LoginScreen = ({ navigation }) => {
     .then(res => res.json())
     .then((response) => {
         if (response.success) {
-          AsyncStorage.setItem('token', response.token);
+          AsyncStorage.multiSet([['token', response.token],['user',response.user]]);
+          console.log("Responseeeee",response);
           navigation.navigate('ScreenManager');
         } else {
           setErrortext(response.error);
@@ -293,7 +296,9 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <Text
               style={styles.registerTextStyle}
-              onPress={() => navigation.navigate('RegisterScreen')}>
+              onPress={() => navigation.navigate('RegisterScreen')}
+              // onPress={() => navigation.navigate('OtpScreen')}
+              >
               DON'T HAVE AN ACCOUNT ? CREATE AN ACCOUNT
             </Text>
           </KeyboardAvoidingView>

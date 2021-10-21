@@ -149,7 +149,7 @@ const RegisterScreen = ({navigation}) => {
           return;
         }
         if(userPassword != userRePassword){
-          setErrorText('Passoword not matched')
+          setErrorText('Password not matched')
           return;
         }
         let dataSend = { FirstName:userFirstName, LastName:userLastName, Email:userEmail, Password:userPassword, Phone:userPhoneNo };
@@ -163,7 +163,27 @@ const RegisterScreen = ({navigation}) => {
             'Content-Type': 'application/json'
           },
         })
+<<<<<<< HEAD
       
+=======
+        .then(res => res.json())
+        .then((response) => {
+            if (response.success) {
+               
+               setIsRegistraionSuccess(true)
+               console.log("inside")
+              setLoading(false);
+            } else {
+              console.log('Something in use');
+              setLoading(false);
+
+            }
+          })
+          .catch((error) => {
+            
+            console.error(error);
+          });
+>>>>>>> 498abc1e5798875fa68576a96c0375bedfb9094c
         //Show Loader
         
         setIsRegistraionSuccess(true)
