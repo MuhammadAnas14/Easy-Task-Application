@@ -12,6 +12,8 @@ import {
 import { ScrollView } from "react-native";
 import Loader from "../../Components/Loader";
 import Url from "../../Components/Url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const ContactUs = (navigation) => {
   const [userName, setUserName] = useState("");
@@ -21,6 +23,9 @@ const ContactUs = (navigation) => {
   const [errortext, setErrorText] = useState("");
   const emailInputRef = createRef();
   const massageInputRef = createRef();
+  const [UserData, setUserData] = useState("");
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
   const validate = (email) => {
     const expression =
@@ -46,7 +51,7 @@ const ContactUs = (navigation) => {
     }
 
     let dataSend = { 
-      UserId : "616e85c9b413249971dd3ddc",
+      UserId : UserData._id,
       Name: userName, 
       Email: userEmail, 
       Massage: userMassage 

@@ -18,9 +18,12 @@ const Password = (navigation) => {
   const [userReNewPassword, setUserReNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errortext, setErrorText] = useState("");
+  const [UserData, setUserData] = useState("");
 
   const newPasswordInputRef = createRef();
   const reNewPasswordInputRef = createRef();
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
   const handleSubmitPress = async () => {
 
@@ -42,7 +45,7 @@ const Password = (navigation) => {
     }
 
     let dataToSend = {
-      UserId:"616e85c9b413249971dd3ddc",
+      UserId:UserData._id,
       OldPassword:userOldPassword,
       NewPassword:userNewPassword
     }

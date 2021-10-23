@@ -128,6 +128,15 @@ const OtpScreen = ({ navigation }) => {
     setInternalVal(val);
   };
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+
+  useEffect(() => {
+    clockCall = setInterval(() => {
+      decrementClock();
+    }, 1000);
+    return () => {
+      clearInterval(clockCall);
+    };
+  });
   //Verify Button
   const RedirectButton = async () => {
 
@@ -159,9 +168,6 @@ const OtpScreen = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
 
-  console.log(UserData)
-  
-
   
   //
   useEffect(() => {
@@ -171,14 +177,7 @@ const OtpScreen = ({ navigation }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    clockCall = setInterval(() => {
-      decrementClock();
-    }, 1000);
-    return () => {
-      clearInterval(clockCall);
-    };
-  });
+
 
   const decrementClock = () => {
     if (countdown == 0) {
@@ -215,7 +214,7 @@ const OtpScreen = ({ navigation }) => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => console.log(res))
+      .then((response) => response.json())
       .then((response) => {
         if(response.success){
           setErrorText("Otp is Re-send Successfully")
@@ -309,7 +308,7 @@ const OtpScreen = ({ navigation }) => {
               ]}
               onPress={ResendOTPhandler}
             >
-              <Text style={styles.textResend}>Resend OTP {countdown} </Text>
+              <Text style={styles.textResend}>Resend OTP</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
