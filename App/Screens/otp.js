@@ -123,6 +123,7 @@ const OtpScreen = ({ navigation }) => {
   const [enableResend, setEnableResend] = useState(false);
   const [UserData, setUserData] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onChangeText = async (val) => {
     setInternalVal(val);
@@ -227,7 +228,7 @@ const OtpScreen = ({ navigation }) => {
 
   return (
     <View style={styles.mainBody}>
-      {/* <Loader loading={loading} /> */}
+      <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="always"
         contentContainerStyle={{

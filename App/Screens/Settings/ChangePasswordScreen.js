@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Loader from '../../Components/Loader';
 import Url from "../../Components/Url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Password = (navigation) => {

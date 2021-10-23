@@ -97,7 +97,7 @@ const RegisterScreen = ({ navigation }) => {
   const handleSubmitButton = async () => {
     setErrorText("");
     console.log("This is handler");
-    // setLoading(true);
+    setLoading(true);
     if (!userFirstName) {
       setErrorText("Please fill First Name");
       return;

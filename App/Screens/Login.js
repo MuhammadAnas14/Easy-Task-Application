@@ -210,6 +210,7 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => {
         
         console.error(error);
+        setLoading(false);
       });
   };
 
