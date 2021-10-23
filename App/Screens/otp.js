@@ -13,7 +13,8 @@ import {
   SegmentedControlIOSComponent,
 } from "react-native";
 import Loader from "../Components/Loader";
-import Url from '../Components/Url'
+import Url from "../Components/Url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -105,6 +106,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#3dabbc",
   },
+  errorTextStyle: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 14,
+  },
 });
 
 const OtpScreen = ({ navigation }) => {
@@ -115,45 +121,55 @@ const OtpScreen = ({ navigation }) => {
   const defaultCountdown = 5;
   const [countdown, setCountdown] = useState(defaultCountdown);
   const [enableResend, setEnableResend] = useState(false);
+  const [UserData, setUserData] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const onChangeText = async (val) => {
     setInternalVal(val);
   };
-
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
   //Verify Button
-  const RedirectButton = async () =>{
-    const OtpValue = {otp:internalVal};
-    if(internalVal.length < 5){
+  const RedirectButton = async () => {
+
+    setErrorText("");
+
+    const OtpValue = { userId: UserData._id, otp: internalVal };
+
+    if (internalVal.length < 5) {
       return;
     }
     await fetch(`${Url}/auth/verifyOtp`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(OtpValue),
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     })
-    .then(response => response.json()) 
-    .then(response => {console.log(response.success)
-    if(response.success){
-      navigation.replace("ScreenManager")
-    }
-    }) 
-    .catch(res => console.log(res))
-    // navigation.navigate("PostedTask");
-  }
-  //
-  useEffect(()=>{
-  let timer = setTimeout(() => {
-  textInput.current.focus()
-  }, 1000)
-  return () => clearTimeout(timer);
-  },[])
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.success) {
+          navigation.replace("ScreenManager");
+        }
+        else{
+          console.log(response.error)
+          setErrorText(response.error)
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
-  // useEffect(() => {
-  //   textInput.current.focus();
-  // }, []);
+  console.log(UserData)
+  
+
+  
+  //
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      textInput.current.focus();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     clockCall = setInterval(() => {
@@ -174,7 +190,10 @@ const OtpScreen = ({ navigation }) => {
     }
   };
 
+  
+
   const ResendOTPhandler = async () => {
+    
     if (enableResend) {
       setCountdown(defaultCountdown);
       setEnableResend(false);
@@ -183,22 +202,27 @@ const OtpScreen = ({ navigation }) => {
         decrementClock(0);
       }, 1000);
     }
+
+
     //otp replacing
-    let ReqNewOtp = {otp:10554};
-    console.log(ReqNewOtp);
-          await fetch(`${Url}/auth/otpReplace`, {
-            method: 'POST',
-            body: JSON.stringify(ReqNewOtp),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-          })
-          .then(res => console.log(res)) 
-          .then(res => console.log(res)) 
-          .catch(res => console.log(res))
-        
-    }
+    let DataToSend = {userId: UserData._id, phoneNo: UserData.phone}
+
+    await fetch(`${Url}/auth/otpReplace`, {
+      method: "POST",
+      body: JSON.stringify(DataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => console.log(res))
+      .then((response) => {
+        if(response.success){
+          setErrorText("Otp is Re-send Successfully")
+        }
+      })
+      .catch((res) => console.log(res));
+  };
 
   const inputs = Array(lengthInput).fill("");
 
@@ -230,6 +254,9 @@ const OtpScreen = ({ navigation }) => {
               />
             </View>
             <Text style={styles.titleStyle}>{"Enter Your OTP Here"}</Text>
+            {errorText != "" ? (
+            <Text style={styles.errorTextStyle}>{errorText}</Text>
+          ) : null}
             <View>
               <View style={styles.containerInput}>
                 {inputs.map((data, index) => (
@@ -244,8 +271,7 @@ const OtpScreen = ({ navigation }) => {
                     key={index}
                   >
                     <TextInput
-                      key = {index.toString()}
-                      
+                      key={index.toString()}
                       ref={textInput}
                       onChangeText={onChangeText}
                       style={{ width: 0, height: 0 }}
@@ -254,11 +280,15 @@ const OtpScreen = ({ navigation }) => {
                       returnKeyType="done"
                       keyboardType="numeric"
                     />
-                     <Text style= {styles.cellText}
-                            onPress= {()=> textInput.current.focus()}
-                            placeholder ="0">
-                            {internalVal && internalVal.length > 0 ? internalVal[index]: "" }</Text>
-                    
+                    <Text
+                      style={styles.cellText}
+                      onPress={() => textInput.current.focus()}
+                      placeholder="0"
+                    >
+                      {internalVal && internalVal.length > 0
+                        ? internalVal[index]
+                        : ""}
+                    </Text>
                   </View>
                 ))}
               </View>
