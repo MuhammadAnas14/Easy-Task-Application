@@ -1,69 +1,98 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import StarRating from "react-native-star-rating";
+import Entypo from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 function Item({ item }) {
   return (
-    <View style={styles.listItem}>  
-        <View style={{flex: 1 }}>
-        <Text style={styles.Heading}>{item.title}</Text>
+    <View style={{ flex: 1 }}>
+      <View style={styles.Heading}>
+        <Text style={styles.headText} >About</Text>
+      </View>
+      <View style={styles.listItem}>
+        <Text style={styles.aboutSection}>I am a software developer and had experience in developing web and mobile </Text>
+        <View style={{flexDirection:"row"}}>
+            <Entypo style={styles.icons} size={20} color="#3CAABB" name="location-pin" />
+            <Text style={{fontSize:16,marginTop:3}}>Karachi</Text>
+        </View>
+      </View>
+      <View style={styles.Heading}>
+        <Text style={styles.headText} >Contact Info</Text>
+      </View>
+      <View style={styles.listItem}>
+        <View style={styles.location}>
+            <Entypo style={styles.icons} size={20} color="#3CAABB" name="mail" />
+            <Text style={{fontSize:16,marginTop:4}}>anasm9877@gmail.com</Text>
+        </View>
+        <View style={styles.location}>
+            <Entypo style={styles.icons} size={20} color="#3CAABB" name="phone" />
+            <Text style={{fontSize:16,marginTop:4}}>+923323329963</Text>
+        </View>
       </View>
     </View>
   );
 }
 
 const Profile = () => {
-  const [StarRatings, setStarRatings] = useState(3.5);
+  const [StarRatings, setStarRatings] = useState(0);
+  const [UserData, setUserData] = useState("");
+
   //   const changeRating = (rating) => {
   //   setStarRatings(rating);
   // };
-  const Data = [
-    {
-      id: "1",
-      title: "You previous task was completed",
-      icons: "email",
-      obj: "Email",
-    },
-    {
-      id: "2",
-      title: "Are you looking for a Carpenter? Check this",
-      icons: "phone",
-      obj: "Phone Number",
-    },
-  ];
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+
+  console.log(UserData)
+
   return (
     <View style={styles.container}>
       <ScrollView>
-      <View style={styles.header}>
-      <Image
-        style={styles.avatar}
-        source={{ uri: "https://bootdey.com/img/Content/avatar/avatar6.png" }}
-      />  
-      </View>
-      <View style={styles.body}>
-        <View style={styles.bodyContent}>
-          <Text style={styles.name}>Syed Saad Zahidi</Text>
-          <Text style={styles.info}>Away / Online</Text>
+        <View style={styles.header}>
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
+            }}
+          />
         </View>
-      </View>
-      <View style={styles.star}>
-        <StarRating
-          disabled={false}
-          maxStars={5}
-          fullStarColor={'#3CAABB'}
-          rating={StarRatings}
-        />
+        <View style={styles.body}>
+          <View style={styles.bodyContent}>
+            <Text style={styles.name}>Syed Saad Zahidi</Text>
+            <Text style={styles.info}>Away / Online</Text>
+          </View>
+        </View>
+        <View style={styles.star}>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            fullStarColor={"#3CAABB"}
+            rating={StarRatings}
+          />
         </View>
         <Text style={styles.description}>No Completion Rate </Text>
-      <View>
 
-        <FlatList
-        style={{ flex: 1 }}
-        data={Data}
-        renderItem={({ item }) => <Item item={item} />}
-        keyExtractor={(item) => item.id}
-      />
-      </View>
+        <View>
+          <FlatList
+            style={{ flex: 1 }}
+            data={Data}
+            renderItem={({ item }) => <Item item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </ScrollView>
     </View>
   );
@@ -86,7 +115,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginRight: 90,
     marginLeft: 90,
-    marginTop:-15
+    marginTop: -15,
   },
   avatar: {
     width: 130,
@@ -100,7 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
   name: {
-    fontSize: 22,
+    fontSize: 20,
     color: "#FFFFFF",
     fontWeight: "600",
   },
@@ -116,7 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#696969",
     fontWeight: "600",
-    fontFamily:""
+    fontFamily: "",
   },
   info: {
     fontSize: 16,
@@ -130,21 +159,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   Heading: {
-    margin:0,
-    fontSize: 16,
-    color: "#696969",
+    backgroundColor: "#FFF",
     marginTop: 10,
     padding: 10,
-    flexDirection:"row",
+    flexDirection: "row",
     display: "flex",
   },
+  headText:{
+    fontSize: 16,
+    marginLeft:10,
+    color: "#696969",
+  },
   listItem: {
-    padding: 10,
-    backgroundColor: "#FFF",
+    padding: 5,
     width: "100%",
     flex: 1,
     borderRadius: 5,
-    flexDirection: 'row',
+    flexDirection: "column",
   },
   buttonContainer: {
     marginTop: 10,
@@ -157,4 +188,17 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#00BFFF",
   },
+  location:{
+    flexDirection:"row",
+    padding:10
+  },
+  icons:{
+    margin:5,
+    marginRight:20
+  },
+  aboutSection:{
+    padding:4,
+    margin:7,
+    marginBottom:10,
+  }
 });
