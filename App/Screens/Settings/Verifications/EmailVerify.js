@@ -12,8 +12,8 @@ import {
   Button,
   SegmentedControlIOSComponent,
 } from "react-native";
-import Loader from "../Components/Loader";
-import Url from '../Components/Url'
+import Loader from "../../../Components/Loader";
+import Url from '../../../Components/Url'
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -220,7 +220,7 @@ const EmailOtpScreen = ({ navigation }) => {
           >
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require("../../assets/logo.png")}
+                source={require('../../../../assets/logo.png')}
                 style={{
                   width: "50%",
                   height: 100,
@@ -229,7 +229,7 @@ const EmailOtpScreen = ({ navigation }) => {
                 }}
               />
             </View>
-            <Text style={styles.titleStyle}>{"Enter Your OTP Here"}</Text>
+            <Text style={styles.titleStyle}>{"Enter Your Mail OTP Here"}</Text>
             <View>
               <View style={styles.containerInput}>
                 {inputs.map((data, index) => (

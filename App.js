@@ -7,6 +7,7 @@ import OtpScreen from './App/Screens/otp';
 import ScreenManager from './App/Screens/ScreenManager'
 import ForgetPasswordScreen from './App/Screens/ForgetPassword';
 import PostTaskMain from './App/Screens/PostTask/Task'
+import EmailOtp from './App/Screens/Settings/Verifications/EmailVerify'
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -43,6 +44,11 @@ export default function App() {
       <Stack.Screen
         name="OtpScreen"
         component={OtpScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EmailOtpScreen"
+        component={EmailOtp}
         options={{headerShown: false}}
       />
       <Stack.Screen
