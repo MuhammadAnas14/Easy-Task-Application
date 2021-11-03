@@ -1,4 +1,4 @@
-import React ,{useState}from 'react';
+import React ,{useState,useEffect}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import Data from './Data/Data.json'
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -30,11 +30,6 @@ function Item({ item }) {
 const PostedTask  = () => {
     
     const [TaskData, setTaskData] = useState(Data)
-
-    AsyncStorage.multiGet(['token', 'user'], (err, items) => {
-      console.log({ items });
-    });
-
 
     return (
       <View style={styles.container}>
