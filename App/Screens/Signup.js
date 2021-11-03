@@ -186,30 +186,6 @@ const RegisterScreen = ({navigation}) => {
 
         setLoading(false);
         navigation.replace("OtpScreen") 
-        // if (isRegistraionSuccess){
-        //     setLoading(false)
-        //     return (
-        //         <View
-        //           style={{
-        //             flex: 1,
-        //             backgroundColor: '#307ecc',
-        //             justifyContent: 'center',
-        //           }}>
-        //           <Image
-        //             source={require('../../assets/success.png')}
-        //             style={{
-        //               height: 150,
-        //               resizeMode: 'contain',
-        //               alignSelf: 'center'
-        //             }}
-        //           />
-        //           <Text style={styles.successTextStyle}>
-        //             Registration Successful
-        //           </Text> 
-        //         </View>
-        //       );
-        //     navigation.replace("OtpScreen")
-        // }
 
     }
 
