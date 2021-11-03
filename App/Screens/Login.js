@@ -54,9 +54,8 @@ const LoginScreen = ({ navigation }) => {
       .then(res => res.json())
       .then((response) => {
           if (response.success) {
-
             AsyncStorage.setItem('token', response.token);
-            AsyncStorage.setItem('user',response.user)
+            AsyncStorage.setItem('user',JSON.stringify(response.user))
             navigation.replace('ScreenManager');
           } else {
             setErrortext(response.error);
@@ -198,9 +197,10 @@ const LoginScreen = ({ navigation }) => {
     .then(res => res.json())
     .then((response) => {
         if (response.success) {
-          AsyncStorage.multiSet([['token', response.token],['user',response.user]]);
-          console.log("Responseeeee",response);
-          navigation.navigate('ScreenManager');
+          AsyncStorage.setItem('token', response.token);
+          AsyncStorage.setItem('user',JSON.stringify(response.user))
+          // console.log("Responseeeee",response);
+          navigation.replace('ScreenManager');
         } else {
           setErrortext(response.error);
           console.log('Please check your email id or password');
@@ -210,6 +210,7 @@ const LoginScreen = ({ navigation }) => {
       .catch((error) => {
         
         console.error(error);
+        setLoading(false);
       });
   };
 

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Loader from '../../Components/Loader';
 import Url from "../../Components/Url";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Password = (navigation) => {
@@ -18,9 +19,12 @@ const Password = (navigation) => {
   const [userReNewPassword, setUserReNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errortext, setErrorText] = useState("");
+  const [UserData, setUserData] = useState("");
 
   const newPasswordInputRef = createRef();
   const reNewPasswordInputRef = createRef();
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
   const handleSubmitPress = async () => {
 
@@ -42,7 +46,7 @@ const Password = (navigation) => {
     }
 
     let dataToSend = {
-      UserId:"616e85c9b413249971dd3ddc",
+      UserId:UserData._id,
       OldPassword:userOldPassword,
       NewPassword:userNewPassword
     }

@@ -1,3 +1,4 @@
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -7,27 +8,41 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import { color } from "react-native-elements/dist/helpers";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// import Sample from "../Settings/AboutusScreen"
+
+
+// const Stack = createNativeStackNavigator();
+
+
+// const VerificationStack = ({navigation}) => (
+//   <Stack.Navigator>
+//     <Stack.Screen name="VerifyHome" component={Sample}/>
+//   </Stack.Navigator>
+// )
+
 
 function Item({ item }) {
   return (
-    <View style={styles.listItem}>
+    <View style={[styles.listItem, item.verification && styles.disable]}>
       <View style={{ alignItems: "center", flex: 1 }}>
         <View style={{ width: 60, height: 60, borderRadius: 30 }}>
           <MaterialCommunityIcons name={item.icons} size={60} color="#3CAABB" />
         </View>
         <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
       </View>
-      <View style={styles.verifButton}>
+      <View style={styles.verifyButton}>
         <TouchableOpacity
-          style={{ justifyContent: "center", alignItems: "center" }}
+        disabled={item.verification}
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={() =>
+          navigation.replace("EmailOTP")
+        }
         >
           <Text
-            style={{ color: "white", backgroundColor: "#3CAABB", padding: 10 }}
+            style={[styles.buttoncolor, item.verification && styles.warning]}
           >
-            Verify {item.obj}
+           {item.object}
           </Text>
         </TouchableOpacity>
       </View>
@@ -35,21 +50,34 @@ function Item({ item }) {
   );
 }
 
-const VerificationScreen = () => {
-  const Data = [
+const VerificationScreen = ({navigation}) => {
+  const [PhoneVerify,SetPhoneVerify] = useState(true)
+  const [EmailVerify,SetEmailVerify] = useState(false)
+
+  let Data = [
     {
       id: "1",
+      key:"VerifyHome",
       title: "Please Verify your Email",
       icons: "email",
-      obj: "Email",
+      object: "VERIFY EMAIL",
+      verification: EmailVerify,
     },
     {
       id: "2",
+      key:"VerifyHome",
       title: "Please Verify your Phone number",
       icons: "phone",
-      obj: "Phone Number",
+      object: "VERIFY PHONE NUMBER",
+      verification: PhoneVerify,
     },
   ];
+  if(PhoneVerify==true){
+    Data[1].object = "VERIFIED"
+  }
+  if(EmailVerify==true){
+    Data[0].object = "VERIFIED"
+  }
   return (
     <View style={styles.container}>
       <View style={styles.ImageView}>
@@ -104,11 +132,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  verifButton: {
+  verifyButton: {
     justifyContent: "center",
     textAlign: "center",
     flexDirection: "row",
     padding: 10,
   },
+  buttoncolor:{
+    color: "white", 
+    fontWeight: "bold",
+    backgroundColor: "red",
+    padding: 10,
+  },
+  disable:{
+  },
+  warning:{
+    backgroundColor: "green",
+    color: "white", 
+    padding: 10,
+  }
 });
 export default VerificationScreen;
