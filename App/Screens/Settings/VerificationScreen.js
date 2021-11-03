@@ -9,17 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import Sample from "../Settings/AboutusScreen"
 
-
-// const Stack = createNativeStackNavigator();
-
-
-// const VerificationStack = ({navigation}) => (
-//   <Stack.Navigator>
-//     <Stack.Screen name="VerifyHome" component={Sample}/>
-//   </Stack.Navigator>
-// )
 
 
 function Item({ item }) {
