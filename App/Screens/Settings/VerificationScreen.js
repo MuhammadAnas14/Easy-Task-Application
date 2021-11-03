@@ -1,4 +1,3 @@
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -9,20 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import Sample from "../Settings/AboutusScreen"
-
-
-// const Stack = createNativeStackNavigator();
-
-
-// const VerificationStack = ({navigation}) => (
-//   <Stack.Navigator>
-//     <Stack.Screen name="VerifyHome" component={Sample}/>
-//   </Stack.Navigator>
-// )
-
-
-
 
 const VerificationScreen = ({navigation}) => {
   const [PhoneVerify,SetPhoneVerify] = useState(true)
@@ -58,7 +43,6 @@ const VerificationScreen = ({navigation}) => {
     navigation.navigate("OTP Screen")
   }
 
- 
   let Data = [
     {
       id: "1",
