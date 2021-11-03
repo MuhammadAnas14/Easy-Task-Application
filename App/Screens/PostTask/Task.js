@@ -1,19 +1,18 @@
 import React from "react";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import TaskDetails from './TaskDetails'
+import TaskBudget  from "./TaskBudget";
 
-import { createMaterialTopTabNavigator } from "react-navigation-tabs";
-
-
-const TabNavigator = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 
 
 const MainTaskScreen = ({ navigation }) => {
   return (
-    <Tab.Navigator
-    initialRouteName = "TaskDetails">
-      <TabNavigator.Screen name="TaskDetails" component={TaskDetail} />
-      <TabNavigator.Screen name="Budget" component={TaskBudget} />
-    </Tab.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="TaskDetails" component={TaskDetails} />
+      <Tab.Screen name="Budget" component={TaskBudget} />
+   </Tab.Navigator>
   );
 };
 
