@@ -119,7 +119,6 @@ const RegisterScreen = ({navigation}) => {
     const handleSubmitButton = async () => {
         setErrorText('');
         console.log("This is handler")
-        setLoading(true);
         if (!userFirstName) {
           setErrorText('Please fill First Name');
           return;
@@ -163,9 +162,6 @@ const RegisterScreen = ({navigation}) => {
             'Content-Type': 'application/json'
           },
         })
-<<<<<<< HEAD
-      
-=======
         .then(res => res.json())
         .then((response) => {
             if (response.success) {
@@ -183,7 +179,6 @@ const RegisterScreen = ({navigation}) => {
             
             console.error(error);
           });
->>>>>>> 498abc1e5798875fa68576a96c0375bedfb9094c
         //Show Loader
         
         setIsRegistraionSuccess(true)
