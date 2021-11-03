@@ -36,7 +36,6 @@ const Settings = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
       <FlatList
         data={services}
         renderItem={({ item }) => (
@@ -52,11 +51,11 @@ const Settings = ({ navigation }) => {
         )}
         numColumns={1}
       />
-      </ScrollView>
+      
       <Pressable
         style={[styles.button1]}
-        // onPress={() => setModalVisible(true)}
-        onPress= {handleLogout}
+        onPress={() => setModalVisible(true)}
+        // onPress= {handleLogout}
       >
         <Text style={styles.ButtonText}>Logout</Text>
       </Pressable>
