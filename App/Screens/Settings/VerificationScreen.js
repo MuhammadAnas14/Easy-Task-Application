@@ -22,38 +22,43 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 // )
 
 
-function Item({ item }) {
-  return (
-    <View style={[styles.listItem, item.verification && styles.disable]}>
-      <View style={{ alignItems: "center", flex: 1 }}>
-        <View style={{ width: 60, height: 60, borderRadius: 30 }}>
-          <MaterialCommunityIcons name={item.icons} size={60} color="#3CAABB" />
-        </View>
-        <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
-      </View>
-      <View style={styles.verifyButton}>
-        <TouchableOpacity
-        disabled={item.verification}
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={() =>
-          navigation.replace("EmailOTP")
-        }
-        >
-          <Text
-            style={[styles.buttoncolor, item.verification && styles.warning]}
-          >
-           {item.object}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+
 
 const VerificationScreen = ({navigation}) => {
   const [PhoneVerify,SetPhoneVerify] = useState(true)
   const [EmailVerify,SetEmailVerify] = useState(false)
 
+  function Item({ item }) {
+    return (
+      <View style={[styles.listItem, item.verification && styles.disable]}>
+        <View style={{ alignItems: "center", flex: 1 }}>
+          <View style={{ width: 60, height: 60, borderRadius: 30 }}>
+            <MaterialCommunityIcons name={item.icons} size={60} color="#3CAABB" />
+          </View>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
+        </View>
+        <View style={styles.verifyButton}>
+          <TouchableOpacity
+          disabled={item.verification}
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={handlerEmailOtp}
+          >
+            <Text
+              style={[styles.buttoncolor, item.verification && styles.warning]}
+            >
+             {item.object}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  const handlerEmailOtp =() =>{
+    navigation.navigate("OTP Screen")
+  }
+
+ 
   let Data = [
     {
       id: "1",

@@ -1,21 +1,27 @@
 import React, {useState} from 'react';
-import {Platform, FlatList, Alert ,View,Text,StyleSheet} from 'react-native';
+import {Platform, FlatList, Alert ,View,Text,StyleSheet, TouchableOpacity} from 'react-native';
 import Categories from './Data/Categories.json'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const PostTask = () => {
+const PostTask = ({navigation}) => {
     const[services,setservices]=useState(Categories)
+
+    const postTaskDetailHandler = () => {
+      navigation.navigate("PostTaskManager")
+    }
     return (
        <View style={styles.container}>
          <FlatList
             data={services}
             renderItem={ ({item}) =>
               <View style={styles.GridViewContainer}>
+                <TouchableOpacity onPress={postTaskDetailHandler}>
                <MaterialCommunityIcons  
               name={item.icon}
               size= {60}
               color= "#3CAABB"/>
                <Text style={styles.GridViewTextLayout} > {item.key} </Text>
+               </TouchableOpacity>
               </View>  
               
             }
