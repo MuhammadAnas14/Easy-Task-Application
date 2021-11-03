@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,10 +8,23 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const VerificationScreen = ({navigation}) => {
   const [PhoneVerify,SetPhoneVerify] = useState(true)
   const [EmailVerify,SetEmailVerify] = useState(false)
+  const [UserData, setUserData] = useState({});
+
+  
+  useEffect(() => {
+
+    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+    return () => console.log('unmounting...')
+    
+  }, [])
+  console.log(UserData)
+
 
   function Item({ item }) {
     return (
@@ -40,7 +53,7 @@ const VerificationScreen = ({navigation}) => {
   }
 
   const handlerEmailOtp =() =>{
-    navigation.navigate("OTP Screen")
+    navigation.replace("EmailOtpScreen")
   }
 
   let Data = [

@@ -29,6 +29,7 @@
     "react-native-ico-social-icons": "^3.3.1",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^13.0.0",
+    "react-native-pager-view": "^5.4.8",
     "react-native-payment-card": "^1.0.61",
     "react-native-review-modal": "0.0.1",
     "react-native-safe-area-context": "3.2.0",
