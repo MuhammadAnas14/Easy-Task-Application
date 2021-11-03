@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import Loader from "../../../Components/Loader";
 import Url from '../../../Components/Url'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   mainBody: {
@@ -116,40 +117,53 @@ const EmailOtpScreen = ({ navigation }) => {
   const [countdown, setCountdown] = useState(defaultCountdown);
   const [enableResend, setEnableResend] = useState(false);
 
+  const [UserData, setUserData] = useState({});
+
+  useEffect(() => {
+
+    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+    return () => console.log('unmounting...')
+
+  }, [])
+  console.log(UserData)
+
   const onChangeText = async (val) => {
     setInternalVal(val);
   };
+  
+
 
   //Verify Button
-  const RedirectButton = async () =>{
-    const OtpValue = {otp:internalVal};
-    if(internalVal.length < 5){
+  const RedirectButton = async () => {
+    const OtpValue = { otp: internalVal };
+    if (internalVal.length < 5) {
       return;
     }
     await fetch(`${Url}/auth/verifyEmailOtp`, {
       method: 'POST',
-      body: JSON.stringify(OtpValue),
+      body: JSON.stringify(EmailOtpData),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
     })
-    .then(response => response.json()) 
-    .then(response => {console.log(response.success)
-    if(response.success){
-      navigation.replace("ScreenManager")
-    }
-    }) 
-    .catch(res => console.log(res))
+      .then(response => response.json())
+      .then(response => {
+        console.log(response.success)
+        if (response.success) {
+          navigation.replace("ScreenManager")
+        }
+      })
+      .catch(res => console.log(res))
     // navigation.navigate("PostedTask");
   }
   //
-  useEffect(()=>{
-  let timer = setTimeout(() => {
-  textInput.current.focus()
-  }, 1000)
-  return () => clearTimeout(timer);
-  },[])
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      textInput.current.focus()
+    }, 1000)
+    return () => clearTimeout(timer);
+  }, [])
 
   // useEffect(() => {
   //   textInput.current.focus();
@@ -184,21 +198,21 @@ const EmailOtpScreen = ({ navigation }) => {
       }, 1000);
     }
     //otp replacing
-    let ReqNewOtp = {otp:10554};
+    let ReqNewOtp = { otp: 10554 };
     console.log(ReqNewOtp);
-          await fetch(`${Url}/auth/otpReplace`, {
-            method: 'POST',
-            body: JSON.stringify(ReqNewOtp),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-          })
-          .then(res => console.log(res)) 
-          .then(res => console.log(res)) 
-          .catch(res => console.log(res))
-        
-    }
+    await fetch(`${Url}/auth/otpReplace`, {
+      method: 'POST',
+      body: JSON.stringify(ReqNewOtp),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(res => console.log(res))
+      .then(res => console.log(res))
+      .catch(res => console.log(res))
+
+  }
 
   const inputs = Array(lengthInput).fill("");
 
@@ -244,8 +258,8 @@ const EmailOtpScreen = ({ navigation }) => {
                     key={index}
                   >
                     <TextInput
-                      key = {index.toString()}
-                      
+                      key={index.toString()}
+
                       ref={textInput}
                       onChangeText={onChangeText}
                       style={{ width: 0, height: 0 }}
@@ -254,11 +268,11 @@ const EmailOtpScreen = ({ navigation }) => {
                       returnKeyType="done"
                       keyboardType="numeric"
                     />
-                     <Text style= {styles.cellText}
-                            onPress= {()=> textInput.current.focus()}
-                            placeholder ="0">
-                            {internalVal && internalVal.length > 0 ? internalVal[index]: "" }</Text>
-                    
+                    <Text style={styles.cellText}
+                      onPress={() => textInput.current.focus()}
+                      placeholder="0">
+                      {internalVal && internalVal.length > 0 ? internalVal[index] : ""}</Text>
+
                   </View>
                 ))}
               </View>

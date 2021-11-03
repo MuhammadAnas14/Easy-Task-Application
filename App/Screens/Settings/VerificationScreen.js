@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Url from '../../Components/Url'
+import Loader from '../../Components/Loader'
 
 
 const VerificationScreen = ({navigation}) => {
@@ -24,7 +26,7 @@ const VerificationScreen = ({navigation}) => {
     
   }, [])
   console.log(UserData)
-
+  const Obj = UserData.email;
 
   function Item({ item }) {
     return (
@@ -52,8 +54,23 @@ const VerificationScreen = ({navigation}) => {
     );
   }
 
-  const handlerEmailOtp =() =>{
-    navigation.replace("EmailOtpScreen")
+  const handlerEmailOtp = async () =>{
+    await fetch(`${Url}/auth/verifyEmailOtp`,{
+      method: 'POST',
+      body: JSON.stringify(Obj),
+      headers:{
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.jsom())
+    .then(response=> {
+      console.log(response.success)
+      if(response.success){
+        navigation.replace("EmailOtpScreen")
+      }
+    })
+    .catch(response => console.log(response))
   }
 
   let Data = [
