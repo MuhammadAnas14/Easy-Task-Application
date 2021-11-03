@@ -15,35 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-function Item({ item }) {
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.Heading}>
-        <Text style={styles.headText} >About</Text>
-      </View>
-      <View style={styles.listItem}>
-        <Text style={styles.aboutSection}>I am a software developer and had experience in developing web and mobile </Text>
-        <View style={{flexDirection:"row"}}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="location-pin" />
-            <Text style={{fontSize:16,marginTop:3}}>Karachi</Text>
-        </View>
-      </View>
-      <View style={styles.Heading}>
-        <Text style={styles.headText} >Contact Info</Text>
-      </View>
-      <View style={styles.listItem}>
-        <View style={styles.location}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="mail" />
-            <Text style={{fontSize:16,marginTop:4}}>{item.email}</Text>
-        </View>
-        <View style={styles.location}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="phone" />
-            <Text style={{fontSize:16,marginTop:4}}>{item.phone}</Text>
-        </View>
-      </View>
-    </View>
-  );
-}
 
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(0);
