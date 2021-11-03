@@ -8,26 +8,28 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+// import CreditCardInput from 'react-credit-card-input';
+
 
 const Payment = ({navigation}) => {
   const OnPress = (event) => {
     console.log("handler working");
     event.preventDefault();
-    if (item.title === event.target.value){
-      console.log(event.target.value);}
   }
   return (
-    <View style={styles.container}>
-      <FlatList
-        renderItem={(
-          <View style={styles.GridViewContainer}>
-            <TouchableOpacity>
-            <Text style={styles.GridViewTextLayout}> 1st Payment</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        numColumns={1}
-      />
+    <View>
+      {/* <CreditCardInput
+        autoFocus
+        requiresName
+        requiresCVC
+        labelStyle={String}
+        inputStyle={String}
+        validColor={"black"}
+        invalidColor={"red"}
+        placeholderColor={"darkgray"}
+        onChange={OnPress}
+        /> */}
+    <Text>Hello World</Text>
     </View>
   );
 };
