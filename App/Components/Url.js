@@ -1,5 +1,5 @@
 
-const Url = "http:/192.168.10.7:8000"
+const Url = "http:/192.168.1.107:8080"
 
 // const Url = "https://fyp-easy-app.herokuapp.com"
 
