@@ -171,11 +171,7 @@ const RegisterScreen = ({ navigation }) => {
       .catch((error) => {
         console.error(error);
         setLoading(false);
-<<<<<<< HEAD
-        navigation.replace("OtpScreen") 
-=======
       });
->>>>>>> 403647b164863740d78d06f23574f14c9372f47f
 
     setLoading(false);
   };
