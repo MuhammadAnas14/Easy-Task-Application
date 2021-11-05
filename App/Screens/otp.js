@@ -144,6 +144,7 @@ const OtpScreen = ({ navigation }) => {
     setErrorText("");
 
     const OtpValue = { userId: UserData._id, otp: internalVal };
+    console.log(OtpValue)
 
     if (internalVal.length < 5) {
       return;
@@ -159,6 +160,10 @@ const OtpScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then((response) => {
         if (response.success) {
+
+          UserData.Phoneverify = true
+          console.log(UserData)
+          AsyncStorage.setItem('user',JSON.stringify(UserData))       
           navigation.replace("ScreenManager");
         }
         else{
@@ -318,4 +323,4 @@ const OtpScreen = ({ navigation }) => {
   );
 };
 
-export default OtpScreen;
+export default OtpScreen

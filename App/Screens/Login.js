@@ -158,7 +158,7 @@ const LoginScreen = ({ navigation }) => {
 
     if (!userEmail || !validate(userEmail)) {
       // alert('Please fill Email');
-      setErrortext("Please fill with correct email to continue to forget screen")
+      setErrortext("Please fill with correct email for continue to forget screen")
       return;
     }
 

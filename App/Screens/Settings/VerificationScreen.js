@@ -1,5 +1,4 @@
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,50 +8,76 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import Sample from "../Settings/AboutusScreen"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Url from '../../Components/Url'
+import Loader from '../../Components/Loader'
 
-
-// const Stack = createNativeStackNavigator();
-
-
-// const VerificationStack = ({navigation}) => (
-//   <Stack.Navigator>
-//     <Stack.Screen name="VerifyHome" component={Sample}/>
-//   </Stack.Navigator>
-// )
-
-
-function Item({ item }) {
-  return (
-    <View style={[styles.listItem, item.verification && styles.disable]}>
-      <View style={{ alignItems: "center", flex: 1 }}>
-        <View style={{ width: 60, height: 60, borderRadius: 30 }}>
-          <MaterialCommunityIcons name={item.icons} size={60} color="#3CAABB" />
-        </View>
-        <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
-      </View>
-      <View style={styles.verifyButton}>
-        <TouchableOpacity
-        disabled={item.verification}
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={() =>
-          navigation.replace("EmailOTP")
-        }
-        >
-          <Text
-            style={[styles.buttoncolor, item.verification && styles.warning]}
-          >
-           {item.object}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
 
 const VerificationScreen = ({navigation}) => {
   const [PhoneVerify,SetPhoneVerify] = useState(true)
   const [EmailVerify,SetEmailVerify] = useState(false)
+  const [UserData, setUserData] = useState({});
+
+
+  useEffect(() => {
+
+    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+    SetPhoneVerify(UserData.Phoneverify);
+    console.log(PhoneVerify)
+    SetEmailVerify(UserData.Emailverify);
+    return () => console.log('unmounting...')
+    
+  })
+  console.log(UserData)
+
+  // const Obj = UserData.email;
+
+  function Item({ item }) {
+    return (
+      <View style={[styles.listItem, item.verification && styles.disable]}>
+        <View style={{ alignItems: "center", flex: 1 }}>
+          <View style={{ width: 60, height: 60, borderRadius: 30 }}>
+            <MaterialCommunityIcons name={item.icons} size={60} color="#3CAABB" />
+          </View>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>{item.title}</Text>
+        </View>
+        <View style={styles.verifyButton}>
+          <TouchableOpacity
+          disabled={item.verification}
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={handlerEmailOtp}
+          >
+            <Text
+              style={[styles.buttoncolor, item.verification && styles.warning]}
+            >
+             {item.object}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  const handlerEmailOtp = async () =>{
+
+    const dataToSend = {email: UserData.email, Id: UserData._id}
+    await fetch(`${Url}/auth/verifyEmailOtp`,{
+      method: 'POST',
+      body: JSON.stringify(dataToSend),
+      headers:{
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(response=> {
+      console.log(response.success)
+      if(response.success){
+        navigation.replace("EmailOtpScreen")
+      }
+    })
+    .catch(response => console.log(response))
+  }
 
   let Data = [
     {
