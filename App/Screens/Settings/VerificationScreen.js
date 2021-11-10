@@ -19,15 +19,18 @@ const VerificationScreen = ({navigation}) => {
   const [UserData, setUserData] = useState({});
 
 
-  useEffect(() => {
+  useEffect(() => { 
 
     AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+    return () => console.log('unmounting...')
+    
+  },[])
+  useEffect(()=>{
     SetPhoneVerify(UserData.Phoneverify);
     console.log(PhoneVerify)
     SetEmailVerify(UserData.Emailverify);
-    return () => console.log('unmounting...')
-    
   })
+
   console.log(UserData)
 
   // const Obj = UserData.email;
@@ -59,9 +62,9 @@ const VerificationScreen = ({navigation}) => {
   }
 
   const handlerEmailOtp = async () =>{
-
-    const dataToSend = {email: UserData.email, Id: UserData._id}
-    await fetch(`${Url}/auth/verifyEmailOtp`,{
+    console.log("Email Handler Working")
+    const dataToSend = {Email: UserData.email, Id: UserData._id}
+    await fetch(`${Url}/auth/EmailOTP`,{
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers:{

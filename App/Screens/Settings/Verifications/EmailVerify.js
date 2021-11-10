@@ -151,7 +151,7 @@ const EmailOtpScreen = ({ navigation }) => {
       .then(response => {
         console.log(response.success)
         if (response.success) {
-          navigation.replace("ScreenManager")
+          navigation.replace("Settings")
         }
       })
       .catch(res => console.log(res))

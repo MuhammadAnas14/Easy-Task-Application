@@ -97,7 +97,6 @@ const RegisterScreen = ({ navigation }) => {
   const handleSubmitButton = async () => {
     setErrorText("");
     console.log("This is handler");
-    setLoading(true);
     if (!userFirstName) {
       setErrorText("Please fill First Name");
       return;
@@ -145,7 +144,7 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     console.log(JSON.stringify(dataSend));
-
+    setLoading(true);
     await fetch(`${Url}/auth/signUp`, {
       method: "POST",
       body: JSON.stringify(dataSend),
@@ -160,7 +159,7 @@ const RegisterScreen = ({ navigation }) => {
 
           AsyncStorage.setItem('token', response.token);
           AsyncStorage.setItem('user',JSON.stringify(response.user))
-          console.log("inside");
+          console.log("inside the OTP Navigation");
           setLoading(false);
           navigation.replace("OtpScreen");
         } else {
