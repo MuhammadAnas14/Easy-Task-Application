@@ -106,6 +106,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#3dabbc",
   },
+  errorTextStyle: {
+    color: "red",
+    textAlign: "center",
+    fontSize: 14,
+  },
 });
 
 const EmailOtpScreen = ({ navigation }) => {
@@ -116,58 +121,14 @@ const EmailOtpScreen = ({ navigation }) => {
   const defaultCountdown = 5;
   const [countdown, setCountdown] = useState(defaultCountdown);
   const [enableResend, setEnableResend] = useState(false);
-
-  const [UserData, setUserData] = useState({});
-
-  useEffect(() => {
-
-    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
-    return () => console.log('unmounting...')
-
-  }, [])
-  console.log(UserData)
+  const [UserData, setUserData] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onChangeText = async (val) => {
     setInternalVal(val);
   };
-  
-
-
-  //Verify Button
-  const RedirectButton = async () => {
-    const OtpValue = { otp: internalVal };
-    if (internalVal.length < 5) {
-      return;
-    }
-    await fetch(`${Url}/auth/verifyEmailOtp`, {
-      method: 'POST',
-      body: JSON.stringify(EmailOtpData),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log(response.success)
-        if (response.success) {
-          navigation.replace("Settings")
-        }
-      })
-      .catch(res => console.log(res))
-    // navigation.navigate("PostedTask");
-  }
-  //
-  useEffect(() => {
-    let timer = setTimeout(() => {
-      textInput.current.focus()
-    }, 1000)
-    return () => clearTimeout(timer);
-  }, [])
-
-  // useEffect(() => {
-  //   textInput.current.focus();
-  // }, []);
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
   useEffect(() => {
     clockCall = setInterval(() => {
@@ -177,6 +138,52 @@ const EmailOtpScreen = ({ navigation }) => {
       clearInterval(clockCall);
     };
   });
+  //Verify Button
+  const RedirectButton = async () => {
+
+    setErrorText("");
+
+    const OtpValue = { userId: UserData._id, otp: internalVal };
+    console.log(OtpValue)
+
+    if (internalVal.length < 5) {
+      return;
+    }
+    await fetch(`${Url}/auth/verifyOtp`, {
+      method: "POST",
+      body: JSON.stringify(OtpValue),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.success) {
+
+          UserData.Emailverify = true
+          console.log(UserData)
+          AsyncStorage.setItem('user',JSON.stringify(UserData))       
+          navigation.replace("ScreenManager");
+        }
+        else{
+          console.log(response.error)
+          setErrorText(response.error)
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  
+  //
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      textInput.current.focus();
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+
 
   const decrementClock = () => {
     if (countdown == 0) {
@@ -188,7 +195,10 @@ const EmailOtpScreen = ({ navigation }) => {
     }
   };
 
+  
+
   const ResendOTPhandler = async () => {
+    
     if (enableResend) {
       setCountdown(defaultCountdown);
       setEnableResend(false);
@@ -197,28 +207,33 @@ const EmailOtpScreen = ({ navigation }) => {
         decrementClock(0);
       }, 1000);
     }
+
+
     //otp replacing
-    let ReqNewOtp = { otp: 10554 };
-    console.log(ReqNewOtp);
+    let DataToSend = {userId: UserData._id, phoneNo: UserData.phone}
+
     await fetch(`${Url}/auth/otpReplace`, {
-      method: 'POST',
-      body: JSON.stringify(ReqNewOtp),
+      method: "POST",
+      body: JSON.stringify(DataToSend),
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     })
-      .then(res => console.log(res))
-      .then(res => console.log(res))
-      .catch(res => console.log(res))
-
-  }
+      .then((response) => response.json())
+      .then((response) => {
+        if(response.success){
+          setErrorText("Otp is Re-send Successfully")
+        }
+      })
+      .catch((res) => console.log(res));
+  };
 
   const inputs = Array(lengthInput).fill("");
 
   return (
     <View style={styles.mainBody}>
-      {/* <Loader loading={loading} /> */}
+      <Loader loading={loading} />
       <ScrollView
         keyboardShouldPersistTaps="always"
         contentContainerStyle={{
@@ -234,7 +249,7 @@ const EmailOtpScreen = ({ navigation }) => {
           >
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require('../../../../assets/logo.png')}
+                source={require("../../../../assets/logo.png")}
                 style={{
                   width: "50%",
                   height: 100,
@@ -243,7 +258,10 @@ const EmailOtpScreen = ({ navigation }) => {
                 }}
               />
             </View>
-            <Text style={styles.titleStyle}>{"Enter Your Mail OTP Here"}</Text>
+            <Text style={styles.titleStyle}>{"Enter Your Email OTP Here"}</Text>
+            {errorText != "" ? (
+            <Text style={styles.errorTextStyle}>{errorText}</Text>
+          ) : null}
             <View>
               <View style={styles.containerInput}>
                 {inputs.map((data, index) => (
@@ -259,7 +277,6 @@ const EmailOtpScreen = ({ navigation }) => {
                   >
                     <TextInput
                       key={index.toString()}
-
                       ref={textInput}
                       onChangeText={onChangeText}
                       style={{ width: 0, height: 0 }}
@@ -268,11 +285,15 @@ const EmailOtpScreen = ({ navigation }) => {
                       returnKeyType="done"
                       keyboardType="numeric"
                     />
-                    <Text style={styles.cellText}
+                    <Text
+                      style={styles.cellText}
                       onPress={() => textInput.current.focus()}
-                      placeholder="0">
-                      {internalVal && internalVal.length > 0 ? internalVal[index] : ""}</Text>
-
+                      placeholder="0"
+                    >
+                      {internalVal && internalVal.length > 0
+                        ? internalVal[index]
+                        : ""}
+                    </Text>
                   </View>
                 ))}
               </View>
@@ -293,7 +314,7 @@ const EmailOtpScreen = ({ navigation }) => {
               ]}
               onPress={ResendOTPhandler}
             >
-              <Text style={styles.textResend}>Resend OTP {countdown} </Text>
+              <Text style={styles.textResend}>Resend OTP</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
         </View>
@@ -302,4 +323,4 @@ const EmailOtpScreen = ({ navigation }) => {
   );
 };
 
-export default EmailOtpScreen;
+export default EmailOtpScreen
