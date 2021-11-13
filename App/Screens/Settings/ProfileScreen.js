@@ -10,45 +10,91 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StarRating from "react-native-star-rating";
-import Entypo from 'react-native-vector-icons/Entypo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-
+import Entypo from "react-native-vector-icons/Entypo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(0);
   const [UserData, setUserData] = useState({});
+  const [pickedImagePath, setPickedImagePath] = useState("");
 
   //   const changeRating = (rating) => {
   //   setStarRatings(rating);
-  // };
+  // }
 
   useEffect(() => {
+    AsyncStorage.getItem("user").then((value) =>
+      setUserData(JSON.parse(value))
+    );
+    return () => console.log("unmounting...");
+  },[]);
+  console.log(pickedImagePath)
 
-    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
-    return () => console.log('unmounting...')
-    
-  })
+  const showImagePicker = async () => {
+    console.log("sss")
+    // Ask the user for the permission to access the media library
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your photos!");
+      return;
+    }
 
+    const result = await ImagePicker.launchImageLibraryAsync();
 
-  console.log(UserData)
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      setPickedImagePath(result.uri);
+      console.log(result.uri);
+    }
+  };
+
+  const openCamera = async () => {
+    // Ask the user for the permission to access the camera
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this appp to access your camera!");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync();
+
+    // Explore the result
+    console.log(result);
+
+    if (!result.cancelled) {
+      setPickedImagePath(result.uri);
+      console.log(result.uri);
+    }
+  };
+
+  console.log(UserData);
 
   return (
     <View style={styles.container}>
       <ScrollView>
+      <TouchableOpacity onPress={() => showImagePicker()}>
         <View style={styles.header}>
-          <Image
-            style={styles.avatar}
-            source={{
-              uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
-            }}
-          />
+          
+            <Image
+              style={styles.avatar}
+              source={{
+                uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
+              }}
+            />
+          
         </View>
+        </TouchableOpacity>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={styles.name}>{UserData.firstName} {UserData.lastName}</Text>
+            <Text style={styles.name}>
+              {UserData.firstName} {UserData.lastName}
+            </Text>
             <Text style={styles.info}>Away / Online</Text>
           </View>
         </View>
@@ -63,30 +109,52 @@ const Profile = () => {
         <Text style={styles.description}>No Completion Rate </Text>
 
         <View style={{ flex: 1 }}>
-      <View style={styles.Heading}>
-        <Text style={styles.headText} >About</Text>
-      </View>
-      <View style={styles.listItem}>
-        <Text style={styles.aboutSection}>I am a software developer and had experience in developing web and mobile </Text>
-        <View style={{flexDirection:"row"}}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="location-pin" />
-            <Text style={{fontSize:16,marginTop:3}}>Karachi</Text>
+          <View style={styles.Heading}>
+            <Text style={styles.headText}>About</Text>
+          </View>
+          <View style={styles.listItem}>
+            <Text style={styles.aboutSection}>
+              I am a software developer and had experience in developing web and
+              mobile{" "}
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Entypo
+                style={styles.icons}
+                size={20}
+                color="#3CAABB"
+                name="location-pin"
+              />
+              <Text style={{ fontSize: 16, marginTop: 3 }}>Karachi</Text>
+            </View>
+          </View>
+          <View style={styles.Heading}>
+            <Text style={styles.headText}>Contact Info</Text>
+          </View>
+          <View style={styles.listItem}>
+            <View style={styles.location}>
+              <Entypo
+                style={styles.icons}
+                size={20}
+                color="#3CAABB"
+                name="mail"
+              />
+              <Text style={{ fontSize: 16, marginTop: 4 }}>
+                {UserData.email}
+              </Text>
+            </View>
+            <View style={styles.location}>
+              <Entypo
+                style={styles.icons}
+                size={20}
+                color="#3CAABB"
+                name="phone"
+              />
+              <Text style={{ fontSize: 16, marginTop: 4 }}>
+                {UserData.phone}
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
-      <View style={styles.Heading}>
-        <Text style={styles.headText} >Contact Info</Text>
-      </View>
-      <View style={styles.listItem}>
-        <View style={styles.location}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="mail" />
-            <Text style={{fontSize:16,marginTop:4}}>{UserData.email}</Text>
-        </View>
-        <View style={styles.location}>
-            <Entypo style={styles.icons} size={20} color="#3CAABB" name="phone" />
-            <Text style={{fontSize:16,marginTop:4}}>{UserData.phone}</Text>
-        </View>
-      </View>
-    </View>
       </ScrollView>
     </View>
   );
@@ -159,9 +227,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     display: "flex",
   },
-  headText:{
+  headText: {
     fontSize: 16,
-    marginLeft:10,
+    marginLeft: 10,
     color: "#696969",
   },
   listItem: {
@@ -182,17 +250,17 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#00BFFF",
   },
-  location:{
-    flexDirection:"row",
-    padding:10
+  location: {
+    flexDirection: "row",
+    padding: 10,
   },
-  icons:{
-    margin:5,
-    marginRight:20
+  icons: {
+    margin: 5,
+    marginRight: 20,
   },
-  aboutSection:{
-    padding:4,
-    margin:7,
-    marginBottom:10,
-  }
+  aboutSection: {
+    padding: 4,
+    margin: 7,
+    marginBottom: 10,
+  },
 });
