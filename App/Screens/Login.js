@@ -203,7 +203,6 @@ const LoginScreen = ({ navigation }) => {
           navigation.replace('ScreenManager');
         } else {
           setErrortext(response.error);
-          console.log('Please check your email id or password');
           setLoading(false);
         }
       })

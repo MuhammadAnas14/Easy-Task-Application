@@ -29,7 +29,7 @@ const Profile = () => {
     AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
     return () => console.log('unmounting...')
     
-  }, [])
+  })
 
 
 
