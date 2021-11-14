@@ -18,6 +18,7 @@ const Profile = () => {
   const [StarRatings, setStarRatings] = useState(0);
   const [UserData, setUserData] = useState({});
   const [pickedImagePath, setPickedImagePath] = useState("");
+  const [ImgBase64, setImageBase64] = useState("");
 
   //   const changeRating = (rating) => {
   //   setStarRatings(rating);
@@ -29,7 +30,8 @@ const Profile = () => {
     );
     return () => console.log("unmounting...");
   },[]);
-  console.log(pickedImagePath)
+  console.log("image url is",pickedImagePath);
+  console.log("Your final image base64 is",ImgBase64);
 
   const showImagePicker = async () => {
     console.log("sss")
@@ -42,15 +44,26 @@ const Profile = () => {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({base64:true});
 
-    // Explore the result
-    console.log(result);
+    // Explore the Base64
+    // console.log("Base 64 is",result.base64);
+
+
+    const imagecode = result.base64;
+    if(imagecode.length !==0){
+      setImageBase64(imagecode);
+    }
+    else{
+      alert("please try again")
+    }
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
       console.log(result.uri);
     }
+
+    
   };
 
   const openCamera = async () => {
@@ -65,11 +78,11 @@ const Profile = () => {
     const result = await ImagePicker.launchCameraAsync();
 
     // Explore the result
-    console.log(result);
+    console.log('image is',result);
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
-      console.log(result.uri);
+      console.log('image is',result.uri);
     }
   };
 
