@@ -47,11 +47,9 @@ const Profile = () => {
     const result = await ImagePicker.launchImageLibraryAsync({base64:true});
 
     // Explore the Base64
-    // console.log("Base 64 is",result.base64);
-
 
     const imagecode = result.base64;
-    if(imagecode.length !==0){
+    if(imagecode.length !== 0){
       setImageBase64(imagecode);
     }
     else{
@@ -63,7 +61,7 @@ const Profile = () => {
       console.log(result.uri);
     }
 
-    
+
   };
 
   const openCamera = async () => {
