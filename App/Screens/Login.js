@@ -18,6 +18,7 @@ import * as AppAuth from 'expo-app-auth';
 import * as Facebook from 'expo-facebook';
 import envs from "../../Config/env"
 import Url from '../Components/Url';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -25,6 +26,7 @@ const LoginScreen = ({ navigation }) => {
   const [userPassword, setUserPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
+  const [hidePass, setHidePass] = useState(true);
 
   const passwordInputRef = createRef();
 
@@ -272,11 +274,18 @@ const LoginScreen = ({ navigation }) => {
                 ref={passwordInputRef}
                 onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
-                secureTextEntry={true}
+                secureTextEntry={hidePass ? true : false}
                 underlineColorAndroid="#f000"
                 returnKeyType="next"
               />
-            </View>
+                 <Icon
+              style={styles.iconStyle}
+              name={hidePass ? 'eye-slash' : 'eye'}
+              size={15}
+              color="black"
+              onPress={() => setHidePass(!hidePass)}
+            />
+            </View>           
             
             <TouchableOpacity
               style={styles.buttonStyle}
@@ -323,6 +332,12 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 0,
+  },
+  iconStyle:{
+    color: '#3CAABB',
+    position: 'absolute',
+    marginLeft: 300,
+    marginTop: 10
   },
   buttonStyle: {
     backgroundColor: '#3CAABB',

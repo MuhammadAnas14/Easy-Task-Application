@@ -13,6 +13,7 @@ import StarRating from "react-native-star-rating";
 import Entypo from "react-native-vector-icons/Entypo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
+import Url from '../../Components/Url';
 
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(0);
@@ -30,11 +31,10 @@ const Profile = () => {
     );
     return () => console.log("unmounting...");
   },[]);
-  console.log("image url is",pickedImagePath);
-  console.log("Your final image base64 is",ImgBase64);
+  // console.log("image url is",pickedImagePath);
+  // console.log("Your final image base64 is",ImgBase64);
 
   const showImagePicker = async () => {
-    console.log("sss")
     // Ask the user for the permission to access the media library
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -44,47 +44,52 @@ const Profile = () => {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({base64:true});
+    const result = await ImagePicker.launchImageLibraryAsync({base64:true,    aspect:[4,3],
+      quality:0.5});
 
     // Explore the Base64
 
     const imagecode = result.base64;
+
     if(imagecode.length !== 0){
       setImageBase64(imagecode);
+      console.log("img c9ode mmis fsdfsdf", imagecode);
     }
     else{
       alert("please try again")
     }
 
-    if (!result.cancelled) {
-      setPickedImagePath(result.uri);
-      console.log(result.uri);
-    }
-
-
-  };
-
-  const openCamera = async () => {
-    // Ask the user for the permission to access the camera
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("You've refused to allow this appp to access your camera!");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync();
-
-    // Explore the result
-    console.log('image is',result);
 
     if (!result.cancelled) {
       setPickedImagePath(result.uri);
-      console.log('image is',result.uri);
+      // console.log(result.uri);
     }
-  };
 
-  console.log(UserData);
+    const ImgObj = {Id: UserData._id, Img: imagecode}
+  
+    //Sending Base 64 to backend
+    await fetch(`${Url}/settings/Images`,{
+      method:'PUT',
+      body:JSON.stringify(ImgObj),
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      },
+    })
+    .then(res=> res.json())
+    .then((response)=>{
+      if(response.success)
+      alert("Your Image is Upload");
+      UserData.picture = imagecode;
+      AsyncStorage.setItem('user',JSON.stringify(UserData))
+      console.log(response);
+    })
+    .catch((error)=>{
+      console.log(error);
+      alert("Server Error")
+    })
+  };
+  const base64Icon = `data:image/jpg;base64,${UserData.picture}`
 
   return (
     <View style={styles.container}>
@@ -94,11 +99,9 @@ const Profile = () => {
           
             <Image
               style={styles.avatar}
-              source={{
-                uri: "https://bootdey.com/img/Content/avatar/avatar6.png",
-              }}
+              source={{uri: base64Icon}}
             />
-          
+        
         </View>
         </TouchableOpacity>
         <View style={styles.body}>

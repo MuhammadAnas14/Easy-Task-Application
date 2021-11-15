@@ -25,6 +25,7 @@ const VerificationScreen = ({navigation}) => {
     return () => console.log('unmounting...')
     
   },[])
+  
   useEffect(()=>{
     SetPhoneVerify(UserData.Phoneverify);
     console.log(PhoneVerify)
