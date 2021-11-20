@@ -1,31 +1,29 @@
-import React, { createRef,useState } from "react";
-import { Text,Keyboard, View, StyleSheet,TextInput } from "react-native";
-import { Ionicons} from "@expo/vector-icons";
+import React, { createRef, useState } from "react";
+import { Text, Keyboard, View, StyleSheet, TextInput ,TouchableOpacity } from "react-native";
+
 
 const TaskDetails = () => {
+  const [TaskDiscription, setTaskDiscription] = useState("");
+  const [TaskName, setTaskName] = useState("");
 
-  const [TaskDiscription, setTaskDiscription] = useState("")
-  const [TaskName, setTaskName] = useState("")
-
-  const descriptionRef = createRef()
-
+  const descriptionRef = createRef();
 
   return (
     <View style={styles.mainBody}>
       <View style={styles.SectionStyle}>
-      <TextInput
-        style={styles.inputStyle}
-        onChangeText={(taskName) => setTaskName(taskName)}
-        underlineColorAndroid="#f000"
-        placeholder="Enter Task Name"
-        placeholderTextColor="#8b9cb5"
-        autoCapitalize="sentences"
-        returnKeyType="next"
-        onSubmitEditing={() =>
-          descriptionRef.current && descriptionRef.current.focus()
-        }
-        blurOnSubmit={false}
-      />
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(taskName) => setTaskName(taskName)}
+          underlineColorAndroid="#f000"
+          placeholder="Enter Task Name"
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onSubmitEditing={() =>
+            descriptionRef.current && descriptionRef.current.focus()
+          }
+          blurOnSubmit={false}
+        />
       </View>
       <View style={styles.textAreaContainer}>
         <TextInput
@@ -40,16 +38,22 @@ const TaskDetails = () => {
           ref={descriptionRef}
         />
       </View>
-      </View>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        // onPress={handleSubmitButton}
+      >
+        <Text style={styles.buttonTextStyle}>Next</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
-    marginTop:0,
+    marginTop: 0,
     backgroundColor: "white",
- 
   },
   SectionStyle: {
     flexDirection: "row",
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
-    marginBottom:20,
+    marginBottom: 20,
   },
   inputStyle: {
     flex: 1,
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#3CAABB",
-
   },
   textAreaContainer: {
     borderColor: "#3CAABB",
@@ -81,6 +84,24 @@ const styles = StyleSheet.create({
     height: 120,
     justifyContent: "flex-start",
   },
+  buttonStyle: {
+    backgroundColor: "#3dabbc",
+    borderWidth: 0,
+    color: "#FFFFFF",
+    borderColor: "#7DE24E",
+    height: 40,
+    alignItems: "center",
+    // borderRadius: 10,
+    marginLeft: 35,
+    marginRight: 35,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  buttonTextStyle: {
+    color: "#FFFFFF",
+    paddingVertical: 10,
+    fontSize: 16,
+  }, 
 });
 
 export default TaskDetails;
