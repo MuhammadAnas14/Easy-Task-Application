@@ -36,6 +36,19 @@ const Settings = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+       <TouchableOpacity
+      onPress={() => navigation.replace("MyLocation")}
+        style={{
+          height: 60,
+          width: 150,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "white", backgroundColor: "blue", padding: 9 }}>
+          MAPS
+        </Text>
+      </TouchableOpacity>
       <FlatList
         data={services}
         renderItem={({ item }) => (
@@ -71,6 +84,7 @@ const Settings = ({ navigation }) => {
           Delete My Account
         </Text>
       </TouchableOpacity>
+     
       <Modal
         animationType="slide"
         transparent={true}
