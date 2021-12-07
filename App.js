@@ -9,6 +9,7 @@ import ForgetPasswordScreen from './App/Screens/ForgetPassword';
 import PostTaskMain from './App/Screens/PostTask/Task'
 import EmailOtp from './App/Screens/Settings/Verifications/EmailVerify'
 import MapsComponent from './App/Screens/Maps/MapsComponent'
+import TaskDetails from './App/Screens/PostTask/NewTaskDetails'
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -67,7 +68,12 @@ export default function App() {
         component={MapsComponent}
         options={{headerShown: true}}
       />
-        </Stack.Navigator>
+      <Stack.Screen
+        name="TaskFields"
+        component={TaskDetails}
+        options={{headerShown: true}}
+      />
+      </Stack.Navigator>
       </NavigationContainer>
   );
 }

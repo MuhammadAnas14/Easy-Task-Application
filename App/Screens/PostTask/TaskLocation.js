@@ -1,17 +1,27 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
   
-const TaskLocation = () => {
+const TaskLocation = ({navigation}) => {
   return (
     <View style={{ flex: 1, 
                    alignItems: "center",
                    justifyContent: "center" }}>
+      <TouchableOpacity
+      onPress={()=> navigation.replace("TaskFields")}
+      >
       <Text style={{ color: "#006600", fontSize: 40 }}>
-         Videos Screen!
+         Online Task
       </Text>
-      <Ionicons name="ios-videocam-outline" 
-                size={80} color="#006600" />
+      </TouchableOpacity>
+      <TouchableOpacity
+      onPress={()=> navigation.replace("MyLocation")}
+      >
+      <Text style={{ color: "#006600", fontSize: 40 }}>
+         Onsite Task
+      </Text>
+      </TouchableOpacity>
     </View>
   );
 };
