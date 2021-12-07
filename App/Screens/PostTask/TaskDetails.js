@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   buttonStyle: {
+    flex:1,
     backgroundColor: "#3dabbc",
     borderWidth: 0,
     color: "#FFFFFF",
