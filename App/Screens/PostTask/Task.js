@@ -18,7 +18,6 @@ const MainTaskScreen = ({ navigation }) => {
         tabBarStyle: {margin:20 ,marginTop:50},
       }}>
       <Tab.Screen name="TaskDetails" component={TaskDetails} />
-      <Tab.Screen name="TaskBudget" component={TaskBudget} />
       <Tab.Screen name="TaskLocation" component={TaskLocation} />
    </Tab.Navigator>
   );
