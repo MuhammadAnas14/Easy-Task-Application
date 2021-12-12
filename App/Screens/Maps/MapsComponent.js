@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
-import MapView ,{Marker}  from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import MapView ,{Callout, Marker}  from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
 import * as Location from "expo-location";
 
 
@@ -54,10 +54,23 @@ export default function App() {
           region={mapRegion}>
             <Marker draggable coordinate={mapRegion} title='Marker' onDragEnd={(e)=> {getLocationAddress(e.nativeEvent.coordinate)}}></Marker>
           </MapView>
-
-      <View>
-        <Button 
-      </View>
+          <Callout style={styles.buttonCallout}>
+          <TouchableOpacity
+            style={[styles.touchable]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText}>Press Me 1</Text>
+          </TouchableOpacity>
+          </Callout>
+          <Callout style={styles.buttonCallout1}>
+          <TouchableOpacity
+            style={[styles.touchable1]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText1}>Press Me 2</Text>
+          </TouchableOpacity>
+          </Callout>
+      
     </View>
   );
 }
@@ -74,5 +87,50 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     margin:40,
+  },
+  buttonCallout: {
+    flex: 1,
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    bottom: 0,
+    zIndex: 100,
+  },
+  touchable: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: '#3CAABB',
+    borderWidth: 0,
+    borderColor: '#7AC4CF',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft:40,
+  },
+  touchableText: {
+    fontSize: 20,
+    padding:10,
+    paddingHorizontal:25
+  },
+  buttonCallout1: {
+    flex: 1,
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    bottom: 0,
+    left:0,
+    zIndex: 100,
+  },
+  touchable1: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: '#3CAABB', 
+    borderWidth: 0,
+    borderColor: '#7AC4CF',
+    alignItems: 'center',
+    borderRadius: 10,
+ 
+  },
+  touchableText1: {
+    fontSize: 20,
+    padding:10,
+    paddingHorizontal:25
   },
 });
