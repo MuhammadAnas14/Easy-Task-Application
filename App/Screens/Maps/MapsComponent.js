@@ -1,17 +1,76 @@
-import * as React from 'react';
-import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, {useState,useEffect} from 'react';
+import MapView ,{Callout, Marker}  from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
+import * as Location from "expo-location";
+
 
 export default function App() {
+
+  const [mapRegion, setmapRegion] = useState({
+    latitude: 24.9416,
+    longitude: 67.0696,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  const [location, setLocation] = useState();
+
+  const getLocation = async () => {
+    
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync()
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      setLocation({ latitude, longitude });
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getLocationAddress = async (e) => {
+    console.log(e)
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync()
+      if (!granted) return;
+      const name = await Location.reverseGeocodeAsync(e);
+      console.log(name)
+    } 
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  
   return (
     <View style={styles.container}>
       <MapView style={styles.map}
-          initialRegion={{
-            latitude: 24.9416,
-            longitude: 67.0696,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }} />
+          region={mapRegion}>
+            <Marker draggable coordinate={mapRegion} title='Marker' onDragEnd={(e)=> {getLocationAddress(e.nativeEvent.coordinate)}}></Marker>
+          </MapView>
+          <Callout style={styles.buttonCallout}>
+          <TouchableOpacity
+            style={[styles.touchable]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText}>Press Me 1</Text>
+          </TouchableOpacity>
+          </Callout>
+          <Callout style={styles.buttonCallout1}>
+          <TouchableOpacity
+            style={[styles.touchable1]}
+            onPress={() => console.log("press")}
+          >
+            <Text style={styles.touchableText1}>Press Me 2</Text>
+          </TouchableOpacity>
+          </Callout>
+      
     </View>
   );
 }
@@ -28,5 +87,50 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
     margin:40,
+  },
+  buttonCallout: {
+    flex: 1,
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    bottom: 0,
+    zIndex: 100,
+  },
+  touchable: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: '#3CAABB',
+    borderWidth: 0,
+    borderColor: '#7AC4CF',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft:40,
+  },
+  touchableText: {
+    fontSize: 20,
+    padding:10,
+    paddingHorizontal:25
+  },
+  buttonCallout1: {
+    flex: 1,
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    bottom: 0,
+    left:0,
+    zIndex: 100,
+  },
+  touchable1: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: '#3CAABB', 
+    borderWidth: 0,
+    borderColor: '#7AC4CF',
+    alignItems: 'center',
+    borderRadius: 10,
+ 
+  },
+  touchableText1: {
+    fontSize: 20,
+    padding:10,
+    paddingHorizontal:25
   },
 });

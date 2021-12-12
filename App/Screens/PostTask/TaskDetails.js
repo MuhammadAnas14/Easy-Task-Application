@@ -13,7 +13,8 @@ const TaskDetails = () => {
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(taskName) => setTaskName(taskName)}
+          onChangeText={(taskName) => setTaskName(taskName)
+          }
           underlineColorAndroid="#f000"
           placeholder="Enter Task Name"
           placeholderTextColor="#8b9cb5"
@@ -65,11 +66,11 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: "black",
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
     borderRadius: 5,
+    color: "black",
     borderColor: "#3CAABB",
   },
   textAreaContainer: {
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   buttonStyle: {
-    flex:1,
+    flex:3,
     backgroundColor: "#3dabbc",
     borderWidth: 0,
     color: "#FFFFFF",
