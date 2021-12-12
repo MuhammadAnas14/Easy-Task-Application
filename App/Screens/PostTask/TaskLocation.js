@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Suspense, useState} from "react";
 import { Text, TouchableOpacity, View,StyleSheet,TextInput,Button } from "react-native";
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -7,6 +7,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const TaskLocation = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [Date,setDate] = useState("");
+  
+  
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -18,10 +20,12 @@ const TaskLocation = ({ navigation }) => {
   const handleConfirm = (date) => {
     setDate(date);
     hideDatePicker()}
+
+
   const radioButtonsData = [{
     id: '1', // acts as primary key, should be unique and non-empty string
     label: 'Online',
-    selected: true,
+    selected: false,
     labelStyle:{fontSize:20}
 }, {
     id: '2',
@@ -33,48 +37,45 @@ const TaskLocation = ({ navigation }) => {
 const [radioButtons, setRadioButtons] = useState(radioButtonsData);
 
 function onPressRadioButton(radioButtonsArray) {
+  console.log("hello",radioButtonsArray)
   setRadioButtons(radioButtonsArray);
   console.log(radioButtons)
 }
 
+const OrderConfirmed = () => {
+  console.log("make schema send data");
+}
+
 //Making the Ui
 let Ui
-if(radioButtons[0].selected === true){
+if(radioButtons[0].selected){
   Ui=(
     <View>
-      <View style={styles.ButtonStyle}>
-      <Button 
-      title={Date ? Date.toDateString() : "Please Select Date"} 
-      onPress={showDatePicker}
-      color="#3caabb"
-      />
-      </View>
-      <View style={styles.toMid}>
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-    </View>
+            <Text>Please confirm the Order by clicking on the confirm button</Text>
       </View>
   )
 }
+
 if(radioButtons[1].selected === true){
   Ui=(
-    <View>
-      <Text>For the Onsite Ui</Text>
+    <View style={styles.BorderColor}>
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        activeOpacity={0.5}
+        // onPress={handleSubmitButton}
+      >
+        <Text style={styles.buttonTextStyle}>Please Select Address</Text>
+      </TouchableOpacity>
     </View>
   )
 }
-else{}
 
   return (
     <View style={styles.mainBody}>
     <View style={styles.SectionStyle}>
     <TextInput
       style={styles.inputStyle}
-      onChangeText={(taskName) => setTaskName(taskName)}
+      // onChangeText={(taskName) => setTaskName(taskName)}
       underlineColorAndroid="#f000"
       keyboardType="numeric"
       placeholder="Enter Your Budget"
@@ -87,6 +88,21 @@ else{}
       blurOnSubmit={false}
     />
     </View>
+    <View style={styles.ButtonStyle}>
+      <Button 
+      title={Date ? Date.toDateString() : "Please Select Date"} 
+      onPress={showDatePicker}
+      color="#3caabb"
+      />
+    </View>
+    <View style={styles.toMid}>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+    </View>
     <View style={styles.RadioButton}>
     <RadioGroup 
             radioButtons={radioButtons} 
@@ -95,6 +111,14 @@ else{}
     />
     </View>
     {Ui}
+    <View style={styles.bottomView}>
+    <Button 
+      style={{paddingHorizontal:50}}
+      title={"Confirm Your Order"} 
+      onPress={OrderConfirmed}
+      color="red"
+      />
+    </View>
     </View>
   );
 };
@@ -139,16 +163,45 @@ const styles = StyleSheet.create({
   RadioButton:{
     flexDirection:"row",
     padding:40,
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginTop:0,
   },
   ButtonStyle:{
     marginLeft:40,
     marginRight:40,
     justifyContent:'center',
     alignContent:'center',
+    marginBottom: -150,
   },
   toMid:{
     margin:80,
+  },
+  bottomView:{
+    width: '100%', 
+    height: 80,  
+    justifyContent: 'center', 
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
+  },
+  buttonStyle: {
+    width: '100%', 
+    height: 80,  
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderRadius:5,
+    padding:30,
     
   },
+  buttonTextStyle: {
+    color:'grey',
+    backgroundColor:'transparent',
+    paddingHorizontal:50,
+    borderRadius:5,
+    padding:15,
+  }, 
+  BorderColor:{
+    borderRadius:5,
+    padding:30,
+  }
 });
