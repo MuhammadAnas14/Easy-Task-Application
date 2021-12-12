@@ -1,24 +1,74 @@
 import React, {useState} from "react";
-import { Text, TouchableOpacity, View,StyleSheet,TextInput } from "react-native";
+import { Text, TouchableOpacity, View,StyleSheet,TextInput,Button } from "react-native";
 import RadioGroup from 'react-native-radio-buttons-group';
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
 const TaskLocation = ({ navigation }) => {
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [Date,setDate] = useState("");
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    setDate(date);
+    hideDatePicker()}
   const radioButtonsData = [{
     id: '1', // acts as primary key, should be unique and non-empty string
-    label: 'Option 1',
-    value: 'option1'
+    label: 'Online',
+    selected: true,
+    labelStyle:{fontSize:20}
 }, {
     id: '2',
-    label: 'Option 2',
-    value: 'option2'
+    label: 'Onsite',
+    selected: false,
+    labelStyle:{fontSize:20},
+    containerStyle: {paddingHorizontal:15}
 }]
 const [radioButtons, setRadioButtons] = useState(radioButtonsData);
 
 function onPressRadioButton(radioButtonsArray) {
   setRadioButtons(radioButtonsArray);
+  console.log(radioButtons)
 }
+
+//Making the Ui
+let Ui
+if(radioButtons[0].selected === true){
+  Ui=(
+    <View>
+      <View style={styles.ButtonStyle}>
+      <Button 
+      title={Date ? Date.toDateString() : "Please Select Date"} 
+      onPress={showDatePicker}
+      color="#3caabb"
+      />
+      </View>
+      <View style={styles.toMid}>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
+    </View>
+      </View>
+  )
+}
+if(radioButtons[1].selected === true){
+  Ui=(
+    <View>
+      <Text>For the Onsite Ui</Text>
+    </View>
+  )
+}
+else{}
+
   return (
     <View style={styles.mainBody}>
     <View style={styles.SectionStyle}>
@@ -42,9 +92,9 @@ function onPressRadioButton(radioButtonsArray) {
             radioButtons={radioButtons} 
             onPress={onPressRadioButton} 
             layout='row'
-
-        />
+    />
     </View>
+    {Ui}
     </View>
   );
 };
@@ -90,5 +140,15 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     padding:40,
     justifyContent: "space-between"
-  }
+  },
+  ButtonStyle:{
+    marginLeft:40,
+    marginRight:40,
+    justifyContent:'center',
+    alignContent:'center',
+  },
+  toMid:{
+    margin:80,
+    
+  },
 });
