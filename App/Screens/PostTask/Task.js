@@ -1,7 +1,6 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import TaskDetails from './TaskDetails'
-import TaskBudget  from "./TaskBudget";
+import TaskDetails from './TaskDetails' 
 import TaskLocation from './TaskLocation'
 
 const Tab = createMaterialTopTabNavigator();
