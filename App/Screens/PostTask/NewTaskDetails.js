@@ -2,11 +2,15 @@ import React, { createRef, useState } from "react";
 import { Text, Keyboard, View, StyleSheet, TextInput ,TouchableOpacity } from "react-native";
 
 
-const TaskDetails = () => {
+const TaskDetails = ({ route,navigation}) => {
   const [TaskDiscription, setTaskDiscription] = useState("");
   const [TaskName, setTaskName] = useState("");
 
   const descriptionRef = createRef();
+
+  console.log("ddd")
+
+  console.log("ss",route.params.Category)
 
   return (
     <View style={styles.mainBody}>

@@ -7,7 +7,7 @@ const Tab = createMaterialTopTabNavigator();
 
 
 
-const MainTaskScreen = ({ navigation }) => {
+const MainTaskScreen = ({ route, navigation }) => {
   return (
     <Tab.Navigator
     initialRouteName="TaskDetails"
@@ -16,7 +16,7 @@ const MainTaskScreen = ({ navigation }) => {
         tabBarLabelStyle: { fontSize: 12 },
         tabBarStyle: {margin:20 ,marginTop:50},
       }}>
-      <Tab.Screen name="TaskDetails" component={TaskDetails} />
+      <Tab.Screen name="TaskDetails" component={TaskDetails} initialParams={{Category:route.params.Category}}/>
       <Tab.Screen name="TaskLocation" component={TaskLocation} />
    </Tab.Navigator>
   );
