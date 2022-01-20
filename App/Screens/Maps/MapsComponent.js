@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity
 import * as Location from "expo-location";
 
 
-export default function App() {
+export default function App({navigation}) {
 
   const [mapRegion, setmapRegion] = useState({
     latitude: 24.9416,
@@ -12,6 +12,7 @@ export default function App() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [LocationName, setLocationName] = useState([])
 
   const [location, setLocation] = useState();
 
@@ -36,17 +37,31 @@ export default function App() {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
       const name = await Location.reverseGeocodeAsync(e);
-      console.log(name)
+      setLocationName([
+        e,
+        name[0]
+      ])
     } 
     catch (error) {
       console.log(error);
     }
   };
 
+  console.log(LocationName)
+
   useEffect(() => {
     getLocation();
   }, []);
 
+  const handlerSubmitLocation = (flag) => {
+
+    setLocationName([...LocationName,{method:flag}])
+
+    navigation.replace('ScreenManager',{location:LocationName})
+  }
+
+  // console.log(LocationName)
+  
   
   return (
     <View style={styles.container}>
@@ -57,17 +72,17 @@ export default function App() {
           <Callout style={styles.buttonCallout}>
           <TouchableOpacity
             style={[styles.touchable]}
-            onPress={() => console.log("press")}
+            onPress={()=> handlerSubmitLocation("live")}
           >
-            <Text style={styles.touchableText}>Press Me 1</Text>
+            <Text style={styles.touchableText}>Live</Text>
           </TouchableOpacity>
           </Callout>
           <Callout style={styles.buttonCallout1}>
           <TouchableOpacity
             style={[styles.touchable1]}
-            onPress={() => console.log("press")}
+            onPress={() => handlerSubmitLocation("Scheduled")}
           >
-            <Text style={styles.touchableText1}>Press Me 2</Text>
+            <Text style={styles.touchableText1}>Scheduled</Text>
           </TouchableOpacity>
           </Callout>
       
@@ -108,7 +123,7 @@ const styles = StyleSheet.create({
   touchableText: {
     fontSize: 20,
     padding:10,
-    paddingHorizontal:25
+    paddingHorizontal:45
   },
   buttonCallout1: {
     flex: 1,

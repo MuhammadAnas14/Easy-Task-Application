@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {Platform, FlatList, Alert ,View,Text,StyleSheet, TouchableOpacity} from 'react-native';
+import {Platform, FlatList, Alert ,View,Text,StyleSheet, Pressable,TouchableOpacity,TouchableWithoutFeedback} from 'react-native';
 import Categories from './Data/Categories.json'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PostTask = ({navigation}) => {
     const[services,setservices]=useState(Categories)
 
-    const postTaskDetailHandler = () => {
-      navigation.navigate("PostTaskManager")
+    const postTaskDetailHandler = (selectedCategory) => {
+      navigation.navigate("PostTaskManager",{Category:selectedCategory})
     }
     return (
        <View style={styles.container}>
@@ -15,13 +15,13 @@ const PostTask = ({navigation}) => {
             data={services}
             renderItem={ ({item}) =>
               <View style={styles.GridViewContainer}>
-                <TouchableOpacity onPress={postTaskDetailHandler}>
+                <Pressable onPress={() => postTaskDetailHandler(item.key)}>
                <MaterialCommunityIcons  
               name={item.icon}
               size= {60}
               color= "#3CAABB"/>
                <Text style={styles.GridViewTextLayout} > {item.key} </Text>
-               </TouchableOpacity>
+               </Pressable>
               </View>  
               
             }
