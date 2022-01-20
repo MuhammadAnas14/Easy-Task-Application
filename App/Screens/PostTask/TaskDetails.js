@@ -1,24 +1,35 @@
 import React, { createRef, useState } from "react";
-import { Text, Keyboard, View, StyleSheet, TextInput ,TouchableOpacity } from "react-native";
+import {
+  Text,
+  Keyboard,
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
-
-const TaskDetails = ({route,navigation}) => {
+const TaskDetails = ({ route, navigation }) => {
   const [TaskDiscription, setTaskDiscription] = useState("");
   const [TaskName, setTaskName] = useState("");
 
   const descriptionRef = createRef();
 
-  console.log("ddd")
+  const handleNextButton = () => {
+    const task_detail = {
+      task_name: TaskName,
+      Category: route.params.Category,
+      task_discription: TaskDiscription,
+    };
 
-  console.log("ss",route.params)
+    navigation.navigate("TaskLocation", { TaskInitial: task_detail });
+  };
 
   return (
     <View style={styles.mainBody}>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(taskName) => setTaskName(taskName)
-          }
+          onChangeText={(taskName) => setTaskName(taskName)}
           underlineColorAndroid="#f000"
           placeholder="Enter Task Name"
           placeholderTextColor="#8b9cb5"
@@ -46,7 +57,7 @@ const TaskDetails = ({route,navigation}) => {
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
-        // onPress={handleSubmitButton}
+        onPress={handleNextButton}
       >
         <Text style={styles.buttonTextStyle}>Next</Text>
       </TouchableOpacity>
@@ -90,18 +101,18 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   buttonStyle: {
-    width: '100%', 
-    height: 80,  
-    justifyContent: 'center', 
-    alignItems: 'center',
-    position: 'absolute',
+    width: "100%",
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
     bottom: 10,
   },
   buttonTextStyle: {
-    color:'black',
-    backgroundColor:'green',
-    paddingHorizontal:50,
-  }, 
+    color: "black",
+    backgroundColor: "green",
+    paddingHorizontal: 50,
+  },
 });
 
 export default TaskDetails;
