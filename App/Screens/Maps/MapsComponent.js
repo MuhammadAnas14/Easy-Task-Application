@@ -2,9 +2,21 @@ import React, {useState,useEffect} from 'react';
 import MapView ,{Callout, Marker}  from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
 import * as Location from "expo-location";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function App({navigation}) {
+export default function App({navigation,route}) {
+
+  const [UserData, setUserData] = useState("");
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+
+  const UserDetails = {
+    UserId: UserData._id,
+    name: UserData.firstName + UserData.lastName,
+    UserPhoto: UserData.picture
+
+  }
 
   const [mapRegion, setmapRegion] = useState({
     latitude: 24.9416,
@@ -16,8 +28,7 @@ export default function App({navigation}) {
 
   const [location, setLocation] = useState();
 
-  const getLocation = async () => {
-    
+  const getLocation = async () => {   
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
@@ -31,23 +42,20 @@ export default function App({navigation}) {
     }
   };
 
+  let locationDetails ;
+
   const getLocationAddress = async (e) => {
-    console.log(e)
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
       const name = await Location.reverseGeocodeAsync(e);
-      setLocationName([
-        e,
-        name[0]
-      ])
+      locationDetails = { ...e,...name[0]}
+      setLocationName(locationDetails)
     } 
     catch (error) {
       console.log(error);
     }
   };
-
-  console.log(LocationName)
 
   useEffect(() => {
     getLocation();
@@ -55,14 +63,11 @@ export default function App({navigation}) {
 
   const handlerSubmitLocation = (flag) => {
 
-    setLocationName([...LocationName,{method:flag}])
+    let TaskDetails ={...route.params.NewTaskData,...LocationName,method:flag,...UserDetails}
+    console.log(TaskDetails)
 
-    navigation.replace('ScreenManager',{location:LocationName})
   }
 
-  // console.log(LocationName)
-  
-  
   return (
     <View style={styles.container}>
       <MapView style={styles.map}

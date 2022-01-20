@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import TaskDetails from "./TaskDetails";
 
 const TaskLocation = ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -27,7 +28,7 @@ const TaskLocation = ({ route, navigation }) => {
     hideDatePicker();
   };
 
-  console.log(route.params)
+  // console.log(route.params)
 
   
   const radioButtonsData = [
@@ -45,48 +46,62 @@ const TaskLocation = ({ route, navigation }) => {
       containerStyle: { paddingHorizontal: 15 },
     },
   ];
-  const [radioButtons, setRadioButtons] = useState(radioButtonsData);
+  // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
+  const [taskBudget, setTaskBudget] = useState("")
+  const [taskType,setTaskType] =useState("")
 
   function onPressRadioButton(radioButtonsArray) {
-    console.log("hello", radioButtonsArray);
-    setRadioButtons(radioButtonsArray);
-    console.log(radioButtons);
+    if (radioButtonsArray[0].selected) {
+      setTaskType("Online")
+    }
+    if(radioButtonsArray[1].selected){
+      setTaskType("Onsite")
+    }
+    
   }
 
   const OrderConfirmed = () => {
-    console.log("make schema send data");
+    
+    const TaskData = {
+      ...route.params.TaskInitial,
+      TaskBudget : taskBudget,
+      TaskDate : Date,
+      Type : taskType
+ 
+    }
+    navigation.navigate("MyLocation",{NewTaskData: TaskData})
   };
 
-  //Making the Ui
-  let Ui;
-  if (radioButtons[0].selected) {
-    Ui = (
-      <View>
-        <Text>Please confirm the Order by clicking on the confirm button</Text>
-      </View>
-    );
-  }
+  // //Making the Ui
+  // let Ui;
+  // if (radioButtons[0].selected) {
+  //   Ui = (
+  //     <View>
+  //       <Text>Please confirm the Order by clicking on the confirm button</Text>
+  //     </View>
+  //   );
+  // }
 
-  if (radioButtons[1].selected === true) {
-    Ui = (
-      <View style={styles.BorderColor}>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={handleAddressButton}
-        >
-          <Text style={styles.buttonTextStyle}>Please Select Address</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  // if (radioButtons[1].selected === true) {
+  //   Ui = (
+  //     <View style={styles.BorderColor}>
+  //       <TouchableOpacity
+  //         style={styles.buttonStyle}
+  //         activeOpacity={0.5}
+  //         onPress={handleAddressButton}
+  //       >
+  //         <Text style={styles.buttonTextStyle}>Please Select Address</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.mainBody}>
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          // onChangeText={(taskName) => setTaskName(taskName)}
+          onChangeText={(budget) => setTaskBudget(budget)}
           underlineColorAndroid="#f000"
           keyboardType="numeric"
           placeholder="Enter Your Budget"
@@ -116,12 +131,11 @@ const TaskLocation = ({ route, navigation }) => {
       </View>
       <View style={styles.RadioButton}>
         <RadioGroup
-          radioButtons={radioButtons}
+          radioButtons={radioButtonsData}
           onPress={onPressRadioButton}
           layout="row"
         />
       </View>
-      {Ui}
       <View style={styles.bottomView}>
         <Button
           style={{ paddingHorizontal: 50 }}
