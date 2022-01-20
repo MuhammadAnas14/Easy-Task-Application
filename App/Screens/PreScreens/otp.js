@@ -12,8 +12,8 @@ import {
   Button,
   SegmentedControlIOSComponent,
 } from "react-native";
-import Loader from "../Components/Loader";
-import Url from "../Components/Url";
+import Loader from "../../Components/Loader";
+import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
@@ -249,7 +249,7 @@ const OtpScreen = ({ navigation }) => {
           >
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require("../../assets/logo.png")}
+                source={require("../../../assets/logo.png")}
                 style={{
                   width: "50%",
                   height: 100,
