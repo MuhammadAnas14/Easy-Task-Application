@@ -1,11 +1,12 @@
 import React ,{useState,useEffect}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
-import Data from './Data/Data.json'
+import Data from '../Data/Data.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { color } from 'react-native-elements/dist/helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Item({ item }) {
+
   return (
     <View style={styles.listItem}>
       <Image source={{uri:item.photo}}  style={{width:60, height:60,borderRadius:30}} />
@@ -20,24 +21,30 @@ function Item({ item }) {
       <View style={styles.bugget}>
       <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}}>
         <Text style={{color:"white",backgroundColor:"#3CAABB",padding:5}}>Open</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>    
       <Text style={{color:"#3CAABB",paddingRight:5}}>Rs.{item.cost}</Text>
       </View>
     </View>
   );
 }
 
-const PostedTask  = () => {
+const PostedTask  = ({navigation}) => {
     
     const [TaskData, setTaskData] = useState(Data)
-
+    const tracklocation = () => {
+      navigation.navigate('TrackLocation')
+    }    
     return (
       <View style={styles.container}>
+      <TouchableOpacity style={{height:20,width:50, justifyContent:"center",alignItems:"center"}} onPress={tracklocation}>
+        <Text style={{color:"white",backgroundColor:"#3CAABB",padding:1}}>Track</Text>
+      </TouchableOpacity>  
         <FlatList
           style={{flex:1}}
           data={TaskData}
           renderItem={({ item }) => <Item item={item}/>}
           keyExtractor={item => item.email}
+          onPress={tracklocation}
         />
       </View>
     );

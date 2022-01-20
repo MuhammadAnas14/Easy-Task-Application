@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Platform, FlatList, Alert ,View,Text,StyleSheet, Pressable,TouchableOpacity,TouchableWithoutFeedback} from 'react-native';
-import Categories from './Data/Categories.json'
+import Categories from '../Data/Categories.json'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PostTask = ({navigation}) => {

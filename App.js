@@ -1,15 +1,16 @@
  import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import RegisterScreen from "./App/Screens/Signup"
-import LoginScreen from "./App/Screens/Login"
-import SplashScreen from "./App/Screens/Splash.js"
-import OtpScreen from './App/Screens/otp';
+import RegisterScreen from "./App/Screens/PreScreens/Signup"
+import LoginScreen from "./App/Screens/PreScreens/Login"
+import SplashScreen from "./App/Screens/PreScreens/Splash.js"
+import OtpScreen from './App/Screens/PreScreens/otp';
 import ScreenManager from './App/Screens/ScreenManager'
 import ForgetPasswordScreen from './App/Screens/ForgetPassword';
 import PostTaskMain from './App/Screens/PostTask/Task'
 import EmailOtp from './App/Screens/Settings/Verifications/EmailVerify'
 import MapsComponent from './App/Screens/Maps/MapsComponent'
-import TaskDetails from './App/Screens/PostTask/NewTaskDetails'
+import TaskDetails from './App/Screens/PostTask/TaskDetails'
+import TrackLocation from './App/Screens/Maps/Tracking';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from 'react-redux'
@@ -75,6 +76,11 @@ export default function App() {
         name="TaskFields"
         component={TaskDetails}
         options={{headerShown: true}}
+      />
+      <Stack.Screen
+      name="TrackLocation"
+      component={TrackLocation}
+      options={{headerShown: true}}
       />
       </Stack.Navigator>
       </NavigationContainer>
