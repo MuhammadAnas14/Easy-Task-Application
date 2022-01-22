@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import TaskDetails from "./TaskDetails";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TaskLocation = ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -26,6 +26,16 @@ const TaskLocation = ({ route, navigation }) => {
   const handleConfirm = (date) => {
     setDate(date);
     hideDatePicker();
+  };
+
+  const [UserData, setUserData] = useState("");
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+
+  const UserDetails = {
+    UserId: UserData._id,
+    UserName: UserData.firstName + " " + UserData.lastName,
+    UserPhoto: UserData.picture,
   };
 
   // console.log(route.params)
@@ -50,25 +60,35 @@ const TaskLocation = ({ route, navigation }) => {
   const [taskBudget, setTaskBudget] = useState("")
   const [taskType,setTaskType] =useState("")
 
-  function onPressRadioButton(radioButtonsArray) {
-    if (radioButtonsArray[0].selected) {
-      setTaskType("Online")
-    }
-    if(radioButtonsArray[1].selected){
-      setTaskType("Onsite")
-    }
-    
-  }
+  function onPressRadioButton(radioButtonsArray) { 
+    console.log(radioButtonsArray)
+    if (radioButtonsArray[0].selected) { 
+      radioButtonsData[0].selected === true; 
+      setTaskType("Online") } 
+    if(radioButtonsArray[1].selected){ 
+      radioButtonsData[1].selected === true
+      setTaskType("Onsite") 
+    } 
+    } 
 
   const OrderConfirmed = () => {
+
+    console.log(route.params.TaskInitial)
+
+    // if (taskType === "Online") {
+      
+      const TaskData = {
+        ...route.params.TaskInitial,
+        TaskBudget : taskBudget,
+        TaskDate : Date,
+        Type : taskType,
+        ...UserDetails
+      }
+      console.log(TaskData)
+
+    // }
     
-    const TaskData = {
-      ...route.params.TaskInitial,
-      TaskBudget : taskBudget,
-      TaskDate : Date,
-      Type : taskType
- 
-    }
+    
     navigation.navigate("MyLocation",{NewTaskData: TaskData})
   };
 
