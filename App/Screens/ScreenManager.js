@@ -19,6 +19,7 @@ import TermsandConditions from './Settings/TermsScreen'
 import PrivacyPolicy from "./Settings/PrivacyScreen";
 import NotificationScreen from "./Settings/NotificationScreen";
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

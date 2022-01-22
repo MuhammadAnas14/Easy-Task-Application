@@ -7,9 +7,9 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import RadioGroup from "react-native-radio-buttons-group";
+import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import TaskDetails from "./TaskDetails";
+
 
 const TaskLocation = ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -48,16 +48,24 @@ const TaskLocation = ({ route, navigation }) => {
   ];
   // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
   const [taskBudget, setTaskBudget] = useState("")
-  const [taskType,setTaskType] =useState("")
+  const [TaskType,setTaskType] =useState("")
 
   function onPressRadioButton(radioButtonsArray) {
+    // alert("Please Select Again to Confirm (Online)")
+    // alert("Please Select Again to Confirm (Onsite)")
+
+
     if (radioButtonsArray[0].selected) {
+      // radioButtonsData[0].selected(true)
       setTaskType("Online")
+      
     }
     if(radioButtonsArray[1].selected){
+      // radioButtonsData[1].selected(true)
       setTaskType("Onsite")
+      
     }
-    
+
   }
 
   const OrderConfirmed = () => {
