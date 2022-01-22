@@ -7,15 +7,22 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import * as Progress from 'react-native-progress';
+import Data from '../Data/TaskDetails.json'
 
 const TaskDetails = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.BarContainer}>
+      <Progress.Bar progress={0.17} width={350} height={30} />
+      <Text style={styles.BarText}>OPEN     ASSIGNED     COMPLETED     REVIEWED</Text>
+      </View>
+      {/* This is For the OFFER BOX */}
       <View style={[styles.listItem]}>
         <View style={{ alignItems: "center", flex: 1 }}>
           <Text style={{ fontWeight: "bold", padding: 10 }}>Task Budget Estimate</Text>
-          <Text style={{ fontWeight: "bold", padding: 10 }}>Rs. 3000</Text>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>{Data.cost}</Text>
         </View>
         <View style={styles.verifyButton}>
           <TouchableOpacity
@@ -62,6 +69,19 @@ const styles = StyleSheet.create({
     color: "white", 
     marginTop: 80,
     padding: 10,
+  },
+  BarContainer:{
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
+    padding:10,
+  },
+  BarText:{
+    width: "90%",
+    fontSize: 15,
+    alignSelf: "center",
+    marginTop: -25,
+    color: "black"
   }
 });
 export default TaskDetails;
