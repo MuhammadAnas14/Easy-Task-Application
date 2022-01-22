@@ -10,6 +10,7 @@ import PostTaskMain from './App/Screens/PostTask/Task'
 import EmailOtp from './App/Screens/Settings/Verifications/EmailVerify'
 import MapsComponent from './App/Screens/Maps/MapsComponent'
 import TaskDetails from './App/Screens/PostTask/TaskDetails'
+import TaskScreen from './App/Screens/Task/TaskScreen'
 import TrackLocation from './App/Screens/Maps/Tracking';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -82,6 +83,11 @@ export default function App() {
       component={TrackLocation}
       options={{headerShown: true}}
       />
+          <Stack.Screen 
+    name="Task Details" 
+    component={TaskScreen}
+    options={{headerShown: true}}
+    />
       </Stack.Navigator>
       </NavigationContainer>
       

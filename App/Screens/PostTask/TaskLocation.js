@@ -7,7 +7,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import RadioGroup from "react-native-radio-buttons-group";
+import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -58,18 +58,25 @@ const TaskLocation = ({ route, navigation }) => {
   ];
   // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
   const [taskBudget, setTaskBudget] = useState("")
-  const [taskType,setTaskType] =useState("")
+  const [TaskType,setTaskType] =useState("")
 
-  function onPressRadioButton(radioButtonsArray) { 
-    console.log(radioButtonsArray)
-    if (radioButtonsArray[0].selected) { 
-      radioButtonsData[0].selected === true; 
-      setTaskType("Online") } 
-    if(radioButtonsArray[1].selected){ 
-      radioButtonsData[1].selected === true
-      setTaskType("Onsite") 
-    } 
-    } 
+  function onPressRadioButton(radioButtonsArray) {
+    // alert("Please Select Again to Confirm (Online)")
+    // alert("Please Select Again to Confirm (Onsite)")
+
+
+    if (radioButtonsArray[0].selected) {
+      // radioButtonsData[0].selected(true)
+      setTaskType("Online")
+      
+    }
+    if(radioButtonsArray[1].selected){
+      // radioButtonsData[1].selected(true)
+      setTaskType("Onsite")
+      
+    }
+
+  }
 
   const OrderConfirmed = () => {
 
