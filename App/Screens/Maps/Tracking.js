@@ -102,8 +102,7 @@ export default function TrackLocation({navigation}) {
             destination={DestinationLocation.droplocationCords}
             apikey="AIzaSyCQ6bLlYFdutqT8MS7rVwvAY9LTQxqrpC8"
             strokeWidth={4}
-            lineDashPattern={[1]}
-            strokeColor="red"
+            strokeColor="black"
             />
           </MapView>
     </View>

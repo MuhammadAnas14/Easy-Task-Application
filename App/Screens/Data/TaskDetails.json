@@ -1,8 +1,10 @@
 {
-        "name": "Need A Wallpaper",
+        "title": "I Want my Bug to be solved of a Backend in Node.js",
+        "details": "Using Socket make an chat application with decentralized database on the web 3.0 architecture",
         "email": "miyah.myles@gmail.com",
-        "position": "Karachi,Pakistan",
-        "comments": "18",
-        "cost": "2500",
+        "location": "Karachi,Pakistan",
+        "duedate":"12-05-21",
+        "offers": "18",
+        "cost": "12,500",
         "photo": "https:\/\/images.unsplash.com\/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6"
     }
