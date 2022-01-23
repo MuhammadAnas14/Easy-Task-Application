@@ -14,9 +14,21 @@ const TaskDetails = () => {
 
   return (
     <View style={styles.container}>
+      {/* TAsk Bar */}
       <View style={styles.BarContainer}>
       <Progress.Bar progress={0.17} width={350} height={30} />
       <Text style={styles.BarText}>OPEN     ASSIGNED     COMPLETED     REVIEWED</Text>
+      </View>
+
+      {/* Heading */}
+      <View>
+        <Text style={styles.heading}>{Data.title}</Text>
+      </View>
+      {/* Profile of the Poster */}
+      <View>
+        <Text>
+          AVATAR, {Data.location}, {Data.duedate}, {Data.offers}
+        </Text>
       </View>
       {/* This is For the OFFER BOX */}
       <View style={[styles.listItem]}>
@@ -30,11 +42,17 @@ const TaskDetails = () => {
           // onPress={handlerEmailOtp}
           >
             <Text style={[styles.buttoncolor && styles.warning]}>
-             OFFER
+             MAKE OFFER
             </Text>
           </TouchableOpacity>
         </View>
       </View>
+      {/* Task Details */}
+      <View>
+        <Text style={{fontSize:15, fontWeight:"bold", marginLeft:13,marginTop:10}}>Task Details</Text>
+        <Text style={{fontSize:14,margin:10}}>{Data.details}</Text>
+      </View>
+
     </View>
   );
 };
@@ -46,7 +64,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding: 10,
-    backgroundColor: "yellow",
+    backgroundColor: "lightgrey",
     width: "80%",
     alignSelf: "center",
     borderRadius: 5,
@@ -82,6 +100,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: -25,
     color: "black"
+  },
+  heading:{
+  fontSize: 15,
+  fontWeight: "bold",
+  textAlign: "center",
+  margin: 10,
   }
 });
 export default TaskDetails;
