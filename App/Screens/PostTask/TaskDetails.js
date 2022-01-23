@@ -11,10 +11,21 @@ import {
 const TaskDetails = ({ route, navigation }) => {
   const [TaskDiscription, setTaskDiscription] = useState("");
   const [TaskName, setTaskName] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const descriptionRef = createRef();
 
   const handleNextButton = () => {
+
+    if (!TaskName) {
+      setErrorText("Please fill Task Name");
+      return;
+    }
+    if (!TaskDiscription) {
+      setErrorText("Please fill Task Discription");
+      return;
+    }
+
     const task_detail = {
       task_name: TaskName,
       Category: route.params.Category,
@@ -26,6 +37,9 @@ const TaskDetails = ({ route, navigation }) => {
 
   return (
     <View style={styles.mainBody}>
+      {errorText != "" ? (
+            <Text style={styles.errorTextStyle}>{errorText}</Text>
+          ) : null}
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}

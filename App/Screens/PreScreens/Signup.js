@@ -142,8 +142,7 @@ const RegisterScreen = ({ navigation }) => {
       Password: userPassword,
       Phone: userPhoneNo,
     };
-
-    console.log(JSON.stringify(dataSend));
+    
     setLoading(true);
     await fetch(`${Url}/auth/signUp`, {
       method: "POST",

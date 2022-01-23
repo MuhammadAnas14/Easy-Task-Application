@@ -7,13 +7,21 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
+import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Url from "../../Components/Url";
 
 const TaskLocation = ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [Date, setDate] = useState("");
+  const [UserData, setUserData] = useState("");
+  // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
+  const [taskBudget, setTaskBudget] = useState("");
+  const [TaskType, setTaskType] = useState("");
+  const [errorText, setErrorText] = useState("");
+
+  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -28,103 +36,100 @@ const TaskLocation = ({ route, navigation }) => {
     hideDatePicker();
   };
 
-  const [UserData, setUserData] = useState("");
-
-  AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
-
   const UserDetails = {
     UserId: UserData._id,
     UserName: UserData.firstName + " " + UserData.lastName,
     UserPhoto: UserData.picture,
   };
 
-  // console.log(route.params)
-
-  
   const radioButtonsData = [
     {
-      id: "1", // acts as primary key, should be unique and non-empty string
+      id: "1",
       label: "Online",
-      selected: false,
       labelStyle: { fontSize: 20 },
+      selected: false,
     },
     {
       id: "2",
       label: "Onsite",
-      selected: false,
       labelStyle: { fontSize: 20 },
+      selected: false,
       containerStyle: { paddingHorizontal: 15 },
     },
   ];
-  // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
-  const [taskBudget, setTaskBudget] = useState("")
-  const [TaskType,setTaskType] =useState("")
 
   function onPressRadioButton(radioButtonsArray) {
-    // alert("Please Select Again to Confirm (Online)")
-    // alert("Please Select Again to Confirm (Onsite)")
-
-
     if (radioButtonsArray[0].selected) {
-      // radioButtonsData[0].selected(true)
-      setTaskType("Online")
-      
+      setTaskType("Online");
     }
-    if(radioButtonsArray[1].selected){
-      // radioButtonsData[1].selected(true)
-      setTaskType("Onsite")
-      
+    if (radioButtonsArray[1].selected) {
+      setTaskType("Onsite");
     }
-
   }
 
-  const OrderConfirmed = () => {
+  const TaskData =""
 
-    console.log(route.params.TaskInitial)
+  const OrderConfirmed = async () => {
 
-    // if (taskType === "Online") {
-      
-      const TaskData = {
+    if (!taskBudget) {
+      setErrorText("Please fill Task Budget");
+      return;
+    }
+    if (!Date) {
+      setErrorText("Please fill Task Budget");e
+      return;
+    }
+    if (!TaskType) {
+      setErrorText("Please fill Task Budget");
+      return;
+    }
+
+    if (TaskType === "Online") {  
+
+      TaskData = {
         ...route.params.TaskInitial,
-        TaskBudget : taskBudget,
-        TaskDate : Date,
-        Type : taskType,
-        ...UserDetails
-      }
-      console.log(TaskData)
+        TaskBudget: taskBudget,
+        TaskDate: Date,
+        Type: TaskType,
+        ...UserDetails,
+      };
 
-    // }
-    
-    
-    navigation.navigate("MyLocation",{NewTaskData: TaskData})
+      await fetch(`${Url}/task/OnlineTask`, {
+        method: "POST",
+        body: JSON.stringify(TaskData),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {res.json})
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        setErrorText("something went wrong ");
+        console.log(error)
+      })
+  }
+    if(TaskType === "Onsite"){
+      
+      TaskData = {
+        ...route.params.TaskInitial,
+        TaskBudget: taskBudget,
+        TaskDate: Date,
+        Type: TaskType,
+        ...UserDetails,
+      };
+
+      navigation.navigate("MyLocation", { NewTaskData: TaskData });
+  }
   };
-
-  // //Making the Ui
-  // let Ui;
-  // if (radioButtons[0].selected) {
-  //   Ui = (
-  //     <View>
-  //       <Text>Please confirm the Order by clicking on the confirm button</Text>
-  //     </View>
-  //   );
-  // }
-
-  // if (radioButtons[1].selected === true) {
-  //   Ui = (
-  //     <View style={styles.BorderColor}>
-  //       <TouchableOpacity
-  //         style={styles.buttonStyle}
-  //         activeOpacity={0.5}
-  //         onPress={handleAddressButton}
-  //       >
-  //         <Text style={styles.buttonTextStyle}>Please Select Address</Text>
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // }
 
   return (
     <View style={styles.mainBody}>
+      {errorText != "" ? (
+            <Text style={styles.errorTextStyle}>{errorText}</Text>
+          ) : null}
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}

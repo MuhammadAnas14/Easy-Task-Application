@@ -32,8 +32,8 @@ const PostedTask  = ({navigation}) => {
     
     const [TaskData, setTaskData] = useState(Data)
     const tracklocation = () => {
-      // navigation.navigate('TrackLocation')
-      navigation.navigate('Task Details')
+      navigation.navigate('TrackLocation')
+      // navigation.navigate('Task Details')
     }    
     return (
       <View style={styles.container}>

@@ -99,10 +99,10 @@ export default function TrackLocation({navigation}) {
           <MapView style={styles.map} initialRegion={mapRegion}>
             <MapViewDirections
             origin={mapRegion}
-            destination={DestinationLocation}
+            destination={DestinationLocation.droplocationCords}
             apikey="AIzaSyCQ6bLlYFdutqT8MS7rVwvAY9LTQxqrpC8"
             strokeWidth={4}
-            strokeColor="hotPink"
+            strokeColor="black"
             />
           </MapView>
     </View>
