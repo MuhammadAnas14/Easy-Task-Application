@@ -129,7 +129,7 @@ const TaskLocation = ({ route, navigation }) => {
         ...UserDetails,
       };
 
-      navigation.navigate("MyLocation", { NewTaskData: TaskData });
+      navigation.replace("MyLocation", { NewTaskData: TaskData });
     }
   };
 

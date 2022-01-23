@@ -82,6 +82,8 @@ export default function App({ navigation, route }) {
   const handlerSubmitLocation = async (flag) => {
     console.log(route.params.NewTaskData);
 
+    console.log(flag)
+
     if (flag === "Scheduled") {
       TaskDetails = {
         ...route.params.NewTaskData,
@@ -90,6 +92,31 @@ export default function App({ navigation, route }) {
       };
 
       await fetch(`${Url}/task/ScheduledTask`, {
+        method: "POST",
+        body: JSON.stringify(TaskDetails),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response.success);
+          setModalVisible(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    if(flag === "live") {
+
+      TaskDetails = {
+        ...route.params.NewTaskData,
+        Location: LocationName,
+        method: flag,
+      };
+
+      await fetch(`${Url}/task/LiveTask`, {
         method: "POST",
         body: JSON.stringify(TaskDetails),
         headers: {

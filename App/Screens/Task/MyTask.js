@@ -1,6 +1,6 @@
 import React ,{useState}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
-import Data from './Data/MyTaskData.json'
+import Data from '../Data/MyTaskData.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { color } from 'react-native-elements/dist/helpers';
 
