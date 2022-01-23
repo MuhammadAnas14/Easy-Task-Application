@@ -108,7 +108,7 @@ const TaskLocation = ({ route, navigation }) => {
         },
       })
         .then((res) => {
-          res.json;
+          res.json();
         })
         .then((response) => {
           console.log(response);

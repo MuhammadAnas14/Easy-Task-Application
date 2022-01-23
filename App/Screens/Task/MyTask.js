@@ -1,8 +1,9 @@
-import React ,{useState}from 'react';
+import React ,{useEffect, useState}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import Data from '../Data/MyTaskData.json'
 import Entypo from 'react-native-vector-icons/Entypo';
-import { color } from 'react-native-elements/dist/helpers';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Url from '../../Components/Url';
 
 function Item({ item }) {
   return (
@@ -28,8 +29,37 @@ function Item({ item }) {
 
 const PostedTask  = () => {
     
-    const [TaskData, setTaskData] = useState(Data)
+    const [TaskData, setTaskData] = useState(Data);
+    const [UserData, setUserData] = useState("");
 
+    AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
+
+    const GetMyTask = async () => {
+
+      const Id = {UserId: UserData._id}
+      
+      await fetch(`${Url}/task/MyTask`, {
+        method: "POST",
+        body: JSON.stringify(Id),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => 
+        res.json()
+      )
+      .then((response) => {
+        console.log(response.UserTask)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
+    useEffect(()=> {
+      GetMyTask()
+    },[]);
 
     return (
       <View style={styles.container}>
