@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
+import Feather from "react-native-vector-icons/Feather";
+import Url from "../../Components/Url";
 import {
   StyleSheet,
   Text,
@@ -8,13 +10,12 @@ import {
   Button,
   Touchable,
   TouchableOpacity,
+  Modal,
+  Pressable,
 } from "react-native";
 import * as Location from "expo-location";
 
-
 export default function App({ navigation, route }) {
-  
-
   const [mapRegion, setmapRegion] = useState({
     latitude: 24.9416,
     longitude: 67.0696,
@@ -22,6 +23,7 @@ export default function App({ navigation, route }) {
     longitudeDelta: 0.0421,
   });
   const [LocationName, setLocationName] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [location, setLocation] = useState({
     latitude: 24.9416,
@@ -38,9 +40,13 @@ export default function App({ navigation, route }) {
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
-      console.log("errrrr", latitude ,latitude);
-      setLocation({ latitude:latitude, longitude :longitude,latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421, });
+      console.log("errrrr", latitude, latitude);
+      setLocation({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -53,17 +59,17 @@ export default function App({ navigation, route }) {
       const { granted } = await Location.requestForegroundPermissionsAsync();
       if (!granted) return;
       const Address = await Location.reverseGeocodeAsync(e);
-      let TaskAddress = Address[0]
-      delete TaskAddress["street"]
-      delete TaskAddress["isoCountryCode"]
-      delete TaskAddress["postalCode"]
-      delete TaskAddress["timezone"]
-      delete TaskAddress["street"]
-      delete TaskAddress["subregion"]
+      let TaskAddress = Address[0];
+      delete TaskAddress["street"];
+      delete TaskAddress["isoCountryCode"];
+      delete TaskAddress["postalCode"];
+      delete TaskAddress["timezone"];
+      delete TaskAddress["street"];
+      delete TaskAddress["subregion"];
       locationDetails = { ...e, ...TaskAddress };
       setLocationName(locationDetails);
     } catch (error) {
-      console.log(error); 
+      console.log(error);
     }
   };
 
@@ -71,15 +77,40 @@ export default function App({ navigation, route }) {
     getLocation();
   }, []);
 
-  const handlerSubmitLocation = (flag) => {
-    console.log(route.params.NewTaskData)
-    let TaskDetails = {
-      ...route.params.NewTaskData,
-      Location: LocationName,
-      method: flag,
-    };
-    console.log(TaskDetails.method);
+  let TaskDetails;
 
+  const handlerSubmitLocation = async (flag) => {
+    console.log(route.params.NewTaskData);
+
+    if (flag === "Scheduled") {
+      TaskDetails = {
+        ...route.params.NewTaskData,
+        Location: LocationName,
+        method: flag,
+      };
+
+      await fetch(`${Url}/task/ScheduledTask`, {
+        method: "POST",
+        body: JSON.stringify(TaskDetails),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response.success);
+          setModalVisible(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handlePostedTask = () => {
+    setModalVisible(!modalVisible);
+    navigation.replace("ScreenManager");
   };
 
   return (
@@ -87,29 +118,58 @@ export default function App({ navigation, route }) {
       <MapView style={styles.map} initialRegion={mapRegion}>
         <Marker
           draggable
-          coordinate={location}
-          title="Marker"
+          coordinate={mapRegion}
+          title="Location"
           onDragEnd={(e) => {
             getLocationAddress(e.nativeEvent.coordinate);
           }}
         ></Marker>
       </MapView>
       <Callout style={styles.buttonCallout}>
-          <TouchableOpacity
-            style={[styles.touchable]}
-            onPress={()=> handlerSubmitLocation("live")}
-          >
-            <Text style={styles.touchableText}>Live</Text>
-          </TouchableOpacity>
-          </Callout>
-          <Callout style={styles.buttonCallout1}>
-          <TouchableOpacity
-            style={[styles.touchable1]}
-            onPress={() => handlerSubmitLocation("Scheduled")}
-          >
-            <Text style={styles.touchableText1}>Scheduled</Text>
-          </TouchableOpacity>
-          </Callout>
+        <TouchableOpacity
+          style={[styles.touchable]}
+          onPress={() => handlerSubmitLocation("live")}
+        >
+          <Text style={styles.touchableText}>Live</Text>
+        </TouchableOpacity>
+      </Callout>
+      <Callout style={styles.buttonCallout1}>
+        <TouchableOpacity
+          style={[styles.touchable1]}
+          onPress={() => handlerSubmitLocation("Scheduled")}
+        >
+          <Text style={styles.touchableText1}>Scheduled</Text>
+        </TouchableOpacity>
+      </Callout>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Feather
+              style={styles.icons}
+              name="check-circle"
+              size={50}
+              color="#3dabbc"
+            />
+            <Text style={styles.modalText}>Your Task have been posted</Text>
+
+            <View style={styles.buttonView}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={handlePostedTask}
+              >
+                <Text style={styles.textStyle}>Go to Home</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -170,5 +230,43 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     paddingHorizontal: 25,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    flexDirection: "row",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modalView: {
+    marginTop: 300,
+    marginBottom: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  icons: {
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 18,
+    color: "black",
+    fontWeight: "bold",
+    marginBottom: 6,
+  },
+  textStyle: {
+    textDecorationLine: "underline",
+    fontSize: 15,
+    color: "#3dabbc",
   },
 });
