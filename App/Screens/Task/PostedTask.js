@@ -4,17 +4,18 @@ import Data from '../Data/Data.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { color } from 'react-native-elements/dist/helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Url from '../../Components/Url'
+import Loader from '../../Components/Loader'
 function Item({ item }) {
 
   return (
     <View style={styles.listItem}>
-      <Image source={{uri:item.photo}}  style={{width:60, height:60,borderRadius:30}} />
+      <Image source={{uri:`data:image/jpg;base64,${item.userPhoto}`}}  style={{width:60, height:60,borderRadius:30}} />
       <View style={{alignItems:"center",flex:1}}>
-        <Text style={{fontWeight:"bold"}}>{item.name}</Text>
+        <Text style={{fontWeight:"bold"}}>{item.userName}</Text>
         <View style={styles.location}>
             <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.position}</Text>
+            <Text>{item.taskMethod}</Text>
         </View>
         <Text>{item.comments} Comments</Text>
       </View>
@@ -22,7 +23,7 @@ function Item({ item }) {
       <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}}>
         <Text style={{color:"white",backgroundColor:"#3CAABB",padding:5}}>Open</Text>
       </TouchableOpacity>    
-      <Text style={{color:"#3CAABB",paddingRight:5}}>Rs.{item.cost}</Text>
+      <Text style={{color:"#3CAABB",paddingRight:5}}>Rs.{item.taskBudget}</Text>
       </View>
     </View>
   );
@@ -31,10 +32,35 @@ function Item({ item }) {
 const PostedTask  = ({navigation}) => {
     
     const [TaskData, setTaskData] = useState(Data)
+    // const [TaskData, setTaskData] = useState("");
     const tracklocation = () => {
       // navigation.navigate('TrackLocation')
       navigation.navigate('Task Details')
     }    
+      
+    
+    // Getting Data from Backend
+    const data = async () => {
+      await fetch(`${Url}/task/Collection`,{
+        method:'GET',
+      })
+      .then(response => response.json())
+      .then(response=> {
+        console.log(response.success)
+        if(response.success){
+          //make loader off
+        }
+        setTaskData(response.data)
+        console.log("Location is",response.data.userName)
+      })
+      .catch(response => console.log(response))
+      }
+  
+   useEffect(() =>  {
+    data();  
+  }, []);
+  
+
     return (
       <View style={styles.container}>
       <TouchableOpacity style={{height:20,width:50, justifyContent:"center",alignItems:"center"}} onPress={tracklocation}>
@@ -44,7 +70,7 @@ const PostedTask  = ({navigation}) => {
           style={{flex:1}}
           data={TaskData}
           renderItem={({ item }) => <Item item={item}/>}
-          keyExtractor={item => item.email}
+          keyExtractor={item => item._id}
           onPress={tracklocation}
         />
       </View>
