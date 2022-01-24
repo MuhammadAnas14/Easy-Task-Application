@@ -6,10 +6,13 @@ import {
   StyleSheet,
   TextInput,
   Button,
+  Modal,
+  Pressable
 } from "react-native";
 import RadioGroup, { RadioButtonProps } from "react-native-radio-buttons-group";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Feather from 'react-native-vector-icons/Feather';
 import Url from "../../Components/Url";
 
 const TaskLocation = ({ route, navigation }) => {
@@ -20,6 +23,7 @@ const TaskLocation = ({ route, navigation }) => {
   const [taskBudget, setTaskBudget] = useState("");
   const [TaskType, setTaskType] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
@@ -67,16 +71,16 @@ const TaskLocation = ({ route, navigation }) => {
     }
   }
 
-  const TaskData =""
+  let TaskData;
 
   const OrderConfirmed = async () => {
-
     if (!taskBudget) {
       setErrorText("Please fill Task Budget");
       return;
     }
     if (!Date) {
-      setErrorText("Please fill Task Budget");e
+      setErrorText("Please fill Task Budget");
+      e;
       return;
     }
     if (!TaskType) {
@@ -84,7 +88,8 @@ const TaskLocation = ({ route, navigation }) => {
       return;
     }
 
-    if (TaskType === "Online") {  
+    if (TaskType === "Online") {
+      console.log("dd");
 
       TaskData = {
         ...route.params.TaskInitial,
@@ -102,17 +107,20 @@ const TaskLocation = ({ route, navigation }) => {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => {res.json})
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        setErrorText("something went wrong ");
-        console.log(error)
-      })
-  }
-    if(TaskType === "Onsite"){
-      
+        .then((res) => {
+          res.json();
+        })
+        .then((response) => {
+          console.log(response);
+          setModalVisible(true)
+        })
+        .catch((error) => {
+          setErrorText("something went wrong ");
+          console.log(error);
+        });
+    }
+    
+    if (TaskType === "Onsite") {
       TaskData = {
         ...route.params.TaskInitial,
         TaskBudget: taskBudget,
@@ -121,15 +129,21 @@ const TaskLocation = ({ route, navigation }) => {
         ...UserDetails,
       };
 
-      navigation.navigate("MyLocation", { NewTaskData: TaskData });
-  }
+      navigation.replace("MyLocation", { NewTaskData: TaskData });
+    }
   };
+
+  const handlePostedTask = () => {
+
+    setModalVisible(!modalVisible)
+    navigation.replace("ScreenManager")
+  }
 
   return (
     <View style={styles.mainBody}>
       {errorText != "" ? (
-            <Text style={styles.errorTextStyle}>{errorText}</Text>
-          ) : null}
+        <Text style={styles.errorTextStyle}>{errorText}</Text>
+      ) : null}
       <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
@@ -176,6 +190,32 @@ const TaskLocation = ({ route, navigation }) => {
           color="red"
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <Feather style={styles.icons}  name="check-circle" size={50} color="#3dabbc" />
+            <Text style={styles.modalText}>
+              Your Task have been posted
+            </Text>
+
+            <View style={styles.buttonView}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={handlePostedTask}
+              >
+                <Text style={styles.textStyle}>Go to Home</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -260,4 +300,42 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 30,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+  },
+  modalView: {
+    marginTop: 300,
+    marginBottom:300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  icons:{
+    marginBottom:10,
+  },
+  modalText:{
+    fontSize:18,
+    color:"black",
+    fontWeight: "bold",
+    marginBottom:6
+  },
+  textStyle: {
+    textDecorationLine :"underline",
+    fontSize:15,
+    color: "#3dabbc",
+  }
 });

@@ -7,6 +7,7 @@ const Loader = (props) => {
   return (
     <Modal
       transparent={true}
+      backgroundColor = "White"
       animationType={'none'}
       visible={loading}
       onRequestClose={() => {

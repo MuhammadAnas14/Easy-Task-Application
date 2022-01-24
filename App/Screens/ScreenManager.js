@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import PostTask from "./Task/PostStack";
 import HomeStack from "./Task/PostedTask";
-import MyTaskStack from "./MyTask";
+import MyTaskStack from "../Screens/Task/MyTask";
 import MessageScreen from "./Messages/MessageScreen";
 import ChatScreen from "./Messages/ChatScreen";
 import Settings from "./Setting";
