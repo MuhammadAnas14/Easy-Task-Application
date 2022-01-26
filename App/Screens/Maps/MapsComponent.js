@@ -33,14 +33,12 @@ export default function App({ navigation, route }) {
   });
 
   const getLocation = async () => {
-    // console.log("errrrr")
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync();
       if (!granted) return;
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
-      console.log("errrrr", latitude, latitude);
       setLocation({
         latitude: latitude,
         longitude: longitude,
@@ -80,7 +78,7 @@ export default function App({ navigation, route }) {
   let TaskDetails;
 
   const handlerSubmitLocation = async (flag) => {
-    console.log(route.params.NewTaskData);
+    // console.log(route.params.NewTaskData);
 
     console.log(flag)
     if (flag === "Scheduled") {
@@ -100,7 +98,7 @@ export default function App({ navigation, route }) {
       })
         .then((res) => res.json())
         .then((response) => {
-          console.log(response.success);
+          // console.log(response.success);
           setModalVisible(true);
         })
         .catch((error) => {
@@ -109,11 +107,14 @@ export default function App({ navigation, route }) {
     }
     if(flag === "live") {
 
+      console.log("ddd",LocationName)
       TaskDetails = {
         ...route.params.NewTaskData,
         ...LocationName,
         method: flag,
       };
+      
+      console.log(TaskDetails.city)
 
       await fetch(`${Url}/task/LiveTask`, {
         method: "POST",
@@ -125,7 +126,7 @@ export default function App({ navigation, route }) {
       })
         .then((res) => res.json())
         .then((response) => {
-          console.log(response.success);
+          // console.log(response.success);
           setModalVisible(true);
         })
         .catch((error) => {

@@ -12,10 +12,10 @@ function Item({ item }) {
     <View style={styles.listItem}>
       <Image source={{uri:`data:image/jpg;base64,${item.userPhoto}`}}  style={{width:60, height:60,borderRadius:30}} />
       <View style={{alignItems:"center",flex:1}}>
-        <Text style={{fontWeight:"bold"}}>{item.userName}</Text>
+        <Text style={{fontWeight:"bold"}}>{item.taskName}</Text>
         <View style={styles.location}>
             <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.taskMethod}</Text>
+            <Text>{item.taskLocation}</Text>
         </View>
         <Text>{item.comments} Comments</Text>
       </View>
