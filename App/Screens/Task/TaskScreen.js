@@ -4,6 +4,9 @@ import {
   Text,
   View,
   FlatList,
+  Modal,
+  Pressable,
+  TextInput,
   Image,
   ScrollView,
   TouchableOpacity,
@@ -14,6 +17,14 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 
 const TaskDetails = () => {
+  
+  const [modalVisible, setModalVisible] = useState(false);
+
+
+  const Offerhandler = () =>{
+    setModalVisible(true);
+  }
+
 
   return (
     <View style={styles.container}>
@@ -61,7 +72,7 @@ const TaskDetails = () => {
         <View style={styles.verifyButton}>
           <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center" }}
-          // onPress={handlerEmailOtp}
+          onPress={Offerhandler}
           >
             <Text style={styles.buttoncolor}>
              MAKE OFFER
@@ -77,6 +88,44 @@ const TaskDetails = () => {
         <Text style={{fontSize:14,margin:10,marginBottom:50}}>{Data.details}</Text>
       </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Select Your Offer</Text>
+            <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(budget) => setTaskBudget(budget)}
+          underlineColorAndroid="#f000"
+          keyboardType="numeric"
+          placeholder="Enter Your Budget"
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onSubmitEditing={() =>
+            descriptionRef.current && descriptionRef.current.focus()
+          }
+          blurOnSubmit={false}
+        />
+      </View>
+            <View style={styles.buttonView}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                // onPress={handlePostedTask}
+              >
+                <Text style={styles.textStyle}>Go to Home</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -158,6 +207,59 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 35,
     borderBottomWidth: 2,
     paddingBottom:10,
-  }
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    flexDirection: "row",
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
+  modalView: {
+    marginTop: 300,
+    marginBottom: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    color: "black",
+    fontWeight: "bold",
+    marginBottom: 6,
+  },
+  textStyle: {
+    textDecorationLine: "underline",
+    fontSize: 15,
+    color: "#3dabbc",
+  },
+  SectionStyle: {
+    flexDirection: "row",
+    height: 40,
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    marginBottom: 20,
+  },
+  inputStyle: {
+    flex: 1,
+    color: "black",
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#3CAABB",
+  },
 });
 export default TaskDetails;
