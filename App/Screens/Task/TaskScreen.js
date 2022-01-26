@@ -12,14 +12,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as Progress from 'react-native-progress';
-import Data from '../Data/TaskDetails.json'
+// import Data from '../Data/TaskDetails.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 
-
-const TaskDetails = () => {
-  
+const TaskDetails = ({route,navigation}) => {
+  console.log(route.params.item);
+  const Data = route.params.item;
   const [modalVisible, setModalVisible] = useState(false);
+  
 
+  //Handler for offer
+  const handleSubmitOffer = async() =>{
+    console.log("Im Pressed");
+    await fetch(`${Url}/task/Bid`)
+  }
 
   const Offerhandler = () =>{
     setModalVisible(true);
@@ -32,34 +38,34 @@ const TaskDetails = () => {
           keyboardShouldPersistTaps="handled">
       {/* TAsk Bar */}
       <View style={styles.BarContainer}>
-      <Progress.Bar progress={0.43} width={350} height={30} />
+      <Progress.Bar progress={Data.status} width={350} height={30} />
       <Text style={styles.BarText}>OPEN     ASSIGNED     COMPLETED     REVIEWED</Text>
       </View>
 
       {/* Heading */}
       <View>
-        <Text style={styles.heading}>{Data.title}</Text>
+        <Text style={styles.heading}>{Data.taskName}</Text>
       </View>
       {/* Profile of the Poster */}
       <View style={styles.ProfCont}>
-      <Image source={{uri:Data.photo}}  style={{width:60, height:60,borderRadius:30,marginTop:10}} />
+      <Image source={{uri:`data:image/jpg;base64,${Data.userPhoto}`}}  style={{width:60, height:60,borderRadius:30,marginTop:10}} />
       <View style={{flex:1,padding:15}}>
         <Text style={{fontWeight:"bold",fontSize:18}}>Posted By</Text>
-        <Text style={{fontSize:15,marginTop:10}}>{Data.name}</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
         </View>
         <View style={styles.ProfCont}>
         <Entypo style={styles.icons} size={35} name="location-pin" />
       <View style={{flex:1,padding:15}}>
         <Text style={{fontWeight:"bold",fontSize:18}}>Location</Text>
-        <Text style={{fontSize:15,marginTop:10}}>{Data.location}</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.taskLocation}</Text>
         </View>
         </View>
         <View style={styles.ProfCont}>
         <Entypo style={styles.icons} size={35} name="calendar" />
       <View style={{flex:1,padding:15}}>
         <Text style={{fontWeight:"bold",fontSize:18}}>Due Date</Text>
-        <Text style={{fontSize:15,marginTop:10}}>{Data.duedate}</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.taskCompletionDate}</Text>
         </View>
         </View>
       {/* This is For the OFFER BOX */}
@@ -67,7 +73,7 @@ const TaskDetails = () => {
         <View style={{ alignItems: "center", flex: 1 }}>
           <Text style={{ fontWeight: "bold", padding: 10 }}>Task Budget Estimate</Text>
           <Text style={{ fontWeight: "bold", textAlign: 'right' }}>Total Bids : {Data.offers}</Text>
-          <Text style={{ fontWeight: "bold", padding: 10 }}>{Data.cost}</Text>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>{Data.taskBudget}</Text>
         </View>
         <View style={styles.verifyButton}>
           <TouchableOpacity
@@ -85,7 +91,7 @@ const TaskDetails = () => {
         <View style={styles.bottomrad}>
         <Text style={{fontSize:20, fontWeight:"bold", marginLeft:13,marginTop:10}}>Task Details</Text>
         </View>
-        <Text style={{fontSize:14,margin:10,marginBottom:50}}>{Data.details}</Text>
+        <Text style={{fontSize:14,margin:10,marginBottom:50}}>{Data.taskDescription}</Text>
       </View>
       </ScrollView>
       <Modal
@@ -118,9 +124,9 @@ const TaskDetails = () => {
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                // onPress={handlePostedTask}
+                onPress={handleSubmitOffer}
               >
-                <Text style={styles.textStyle}>Go to Home</Text>
+                <Text style={styles.textStyle}>Submit</Text>
               </Pressable>
             </View>
           </View>
@@ -222,7 +228,7 @@ const styles = StyleSheet.create({
     marginBottom: 300,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 20,
+    padding: 30,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -261,5 +267,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#3CAABB",
   },
+  button:{
+    borderRadius:15,
+    padding:15,
+    backgroundColor:'#219653'
+  },
+  textStyle:{
+    color:'white',
+    fontSize:20,
+  },
+  buttonView:{
+    margin:10,
+  }
 });
 export default TaskDetails;
