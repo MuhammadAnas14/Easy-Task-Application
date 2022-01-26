@@ -24,7 +24,18 @@ const TaskDetails = ({route,navigation}) => {
   //Handler for offer
   const handleSubmitOffer = async() =>{
     console.log("Im Pressed");
-    await fetch(`${Url}/task/Bid`)
+    await fetch(`${Url}/task/Bid`,{
+      method:'PUT',
+      body:JSON.stringify(datatoSend),
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      },
+    })
+    .then(res=>res.json())
+    .then((response)=>{
+      
+    })
   }
 
   const Offerhandler = () =>{
