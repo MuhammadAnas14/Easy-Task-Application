@@ -13,7 +13,7 @@ function Item({ item}) {
   const navigation = useNavigation();
 
   const tracklocation = () => {
-    navigation.navigate('Task Details')
+    navigation.navigate('Task Details',{item})
   }    
   return (
     <View style={styles.listItem}>
@@ -73,9 +73,6 @@ const PostedTask  = () => {
 
     return (
       <View style={styles.container}>
-      <TouchableOpacity style={{height:20,width:50, justifyContent:"center",alignItems:"center"}}>
-        <Text style={{color:"white",backgroundColor:"#3CAABB",padding:1}}>Track</Text>
-      </TouchableOpacity>  
         <FlatList
           style={{flex:1}}
           data={TaskData}
