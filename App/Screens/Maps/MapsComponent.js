@@ -83,11 +83,10 @@ export default function App({ navigation, route }) {
     console.log(route.params.NewTaskData);
 
     console.log(flag)
-
     if (flag === "Scheduled") {
       TaskDetails = {
         ...route.params.NewTaskData,
-        Location: LocationName,
+        ...LocationName,
         method: flag,
       };
 
@@ -112,7 +111,7 @@ export default function App({ navigation, route }) {
 
       TaskDetails = {
         ...route.params.NewTaskData,
-        Location: LocationName,
+        ...LocationName,
         method: flag,
       };
 
