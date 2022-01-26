@@ -15,7 +15,7 @@ function Item({ item }) {
         <Text style={{fontWeight:"bold"}}>{item.userName}</Text>
         <View style={styles.location}>
             <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.taskMethod}</Text>
+            <Text>{item.City}</Text>
         </View>
         <Text>{item.comments} Comments</Text>
       </View>
@@ -38,6 +38,10 @@ const PostedTask  = ({navigation}) => {
       navigation.navigate('Task Details')
     }    
       
+    //Refresh Data
+    const Refresh = () => {
+      data();
+    }
     
     // Getting Data from Backend
     const data = async () => {
@@ -72,6 +76,7 @@ const PostedTask  = ({navigation}) => {
           renderItem={({ item }) => <Item item={item}/>}
           keyExtractor={item => item._id}
           onPress={tracklocation}
+          // onRefresh={Refresh}
         />
       </View>
     );
