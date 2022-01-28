@@ -13,27 +13,55 @@ import {
 } from "react-native";
 import * as Progress from "react-native-progress";
 // import Data from '../Data/TaskDetails.json'
+<<<<<<< HEAD
+import Entypo from 'react-native-vector-icons/Entypo';
+import Url from '../../Components/Url'
+
+const TaskDetails = ({route,navigation}) => {
+  // console.log(route.params.item);
+=======
 import Entypo from "react-native-vector-icons/Entypo";
 
 const TaskDetails = ({ route, navigation }) => {
   console.log(route.params.item);
+>>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
   const Data = route.params.item;
+  const [BidOffer,setBidOffer] = useState();
+  const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
+  let datatoSend;
+  datatoSend={
+    TaskId:Data._id,
+    UserId:Data.userId,
+    Username:Data.userName,
+    Bid: BidOffer
+  }
   //Handler for offer
-  const handleSubmitOffer = async () => {
-    console.log("Im Pressed");
-    await fetch(`${Url}/task/Bid`, {
-      method: "PUT",
+  const handleSubmitOffer = async() =>{
+    if(!BidOffer){
+      setErrorText("Please Enter Some Amount");
+      return;
+    }
+    console.log(BidOffer);
+    console.log("data sending",datatoSend)
+  
+    await fetch(`${Url}/task/Bids`,{
+      method:'PUT',
       body: JSON.stringify(datatoSend),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
       },
     })
-      .then((res) => res.json())
-      .then((response) => {});
-  };
+    .then(res=>res.json())
+    .then((response)=>{
+        console.log(response)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
 
   const Offerhandler = () => {
     setModalVisible(true);
@@ -41,11 +69,24 @@ const TaskDetails = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps="handled">
-        {/* TAsk Bar */}
-        <View style={styles.BarContainer}>
-          <Progress.Bar progress={Data.status} width={350} height={30} />
-          <Text style={styles.BarText}>OPEN ASSIGNED COMPLETED REVIEWED</Text>
+                   <ScrollView
+          keyboardShouldPersistTaps="handled">
+      {/* TAsk Bar */}
+      <View style={styles.BarContainer}>
+      <Progress.Bar progress={parseFloat(Data.status)} width={350} height={30} />
+      <Text style={styles.BarText}>OPEN     ASSIGNED     COMPLETED     REVIEWED</Text>
+      </View>
+
+      {/* Heading */}
+      <View>
+        <Text style={styles.heading}>{Data.taskName}</Text>
+      </View>
+      {/* Profile of the Poster */}
+      <View style={styles.ProfCont}>
+      <Image source={{uri:`data:image/jpg;base64,${Data.userPhoto}`}}  style={{width:60, height:60,borderRadius:30,marginTop:10}} />
+      <View style={{flex:1,padding:15}}>
+        <Text style={{fontWeight:"bold",fontSize:18}}>Posted By</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
 
         {/* Heading */}
@@ -132,6 +173,26 @@ const TaskDetails = ({ route, navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+<<<<<<< HEAD
+          <Text style={{color:"red"}}>{errorText}</Text>
+            <Text style={styles.modalText}>Select Your Offer</Text>
+            <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(budget) => setBidOffer(budget)}
+          underlineColorAndroid="#f000"
+          keyboardType="numeric"
+          placeholder="Enter Your Budget"
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          onSubmitEditing={() =>
+            descriptionRef.current && descriptionRef.current.focus()
+          }
+          blurOnSubmit={false}
+        />
+      </View>
+=======
             <Text style={styles.modalText}>Enter Your Offer</Text>
             <View style={styles.SectionStyle}>
               <TextInput
@@ -147,6 +208,7 @@ const TaskDetails = ({ route, navigation }) => {
                 blurOnSubmit={false}
               />
             </View>
+>>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
