@@ -11,7 +11,7 @@ function Item({ item }) {
   const navigation = useNavigation();
 
   const tracklocation = () => {
-    navigation.navigate('Task Details')
+    navigation.navigate('Live Tracking')
   }  
 
   return (
@@ -82,7 +82,7 @@ const PostedTask  = () => {
           style={{flex:1}}
           data={TaskData}
           renderItem={({ item }) => <Item item={item}/>}
-          keyExtractor={item => item.email}
+          keyExtractor={item => item._id}
         />
       </View>
     );
