@@ -14,19 +14,34 @@ import {
 import * as Progress from 'react-native-progress';
 // import Data from '../Data/TaskDetails.json'
 import Entypo from 'react-native-vector-icons/Entypo';
+import Url from '../../Components/Url'
 
 const TaskDetails = ({route,navigation}) => {
-  console.log(route.params.item);
+  // console.log(route.params.item);
   const Data = route.params.item;
+  const [BidOffer,setBidOffer] = useState();
+  const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  
 
+  let datatoSend;
+  datatoSend={
+    TaskId:Data._id,
+    UserId:Data.userId,
+    Username:Data.userName,
+    Bid: BidOffer
+  }
   //Handler for offer
   const handleSubmitOffer = async() =>{
-    console.log("Im Pressed");
-    await fetch(`${Url}/task/Bid`,{
+    if(!BidOffer){
+      setErrorText("Please Enter Some Amount");
+      return;
+    }
+    console.log(BidOffer);
+    console.log("data sending",datatoSend)
+  
+    await fetch(`${Url}/task/Bids`,{
       method:'PUT',
-      body:JSON.stringify(datatoSend),
+      body: JSON.stringify(datatoSend),
       headers:{
         'Accept':'application/json',
         'Content-Type':'application/json'
@@ -34,7 +49,10 @@ const TaskDetails = ({route,navigation}) => {
     })
     .then(res=>res.json())
     .then((response)=>{
-      
+        console.log(response)
+    })
+    .catch((error)=>{
+      console.log(error)
     })
   }
 
@@ -49,7 +67,7 @@ const TaskDetails = ({route,navigation}) => {
           keyboardShouldPersistTaps="handled">
       {/* TAsk Bar */}
       <View style={styles.BarContainer}>
-      <Progress.Bar progress={Data.status} width={350} height={30} />
+      <Progress.Bar progress={parseFloat(Data.status)} width={350} height={30} />
       <Text style={styles.BarText}>OPEN     ASSIGNED     COMPLETED     REVIEWED</Text>
       </View>
 
@@ -115,11 +133,12 @@ const TaskDetails = ({route,navigation}) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+          <Text style={{color:"red"}}>{errorText}</Text>
             <Text style={styles.modalText}>Select Your Offer</Text>
             <View style={styles.SectionStyle}>
         <TextInput
           style={styles.inputStyle}
-          onChangeText={(budget) => setTaskBudget(budget)}
+          onChangeText={(budget) => setBidOffer(budget)}
           underlineColorAndroid="#f000"
           keyboardType="numeric"
           placeholder="Enter Your Budget"
