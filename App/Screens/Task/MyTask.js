@@ -11,7 +11,7 @@ function Item({ item }) {
   const navigation = useNavigation();
 
   const tracklocation = () => {
-    navigation.navigate('Task Details',{item})
+    navigation.navigate('Live Tracking')
   }  
 
   return (

@@ -12,6 +12,7 @@ import MapsComponent from './App/Screens/Maps/MapsComponent'
 import TaskDetails from './App/Screens/PostTask/TaskDetails'
 import TaskScreen from './App/Screens/Task/TaskScreen'
 import TrackLocation from './App/Screens/Maps/Tracking';
+import LiveScreen from './App/Screens/Task/LiveTask'
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from 'react-redux'
@@ -88,6 +89,12 @@ export default function App() {
     component={TaskScreen}
     options={{headerShown: true}}
     />
+    <Stack.Screen 
+    name="Live Tracking" 
+    component={LiveScreen}
+    options={{headerShown: true}}
+    />
+
       </Stack.Navigator>
       </NavigationContainer>
       
