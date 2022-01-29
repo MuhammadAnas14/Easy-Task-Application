@@ -50,7 +50,7 @@ const TaskDetails = ({route,navigation}) => {
     .then(res=>res.json())
     .then((response)=>{
         console.log(response.UserTask.totalbids)
-        Data.offers = response.UserTask.totalbids
+        Data.totalbids = response.UserTask.totalbids
         setModalVisible(false);
     })
     .catch((error)=>{
@@ -107,7 +107,7 @@ const TaskDetails = ({route,navigation}) => {
       <View style={[styles.listItem]}>
         <View style={{ alignItems: "center", flex: 1 }}>
           <Text style={{ fontWeight: "bold", padding: 10 }}>Task Budget Estimate</Text>
-          <Text style={{ fontWeight: "bold", textAlign: 'right' }}>Total Bids : {Data.offers}</Text>
+          <Text style={{ fontWeight: "bold", textAlign: 'right' }}>Total Bids : {Data.totalbids}</Text>
           <Text style={{ fontWeight: "bold", padding: 10 }}>{Data.taskBudget}</Text>
         </View>
         <View style={styles.verifyButton}>
