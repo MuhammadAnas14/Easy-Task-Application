@@ -85,10 +85,6 @@ const TaskDetails = ({route,navigation}) => {
         <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
       </View>
-        {/* Heading */}
-        <View>
-          <Text style={styles.heading}>{Data.taskName}</Text>
-        </View>
         <View style={styles.ProfCont}>
         <Entypo style={styles.icons} size={35} name="location-pin" />
       <View style={{flex:1,padding:15}}>

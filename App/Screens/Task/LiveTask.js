@@ -2,67 +2,55 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   FlatList,
-  Image,
   TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Data from "../Data/MyTaskData.json";
+
 import Url from "../../Components/Url";
 
 
 const LiveTasks = ({route,navigation}) => {
-  const [TaskData, setTaskData] = useState(Data);
   
   const Data1 = route.params.item;
-  // console.log("Route Data",Data1);
 
   const [BidsData, setBidsData] = useState(Data1.bids);
 
+  const handleRejection = async(item) => {
 
+        let NewBids = BidsData.filter(value => value !== item)
+    
+        setBidsData(NewBids);    
 
-const handleRejection = async(item) => {
-    console.log("Selected item to delete",item);
-    let NewBids = BidsData.filter(value => value !== item)
-    setBidsData(NewBids);    
-
-    const DeleteItem = item
-    // let userID;
-    // userID = await AsyncStorage.getItem("user").then((value) => {
-    //   const getUser= JSON.parse(value);
-    //   console.log("user = ",getUser)
-    //   return getUser._id
-    // });
-  
-    // const Id = {UserId: userID}
-  
-    // console.log(Id)
+        const DeleteItem = item
   
   await fetch(`${Url}/task/DeleteBid`, {
-    method: "POST",
-    body: JSON.stringify(DeleteItem),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-  .then((res) => 
-    res.json()
-  )
-  .then((response) => {
-    console.log(response.success)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+        method: "POST",
+        body: JSON.stringify(DeleteItem),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        })
+        .then((res) => 
+          res.json()
+        )
+        .then((response) => {
+          console.log(response.success)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
 
-useEffect(()=> {
-  DeleteBid()
-},[]);
+      useEffect(()=> {
+        DeleteBid()
+      },[]);
 
 }
+
+  const handleAcceptance = (item) =>{
+    console.log('Acceptance done',item)
+  }
 
   return (
     <View style={styles.container}>
@@ -81,11 +69,8 @@ useEffect(()=> {
           </View>
     
           <View style={styles.bugget}>
-            <TouchableOpacity style={styles.buttonView}>
-              <Text
-                style={styles.buttonTextAccept}
-              >
-                ACCEPT
+            <TouchableOpacity style={styles.buttonView} onPress={()=>handleAcceptance(item)}>
+              <Text style={styles.buttonTextAccept}> ACCEPT
               </Text>
             </TouchableOpacity>
     
