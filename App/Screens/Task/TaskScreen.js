@@ -13,18 +13,11 @@ import {
 } from "react-native";
 import * as Progress from "react-native-progress";
 // import Data from '../Data/TaskDetails.json'
-<<<<<<< HEAD
 import Entypo from 'react-native-vector-icons/Entypo';
 import Url from '../../Components/Url'
 
 const TaskDetails = ({route,navigation}) => {
   // console.log(route.params.item);
-=======
-import Entypo from "react-native-vector-icons/Entypo";
-
-const TaskDetails = ({ route, navigation }) => {
-  console.log(route.params.item);
->>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
   const Data = route.params.item;
   const [BidOffer,setBidOffer] = useState();
   const [errorText, setErrorText] = useState("");
@@ -88,7 +81,7 @@ const TaskDetails = ({ route, navigation }) => {
         <Text style={{fontWeight:"bold",fontSize:18}}>Posted By</Text>
         <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
-
+      </View>
         {/* Heading */}
         <View>
           <Text style={styles.heading}>{Data.taskName}</Text>
@@ -173,31 +166,11 @@ const TaskDetails = ({ route, navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-<<<<<<< HEAD
-          <Text style={{color:"red"}}>{errorText}</Text>
-            <Text style={styles.modalText}>Select Your Offer</Text>
-            <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(budget) => setBidOffer(budget)}
-          underlineColorAndroid="#f000"
-          keyboardType="numeric"
-          placeholder="Enter Your Budget"
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="sentences"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            descriptionRef.current && descriptionRef.current.focus()
-          }
-          blurOnSubmit={false}
-        />
-      </View>
-=======
             <Text style={styles.modalText}>Enter Your Offer</Text>
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={(budget) => setTaskBudget(budget)}
+                onChangeText={(budget) => setBidOffer(budget)}
                 underlineColorAndroid="#f000"
                 keyboardType="numeric"
                 autoCapitalize="sentences"
@@ -208,7 +181,6 @@ const TaskDetails = ({ route, navigation }) => {
                 blurOnSubmit={false}
               />
             </View>
->>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
