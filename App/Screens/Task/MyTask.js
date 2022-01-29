@@ -11,7 +11,7 @@ function Item({ item }) {
   const navigation = useNavigation();
 
   const tracklocation = () => {
-    navigation.navigate('Live Tracking')
+    navigation.navigate('Live Tracking',{item})
   }  
 
   return (
@@ -76,13 +76,14 @@ const PostedTask  = () => {
       GetMyTask()
     },[]);
 
+    console.log(TaskData)
     return (
       <View style={styles.container}>
         <FlatList
           style={{flex:1}}
           data={TaskData}
           renderItem={({ item }) => <Item item={item}/>}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.userId}
         />
       </View>
     );
