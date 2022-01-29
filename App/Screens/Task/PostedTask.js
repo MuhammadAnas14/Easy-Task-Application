@@ -38,8 +38,6 @@ function Item({ item}) {
 
 const PostedTask  = () => {
 
-  
-    
     const [TaskData, setTaskData] = useState(Data)
     // const [TaskData, setTaskData] = useState("");
   
