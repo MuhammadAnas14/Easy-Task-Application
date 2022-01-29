@@ -10,73 +10,39 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Data from "../Data/MyTaskData.json";
+import Url from "../../Components/Url";
 
-function LiveTaskItem({ item }) {
-
-  const hadnleRejection = async () => {
-      console.log(item);
-      let filtered = BidsData.filter(function (elements){return elements != item} );
-      console.log(filtered);
-  }
-
-
-  return (
-    <View style={styles.listItem}>
-      <View style={styles.mainDetails}>
-        <View style={{ marginBottom: 15 }}>
-          <Text style={styles.OfferName}>{item.Username}</Text>
-        </View>
-        <View>
-          <Text style={styles.Offer}>RS. {item.Bid} </Text>
-        </View>
-      </View>
-
-      <View style={styles.bugget}>
-        <TouchableOpacity style={styles.buttonView}>
-          <Text
-            style={styles.buttonTextAccept}
-          >
-            ACCEPT
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonView} onPress={hadnleRejection}>
-          <Text style={styles.buttonTextReject}>REJECT</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
 
 const LiveTasks = ({route,navigation}) => {
   const [TaskData, setTaskData] = useState(Data);
   
   const Data1 = route.params.item;
-  console.log("Route Data",Data1);
+  // console.log("Route Data",Data1);
 
   const [BidsData, setBidsData] = useState(Data1.bids);
 
 
 
-const hadnleRejection = async(item) => {
-    console.log(item);
+const handleRejection = async(item) => {
+    console.log("Selected item to delete",item);
     let NewBids = BidsData.filter(value => value !== item)
     setBidsData(NewBids);    
+
+    const DeleteItem = item
+    // let userID;
+    // userID = await AsyncStorage.getItem("user").then((value) => {
+    //   const getUser= JSON.parse(value);
+    //   console.log("user = ",getUser)
+    //   return getUser._id
+    // });
   
-    let userID;
-    userID = await AsyncStorage.getItem("user").then((value) => {
-      const getUser= JSON.parse(value);
-      console.log("user = ",getUser)
-      return getUser._id
-    });
+    // const Id = {UserId: userID}
   
-    const Id = {UserId: userID}
-  
-    console.log(Id)
+    // console.log(Id)
   
   await fetch(`${Url}/task/DeleteBid`, {
     method: "POST",
-    body: JSON.stringify(Id),
+    body: JSON.stringify(DeleteItem),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -86,7 +52,7 @@ const hadnleRejection = async(item) => {
     res.json()
   )
   .then((response) => {
-    setTaskData(response.UserTask)
+    console.log(response.success)
   })
   .catch((error) => {
     console.log(error)
@@ -123,7 +89,7 @@ useEffect(()=> {
               </Text>
             </TouchableOpacity>
     
-            <TouchableOpacity style={styles.buttonView} onPress={()=>hadnleRejection(item)}>
+            <TouchableOpacity style={styles.buttonView} onPress={()=>handleRejection(item)}>
               <Text style={styles.buttonTextReject}>REJECT</Text>
             </TouchableOpacity>
           </View>
