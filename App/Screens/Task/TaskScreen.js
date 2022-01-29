@@ -11,20 +11,13 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import * as Progress from "react-native-progress";
+import * as Progress from 'react-native-progress';
 // import Data from '../Data/TaskDetails.json'
-<<<<<<< HEAD
 import Entypo from 'react-native-vector-icons/Entypo';
 import Url from '../../Components/Url'
 
 const TaskDetails = ({route,navigation}) => {
   // console.log(route.params.item);
-=======
-import Entypo from "react-native-vector-icons/Entypo";
-
-const TaskDetails = ({ route, navigation }) => {
-  console.log(route.params.item);
->>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
   const Data = route.params.item;
   const [BidOffer,setBidOffer] = useState();
   const [errorText, setErrorText] = useState("");
@@ -56,16 +49,19 @@ const TaskDetails = ({ route, navigation }) => {
     })
     .then(res=>res.json())
     .then((response)=>{
-        console.log(response)
+        console.log(response.UserTask.totalbids)
+        Data.offers = response.UserTask.totalbids
+        setModalVisible(false);
     })
     .catch((error)=>{
       console.log(error)
     })
   }
 
-  const Offerhandler = () => {
+  const Offerhandler = () =>{
     setModalVisible(true);
-  };
+  }
+
 
   return (
     <View style={styles.container}>
@@ -88,80 +84,46 @@ const TaskDetails = ({ route, navigation }) => {
         <Text style={{fontWeight:"bold",fontSize:18}}>Posted By</Text>
         <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
-
-        {/* Heading */}
-        <View>
-          <Text style={styles.heading}>{Data.taskName}</Text>
-        </View>
-        {/* Profile of the Poster */}
-        <View style={styles.ProfCont}>
-          <Image
-            source={{ uri: `data:image/jpg;base64,${Data.userPhoto}` }}
-            style={{ width: 60, height: 60, borderRadius: 30, marginTop: 10 }}
-          />
-          <View style={{ flex: 1, padding: 15 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Posted By</Text>
-            <Text style={{ fontSize: 15, marginTop: 10 }}>{Data.userName}</Text>
-          </View>
         </View>
         <View style={styles.ProfCont}>
-          <Entypo style={styles.icons} size={35} name="location-pin" />
-          <View style={{ flex: 1, padding: 15 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Location</Text>
-            <Text style={{ fontSize: 15, marginTop: 10 }}>
-              {Data.taskLocation}
-            </Text>
-          </View>
+        <Entypo style={styles.icons} size={35} name="location-pin" />
+      <View style={{flex:1,padding:15}}>
+        <Text style={{fontWeight:"bold",fontSize:18}}>Location</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.taskLocation}</Text>
+        </View>
         </View>
         <View style={styles.ProfCont}>
-          <Entypo style={styles.icons} size={35} name="calendar" />
-          <View style={{ flex: 1, padding: 15 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Due Date</Text>
-            <Text style={{ fontSize: 15, marginTop: 10 }}>
-              {Data.taskCompletionDate}
-            </Text>
-          </View>
+        <Entypo style={styles.icons} size={35} name="calendar" />
+      <View style={{flex:1,padding:15}}>
+        <Text style={{fontWeight:"bold",fontSize:18}}>Due Date</Text>
+        <Text style={{fontSize:15,marginTop:10}}>{Data.taskCompletionDate}</Text>
         </View>
-        {/* This is For the OFFER BOX */}
-        <View style={[styles.listItem]}>
-          <View style={{ alignItems: "center", flex: 1 }}>
-            <Text style={{ fontWeight: "bold", padding: 10 }}>
-              Task Budget Estimate
-            </Text>
-            <Text style={{ fontWeight: "bold", textAlign: "right" }}>
-              Total Bids : {Data.offers}
-            </Text>
-            <Text style={{ fontWeight: "bold", padding: 10 }}>
-              {Data.taskBudget}
-            </Text>
-          </View>
-          <View style={styles.verifyButton}>
-            <TouchableOpacity
-              style={{ justifyContent: "center", alignItems: "center" }}
-              onPress={Offerhandler}
-            >
-              <Text style={styles.buttoncolor}>MAKE OFFER</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-        {/* Task Details */}
-        <View style={{ marginLeft: 30 }}>
-          <View style={styles.bottomrad}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginLeft: 13,
-                marginTop: 10,
-              }}
-            >
-              Task Details
-            </Text>
-          </View>
-          <Text style={{ fontSize: 14, margin: 10, marginBottom: 50 }}>
-            {Data.taskDescription}
-          </Text>
+      {/* This is For the OFFER BOX */}
+      <View style={[styles.listItem]}>
+        <View style={{ alignItems: "center", flex: 1 }}>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>Task Budget Estimate</Text>
+          <Text style={{ fontWeight: "bold", textAlign: 'right' }}>Total Bids : {Data.offers}</Text>
+          <Text style={{ fontWeight: "bold", padding: 10 }}>{Data.taskBudget}</Text>
         </View>
+        <View style={styles.verifyButton}>
+          <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={Offerhandler}
+          >
+            <Text style={styles.buttoncolor}>
+             MAKE OFFER
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* Task Details */}
+      <View style={{marginLeft:30}}>
+        <View style={styles.bottomrad}>
+        <Text style={{fontSize:20, fontWeight:"bold", marginLeft:13,marginTop:10}}>Task Details</Text>
+        </View>
+        <Text style={{fontSize:14,margin:10,marginBottom:50}}>{Data.taskDescription}</Text>
+      </View>
       </ScrollView>
       <Modal
         animationType="slide"
@@ -173,7 +135,6 @@ const TaskDetails = ({ route, navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-<<<<<<< HEAD
           <Text style={{color:"red"}}>{errorText}</Text>
             <Text style={styles.modalText}>Select Your Offer</Text>
             <View style={styles.SectionStyle}>
@@ -192,23 +153,6 @@ const TaskDetails = ({ route, navigation }) => {
           blurOnSubmit={false}
         />
       </View>
-=======
-            <Text style={styles.modalText}>Enter Your Offer</Text>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(budget) => setTaskBudget(budget)}
-                underlineColorAndroid="#f000"
-                keyboardType="numeric"
-                autoCapitalize="sentences"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  descriptionRef.current && descriptionRef.current.focus()
-                }
-                blurOnSubmit={false}
-              />
-            </View>
->>>>>>> 3e487aa38479a659e72f70f1bae12aa05a175c3e
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -238,69 +182,69 @@ const styles = StyleSheet.create({
     margin: 40,
   },
   verifyButton: {
-    flex: 1,
+    flex:1,
     justifyContent: "center",
     textAlign: "center",
     flexDirection: "row",
     padding: 10,
   },
-  buttoncolor: {
-    color: "white",
+  buttoncolor:{
+    color: "white", 
     fontWeight: "bold",
     backgroundColor: "green",
     padding: 10,
   },
-  warning: {
+  warning:{
     backgroundColor: "green",
-    color: "white",
+    color: "white", 
     marginTop: 80,
     padding: 10,
   },
-  BarContainer: {
+  BarContainer:{
     justifyContent: "center",
     alignContent: "center",
     alignSelf: "center",
-    padding: 10,
+    padding:10,
   },
-  BarText: {
+  BarText:{
     width: "90%",
     fontSize: 15,
     alignSelf: "center",
     marginTop: -25,
-    color: "black",
+    color: "black"
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "black",
-    textAlign: "center",
-    margin: 10,
-    borderRadius: 12,
-    padding: 20,
-    borderColor: "white",
-    backgroundColor: "lightblue",
-    borderWidth: 2,
+  heading:{
+  fontSize: 20,
+  fontWeight: "bold",
+  color:'black',
+  textAlign: "center",
+  margin: 10,
+  borderRadius: 12,
+  padding:20,
+  borderColor: 'white',
+  backgroundColor:'lightblue',
+  borderWidth: 2
   },
-  location: {
-    flexDirection: "row",
+  location:{
+    flexDirection:'row'
   },
-  icons: {
-    margin: 5,
-    padding: 10,
+  icons:{
+      margin:5,
+      padding:10,
   },
-  ProfCont: {
-    marginLeft: 30,
-    flexDirection: "row",
-    textDecorationLine: "underline",
-    borderBottomColor: "black",
+  ProfCont:{
+    marginLeft:30,
+    flexDirection:'row',
+    textDecorationLine:'underline',
+    borderBottomColor: 'black',
     borderBottomEndRadius: 35,
     borderBottomWidth: 2,
   },
-  bottomrad: {
-    borderBottomColor: "black",
+  bottomrad:{
+    borderBottomColor: 'black',
     borderBottomEndRadius: 35,
     borderBottomWidth: 2,
-    paddingBottom: 10,
+    paddingBottom:10,
   },
 
   centeredView: {
@@ -316,7 +260,7 @@ const styles = StyleSheet.create({
     marginBottom: 300,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 40,
+    padding: 30,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -341,31 +285,31 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 40,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    marginBottom: 20,
   },
   inputStyle: {
     flex: 1,
     color: "black",
+    paddingLeft: 15,
+    paddingRight: 15,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#3CAABB",
-    paddingLeft: 15,
-    paddingRight: 15,
   },
-  button: {
-    borderRadius: 5,
-    padding: 5,
-    paddingRight:30,
-    paddingLeft: 30,
-    backgroundColor: "#3CAABB",
+  button:{
+    borderRadius:15,
+    padding:15,
+    backgroundColor:'#219653'
   },
-  textStyle: {
-    color: "white",
-    fontSize: 20,
+  textStyle:{
+    color:'white',
+    fontSize:20,
   },
-  buttonView: {
-    margin: 10,
-  },
+  buttonView:{
+    margin:10,
+  }
 });
 export default TaskDetails;
