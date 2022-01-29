@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,45 +8,93 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Data from "../Data/MyTaskData.json";
+import Url from "../../Components/Url";
 
-function LiveTaskItem({ item }) {
-  return (
-    <View style={styles.listItem}>
-      <View style={styles.mainDetails}>
-        <View style={{ marginBottom: 15 }}>
-          <Text style={styles.OfferName}>{item.name}</Text>
-        </View>
-        <View>
-          <Text style={styles.Offer}>RS. {item.comments} </Text>
-        </View>
-      </View>
 
-      <View style={styles.bugget}>
-        <TouchableOpacity style={styles.buttonView}>
-          <Text
-            style={styles.buttonTextAccept}
-          >
-            ACCEPT
-          </Text>
-        </TouchableOpacity>
+const LiveTasks = ({route,navigation}) => {
+  const [TaskData, setTaskData] = useState(Data);
+  
+  const Data1 = route.params.item;
+  // console.log("Route Data",Data1);
 
-        <TouchableOpacity style={styles.buttonView}>
-          <Text style={styles.buttonTextReject}>REJECT</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  const [BidsData, setBidsData] = useState(Data1.bids);
+
+
+
+const handleRejection = async(item) => {
+    console.log("Selected item to delete",item);
+    let NewBids = BidsData.filter(value => value !== item)
+    setBidsData(NewBids);    
+
+    const DeleteItem = item
+    // let userID;
+    // userID = await AsyncStorage.getItem("user").then((value) => {
+    //   const getUser= JSON.parse(value);
+    //   console.log("user = ",getUser)
+    //   return getUser._id
+    // });
+  
+    // const Id = {UserId: userID}
+  
+    // console.log(Id)
+  
+  await fetch(`${Url}/task/DeleteBid`, {
+    method: "POST",
+    body: JSON.stringify(DeleteItem),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+  .then((res) => 
+    res.json()
+  )
+  .then((response) => {
+    console.log(response.success)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+
+useEffect(()=> {
+  DeleteBid()
+},[]);
+
 }
 
-const LiveTasks = () => {
-  const [TaskData, setTaskData] = useState(Data);
   return (
     <View style={styles.container}>
       <FlatList
         style={{ flex: 1 }}
-        data={TaskData}
-        renderItem={({ item }) => <LiveTaskItem item={item} />}
+        data={BidsData}
+        renderItem={({ item }) =>(
+          <View style={styles.listItem}>
+          <View style={styles.mainDetails}>
+            <View style={{ marginBottom: 15 }}>
+              <Text style={styles.OfferName}>{item.Username}</Text>
+            </View>
+            <View>
+              <Text style={styles.Offer}>RS. {item.Bid} </Text>
+            </View>
+          </View>
+    
+          <View style={styles.bugget}>
+            <TouchableOpacity style={styles.buttonView}>
+              <Text
+                style={styles.buttonTextAccept}
+              >
+                ACCEPT
+              </Text>
+            </TouchableOpacity>
+    
+            <TouchableOpacity style={styles.buttonView} onPress={()=>handleRejection(item)}>
+              <Text style={styles.buttonTextReject}>REJECT</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        ) }
         keyExtractor={(item) => item._id}
       />
     </View>
