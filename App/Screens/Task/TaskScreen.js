@@ -84,6 +84,10 @@ const TaskDetails = ({route,navigation}) => {
         <Text style={{fontWeight:"bold",fontSize:18}}>Posted By</Text>
         <Text style={{fontSize:15,marginTop:10}}>{Data.userName}</Text>
         </View>
+      </View>
+        {/* Heading */}
+        <View>
+          <Text style={styles.heading}>{Data.taskName}</Text>
         </View>
         <View style={styles.ProfCont}>
         <Entypo style={styles.icons} size={35} name="location-pin" />
@@ -135,24 +139,21 @@ const TaskDetails = ({route,navigation}) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-          <Text style={{color:"red"}}>{errorText}</Text>
-            <Text style={styles.modalText}>Select Your Offer</Text>
+            <Text style={styles.modalText}>Enter Your Offer</Text>
             <View style={styles.SectionStyle}>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={(budget) => setBidOffer(budget)}
-          underlineColorAndroid="#f000"
-          keyboardType="numeric"
-          placeholder="Enter Your Budget"
-          placeholderTextColor="#8b9cb5"
-          autoCapitalize="sentences"
-          returnKeyType="next"
-          onSubmitEditing={() =>
-            descriptionRef.current && descriptionRef.current.focus()
-          }
-          blurOnSubmit={false}
-        />
-      </View>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={(budget) => setBidOffer(budget)}
+                underlineColorAndroid="#f000"
+                keyboardType="numeric"
+                autoCapitalize="sentences"
+                returnKeyType="next"
+                onSubmitEditing={() =>
+                  descriptionRef.current && descriptionRef.current.focus()
+                }
+                blurOnSubmit={false}
+              />
+            </View>
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
