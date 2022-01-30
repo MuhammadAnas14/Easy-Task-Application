@@ -89,8 +89,31 @@ const TaskDetails = ({ route, navigation }) => {
     setModalVisible(true);
   };
 
-  const handleAcceptOffer = () => {
-    console.log("accepted")
+  const handleAcceptOffer = async(item) => {
+    
+    let BidToSend = {
+      UserId: item.UserId,
+      TaskId: item.TaskId,
+      Bid: item.Bid,
+    }
+    console.log(BidToSend);
+
+    await fetch(`${Url}/task/AcceptBid`, {
+      method: "PUT",
+      body: JSON.stringify(BidToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => res.json())
+    .then((response) => {
+      console.log(response)
+      navigation.replace("ScreenManager");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   } 
 
   return (
@@ -189,7 +212,7 @@ const TaskDetails = ({ route, navigation }) => {
                       </View>
                     </View>
                     <View style={styles.OffersButton}>
-                      <Pressable disabled={AcceptButton} onPress={handleAcceptOffer} style={[styles.buttonView2,{
+                      <Pressable disabled={AcceptButton} onPress={() => handleAcceptOffer(item)} style={[styles.buttonView2,{
                         backgroundColor:
                         !AcceptButton  ? "green" : "gray",
                       },]}>
