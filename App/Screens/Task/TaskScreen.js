@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -24,29 +24,43 @@ const TaskDetails = ({ route, navigation }) => {
   const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [UserData, setUserData] = useState("");
-  const [AcceptButton,setAcceptButton] = useState(true);
+  const [AcceptButton, setAcceptButton] = useState(true);
+
+  const [StatusButton, setStatusButton] = useState(
+    <TouchableOpacity
+      style={{ justifyContent: "center", alignItems: "center" }}
+      onPress={Offerhandler}
+    >
+      <Text style={styles.buttoncolor}>MAKE OFFER</Text>
+    </TouchableOpacity>
+  );
 
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
-  
-  const getOffers = async() => {
+
+  const getOffers = async () => {
     let userID;
-    
+
     userID = await AsyncStorage.getItem("user").then((value) => {
       const getUser = JSON.parse(value);
-      
+
       return getUser._id;
     });
-    console.log("from aync",userID)
-    console.log("data",Data.userId)
+    console.log("from aync", userID);
+    console.log("data", Data.userId);
 
     if (Data.userId === userID) {
       setAcceptButton(false);
-      
     }
-  }
+    if (Data.status === "0.25") {
+      setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
+    }
+    if (Data.userId === userID && Data.status === "0.25") {
+      setAcceptButton(true);
+    }
+  };
 
   useEffect(() => {
-    getOffers()
+    getOffers();
   }, []);
 
   //Handler for offer
@@ -89,13 +103,12 @@ const TaskDetails = ({ route, navigation }) => {
     setModalVisible(true);
   };
 
-  const handleAcceptOffer = async(item) => {
-    
+  const handleAcceptOffer = async (item) => {
     let BidToSend = {
       UserId: item.UserId,
       TaskId: item.TaskId,
       Bid: item.Bid,
-    }
+    };
     console.log(BidToSend);
 
     await fetch(`${Url}/task/AcceptBid`, {
@@ -106,15 +119,15 @@ const TaskDetails = ({ route, navigation }) => {
         "Content-Type": "application/json",
       },
     })
-    .then((res) => res.json())
-    .then((response) => {
-      console.log(response)
-      navigation.replace("ScreenManager");
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  } 
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        navigation.replace("ScreenManager");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -174,12 +187,13 @@ const TaskDetails = ({ route, navigation }) => {
             <Text style={{ fontWeight: "bold", padding: 10 }}>
               {Data.taskBudget}
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{ justifyContent: "center", alignItems: "center" }}
               onPress={Offerhandler}
             >
               <Text style={styles.buttoncolor}>MAKE OFFER</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            {StatusButton}
           </View>
         </View>
         {/* BIDS OFFER BOX */}
@@ -212,10 +226,16 @@ const TaskDetails = ({ route, navigation }) => {
                       </View>
                     </View>
                     <View style={styles.OffersButton}>
-                      <Pressable disabled={AcceptButton} onPress={() => handleAcceptOffer(item)} style={[styles.buttonView2,{
-                        backgroundColor:
-                        !AcceptButton  ? "green" : "gray",
-                      },]}>
+                      <Pressable
+                        disabled={AcceptButton}
+                        onPress={() => handleAcceptOffer(item)}
+                        style={[
+                          styles.buttonView2,
+                          {
+                            backgroundColor: !AcceptButton ? "green" : "gray",
+                          },
+                        ]}
+                      >
                         <Text style={styles.buttonTextAccept}>ACCEPT</Text>
                       </Pressable>
                     </View>
@@ -473,5 +493,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "bold",
   },
+  StatusButtonText: {
+    fontSize: 25,
+    fontWeight: "bold",
+  }
 });
 export default TaskDetails;
