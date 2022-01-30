@@ -1,14 +1,15 @@
 import React ,{useEffect, useState}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
-import Data from '../Data/MyTaskData.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Url from '../../Components/Url';
 import { useNavigation } from '@react-navigation/native';
+import Loader from '../../Components/Loader';
 
 function Item({ item }) {
 
   const navigation = useNavigation();
+
 
   const tracklocation = () => {
     navigation.navigate('Live Tracking',{item})
@@ -37,9 +38,9 @@ function Item({ item }) {
 
 const PostedTask  = () => {
     
-    const [TaskData, setTaskData] = useState(Data);
+    const [TaskData, setTaskData] = useState("");
     const [UserData, setUserData] = useState("");
-
+    const [Loading, setLoading] = useState(true);
     
 
     const GetMyTask = async () => {
@@ -72,12 +73,14 @@ const PostedTask  = () => {
     }
 
     useEffect(()=> {
-      GetMyTask()
+      GetMyTask();
+      setLoading(false);
     },[]);
 
     console.log(TaskData)
     return (
       <View style={styles.container}>
+        <Loader loading={Loading} />
         <FlatList
           style={{flex:1}}
           data={TaskData}

@@ -1,6 +1,5 @@
 import React ,{useState,useEffect}from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
-import Data from '../Data/Data.json'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { color } from 'react-native-elements/dist/helpers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,12 +37,14 @@ function Item({ item}) {
 
 const PostedTask  = () => {
 
-  
-    
-    const [TaskData, setTaskData] = useState(Data)
+    const [TaskData, setTaskData] = useState("")
+    const [LoginData,setLoginData] = useState("");
+    const [loading, setLoading] = useState(true);
     // const [TaskData, setTaskData] = useState("");
-  
-      
+
+
+
+    
     //Refresh Data
     const Refresh = () => {
       data();
@@ -51,6 +52,7 @@ const PostedTask  = () => {
     
     // Getting Data from Backend
     const data = async () => {
+      setLoading(true)
       await fetch(`${Url}/task/Collection`,{
         method:'GET',
       })
@@ -61,18 +63,22 @@ const PostedTask  = () => {
           //make loader off
         }
         setTaskData(response.data)
-        console.log("Location is",response.data.userName)
       })
       .catch(response => console.log(response))
       }
   
    useEffect(() =>  {
     data();  
+    AsyncStorage.getItem("user").then((value) => {
+      setLoginData(JSON.parse(value))
+      console.log("asdasd",LoginData);
+       setLoading(false);});
   }, []);
   
 
     return (
       <View style={styles.container}>
+        <Loader loading={loading} />
         <FlatList
           style={{flex:1}}
           data={TaskData}

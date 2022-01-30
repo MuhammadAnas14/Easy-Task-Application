@@ -44,7 +44,7 @@ const TaskDetails = ({ route, navigation }) => {
       
     }
   }
-  
+
   useEffect(() => {
     getOffers()
   }, []);
