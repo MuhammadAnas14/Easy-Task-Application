@@ -51,7 +51,6 @@ const PostedTask  = () => {
         return getUser._id
       });
       const Id = {UserId: userID}
-      console.log(Id)
       
       await fetch(`${Url}/task/MyTask`, {
         method: "POST",

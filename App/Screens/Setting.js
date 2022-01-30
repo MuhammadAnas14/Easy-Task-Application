@@ -31,7 +31,7 @@ const Settings = ({ navigation }) => {
 
     AsyncStorage.clear();
     setModalVisible(!modalVisible)
-    navigation.navigate("SplashScreen")
+    navigation.replace("SplashScreen")
 
   }
 

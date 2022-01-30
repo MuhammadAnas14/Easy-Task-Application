@@ -5,7 +5,7 @@ import LoginScreen from "./App/Screens/PreScreens/Login"
 import SplashScreen from "./App/Screens/PreScreens/Splash.js"
 import OtpScreen from './App/Screens/PreScreens/otp';
 import ScreenManager from './App/Screens/ScreenManager'
-import ForgetPasswordScreen from './App/Screens/ForgetPassword';
+import ForgetPasswordScreen from './App/Screens/PreScreens/ForgetPassword';
 import PostTaskMain from './App/Screens/PostTask/Task'
 import EmailOtp from './App/Screens/Settings/Verifications/EmailVerify'
 import MapsComponent from './App/Screens/Maps/MapsComponent'
