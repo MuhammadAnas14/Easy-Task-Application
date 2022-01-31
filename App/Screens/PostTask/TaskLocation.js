@@ -15,15 +15,48 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Feather from 'react-native-vector-icons/Feather';
 import Url from "../../Components/Url";
 
+const radioButtonsData2 = [{
+  id: '1', 
+  label: 'COD',
+  value: 'option1',
+  labelStyle: { fontSize: 20 },
+}, {
+  id: '2',
+  label: 'CARD',
+  value: 'option2',
+  labelStyle: { fontSize: 20 },
+  containerStyle: { paddingHorizontal: 15 },
+}];
+
+const radioButtonsData = [
+  {
+    id: "1",
+    label: "Online",
+    value:"Online",
+    labelStyle: { fontSize: 20 },
+    selected: false,
+  },
+  {
+    id: "2",
+    label: "Onsite",
+    value: "Onsite",
+    labelStyle: { fontSize: 20 },
+    selected: false,
+    containerStyle: { paddingHorizontal: 15 },
+  },
+];
+
 const TaskLocation = ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [Date, setDate] = useState("");
   const [UserData, setUserData] = useState("");
-  // const [radioButtons, setRadioButtons] = useState(radioButtonsData);
+  const [radioButtons, setRadioButtons] = useState(radioButtonsData);
   const [taskBudget, setTaskBudget] = useState("");
   const [TaskType, setTaskType] = useState("");
   const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [radioButtons2, setRadioButtons2] = useState(radioButtonsData2)
+  const [paymentMethod,setPaymentMethod] = useState("")
 
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
 
@@ -46,23 +79,21 @@ const TaskLocation = ({ route, navigation }) => {
     UserPhoto: UserData.picture,
   };
 
-  const radioButtonsData = [
-    {
-      id: "1",
-      label: "Online",
-      labelStyle: { fontSize: 20 },
-      selected: false,
-    },
-    {
-      id: "2",
-      label: "Onsite",
-      labelStyle: { fontSize: 20 },
-      selected: false,
-      containerStyle: { paddingHorizontal: 15 },
-    },
-  ];
+  function onPressRadioButton2(radioButtonsArray) {
+    setRadioButtons2(radioButtonsArray);
+    if (radioButtonsArray[0].selected) {
+      setPaymentMethod("Cod");
+    }
+    if (radioButtonsArray[1].selected) {
+      setPaymentMethod("Card");
+      console.log("Card")
+    }
+}
+
+  
 
   function onPressRadioButton(radioButtonsArray) {
+    setRadioButtons(radioButtonsArray)
     if (radioButtonsArray[0].selected) {
       setTaskType("Online");
     }
@@ -175,10 +206,23 @@ const TaskLocation = ({ route, navigation }) => {
           onCancel={hideDatePicker}
         />
       </View>
+      <View style={styles.SelectionHead}>
+        <Text style={styles.SelectionHeadText}>Select Task Method</Text>
+      </View>
       <View style={styles.RadioButton}>
         <RadioGroup
-          radioButtons={radioButtonsData}
+          radioButtons={radioButtons}
           onPress={onPressRadioButton}
+          layout="row"
+        />
+      </View>
+      <View style={styles.SelectionHead}>
+        <Text style={styles.SelectionHeadText}>Select Payment Method</Text>
+      </View>
+      <View style={styles.RadioButton}>
+        <RadioGroup
+          radioButtons={radioButtons2}
+          onPress={onPressRadioButton2}
           layout="row"
         />
       </View>
@@ -259,13 +303,13 @@ const styles = StyleSheet.create({
   },
   RadioButton: {
     flexDirection: "row",
-    padding: 40,
-    justifyContent: "space-between",
-    marginTop: 0,
+    paddingLeft: 80,
+    padding:20,
+    alignItems:"center",
   },
   ButtonStyle: {
-    marginLeft: 40,
-    marginRight: 40,
+    marginLeft: 35,
+    marginRight: 35,
     justifyContent: "center",
     alignContent: "center",
     marginBottom: -150,
@@ -337,5 +381,13 @@ const styles = StyleSheet.create({
     textDecorationLine :"underline",
     fontSize:15,
     color: "#3dabbc",
+  },
+  SelectionHead:{
+    alignItems:"center",
+    marginTop:20,
+  },
+  SelectionHeadText:{
+    fontSize:20,
+    fontWeight:"bold",
   }
 });
