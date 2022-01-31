@@ -82,7 +82,7 @@ const TaskLocation = ({ route, navigation }) => {
   function onPressRadioButton2(radioButtonsArray) {
     setRadioButtons2(radioButtonsArray);
     if (radioButtonsArray[0].selected) {
-      setPaymentMethod("Cod");
+      setPaymentMethod("Cash On Delivery");
     }
     if (radioButtonsArray[1].selected) {
       setPaymentMethod("Card");
@@ -118,15 +118,22 @@ const TaskLocation = ({ route, navigation }) => {
       setErrorText("Please fill Task Budget");
       return;
     }
+    
 
     if (TaskType === "Online") {
       console.log("dd");
+
+      if(!paymentMethod || paymentMethod === "Cash On Delivery"){
+        setErrorText("Online Task can online have CARD method");
+        return;
+      }
 
       TaskData = {
         ...route.params.TaskInitial,
         TaskBudget: taskBudget,
         TaskDate: Date,
         Type: TaskType,
+        PaymentMethod: paymentMethod,
         ...UserDetails,
       };
 
@@ -157,6 +164,7 @@ const TaskLocation = ({ route, navigation }) => {
         TaskBudget: taskBudget,
         TaskDate: Date,
         Type: TaskType,
+        PaymentMethod: paymentMethod,
         ...UserDetails,
       };
 

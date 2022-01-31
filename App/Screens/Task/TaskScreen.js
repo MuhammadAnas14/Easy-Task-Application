@@ -18,13 +18,21 @@ import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TaskDetails = ({ route, navigation }) => {
-  // console.log(route.params.item);
+
   const Data = route.params.item;
   const [BidOffer, setBidOffer] = useState();
   const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [UserData, setUserData] = useState("");
   const [AcceptButton, setAcceptButton] = useState(true);
+
+  const Offerhandler = () => {
+    setModalVisible(true);
+  };
+
+  const completeHandler = () => {
+    console.log("Task Completed")
+  }
 
   const [StatusButton, setStatusButton] = useState(
     <TouchableOpacity
@@ -56,6 +64,14 @@ const TaskDetails = ({ route, navigation }) => {
     }
     if (Data.userId === userID && Data.status === "0.25") {
       setAcceptButton(true);
+    }
+    if (Data.taskAssignTo === userID  && Data.status === "0.25"){
+      setStatusButton(<TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={completeHandler}
+      >
+        <Text style={styles.buttoncolor}>Completed</Text>
+      </TouchableOpacity>)
     }
   };
 
@@ -99,9 +115,7 @@ const TaskDetails = ({ route, navigation }) => {
       });
   };
 
-  const Offerhandler = () => {
-    setModalVisible(true);
-  };
+  
 
   const handleAcceptOffer = async (item) => {
     let BidToSend = {
