@@ -239,7 +239,7 @@ const TaskLocation = ({ route, navigation }) => {
           style={{ paddingHorizontal: 50 }}
           title={"Confirm Your Order"}
           onPress={OrderConfirmed}
-          color="red"
+          color="#3CAABB"
         />
       </View>
       <Modal

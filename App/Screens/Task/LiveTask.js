@@ -6,27 +6,57 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-
+import { useNavigation } from '@react-navigation/native';
 import Url from "../../Components/Url";
 
 
-const LiveTasks = ({route,navigation}) => {
+const LiveTasks = ({route}) => {
   
   const Data1 = route.params.item;
+
+  const navigation = useNavigation();
+
+  const lat = route.params.item.latitude;
+  const long = route.params.item.longitude;
+  const Location = {latitude: lat, longitude: long};
 
   const [BidsData, setBidsData] = useState(Data1.bids);
 
   const handleRejection = async(item) => {
 
         let NewBids = BidsData.filter(value => value !== item)
-    
         setBidsData(NewBids);    
-
         const DeleteItem = item
   
-  await fetch(`${Url}/task/DeleteBid`, {
-        method: "POST",
-        body: JSON.stringify(DeleteItem),
+        await fetch(`${Url}/task/DeleteBid`, {
+              method: "POST",
+              body: JSON.stringify(DeleteItem),
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              })
+              .then((res) => 
+                res.json()
+              )
+              .then((response) => {
+                console.log(response.success)
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+
+            useEffect(()=> {
+              DeleteBid()
+            },[]);
+
+}
+
+  const handleAcceptance = async(item) =>{
+    console.log('Acceptance done',item)
+    await fetch(`${Url}/task/AcceptBid`, {
+        method: "PUT",
+        body: JSON.stringify(item),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -37,19 +67,13 @@ const LiveTasks = ({route,navigation}) => {
         )
         .then((response) => {
           console.log(response.success)
+          if(response.success){
+            navigation.navigate("Track Location",{Location});
+          }
         })
         .catch((error) => {
           console.log(error)
         })
-
-      useEffect(()=> {
-        DeleteBid()
-      },[]);
-
-}
-
-  const handleAcceptance = (item) =>{
-    console.log('Acceptance done',item)
   }
 
   return (
@@ -94,7 +118,7 @@ const styles = StyleSheet.create({
   listItem: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: "#F7F7F8",
+    backgroundColor: "#C6C6C6",
     width: "80%",
     alignSelf: "center",
     flexDirection: "row",

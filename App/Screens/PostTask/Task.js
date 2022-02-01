@@ -12,7 +12,7 @@ const MainTaskScreen = ({ route, navigation }) => {
     <Tab.Navigator
     initialRouteName="TaskDetails"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: '#163F45',
         tabBarLabelStyle: { fontSize: 12 },
         tabBarStyle: {margin:20 ,marginTop:50},
       }}>

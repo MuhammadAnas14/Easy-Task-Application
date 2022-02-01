@@ -80,7 +80,7 @@ export default function App() {
         options={{headerShown: true}}
       />
       <Stack.Screen
-      name="TrackLocation"
+      name="Track Location"
       component={TrackLocation}
       options={{headerShown: true}}
       />

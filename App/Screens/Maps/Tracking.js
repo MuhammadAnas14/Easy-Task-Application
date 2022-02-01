@@ -5,7 +5,7 @@ import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
 
 
-export default function TrackLocation({navigation}) {
+export default function TrackLocation({route,navigation}) {
 
   // const [state, setstate] = useState({
   //   pickupCords:{
@@ -22,11 +22,19 @@ export default function TrackLocation({navigation}) {
   //   }
   // }) 
 
-  
-
+  const PosterLocation = route.params.Location;
+  console.log("Location Recieved",PosterLocation);
+  const originLocation = {
+    latitude: PosterLocation.latitude,
+    longitude:PosterLocation.longitude,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }
   const [mapRegion, setmapRegion] = useState({
-    latitude: 24.9416,
-    longitude: 67.0696,
+    latitude:24.923306, 
+    longitude:67.068015,
+    // latitude:PosterLocation.latitude,
+    // longitude:PosterLocation.longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -87,7 +95,7 @@ export default function TrackLocation({navigation}) {
     navigation.replace('ScreenManager',{location:LocationName})
   }
 
-  // console.log(LocationName)
+  // console.log(LocationName)   
   
   
   return (
@@ -98,11 +106,12 @@ export default function TrackLocation({navigation}) {
           </MapView> */}
           <MapView style={styles.map} initialRegion={mapRegion}>
             <MapViewDirections
-            origin={mapRegion}
+            lineDashPattern={[4]}
+            origin={originLocation}
             destination={DestinationLocation.droplocationCords}
             apikey="AIzaSyCQ6bLlYFdutqT8MS7rVwvAY9LTQxqrpC8"
             strokeWidth={4}
-            strokeColor="black"
+            strokeColor="blue"
             />
           </MapView>
     </View>

@@ -87,11 +87,16 @@ const styles = StyleSheet.create({
   },
   SectionStyle: {
     flexDirection: "row",
-    height: 40,
+    height: 30,
     marginTop: 20,
     marginLeft: 35,
     marginRight: 35,
     marginBottom: 20,
+  },
+  errorTextStyle:{
+    color:'red',
+    justifyContent:'center',
+    textAlign: 'center'
   },
   inputStyle: {
     flex: 1,
@@ -117,15 +122,17 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: "100%",
     height: 80,
-    justifyContent: "center",
+    flex: 1, 
+    justifyContent: "flex-end",
     alignItems: "center",
     position: "absolute",
     bottom: 10,
   },
   buttonTextStyle: {
     color: "black",
-    backgroundColor: "green",
-    paddingHorizontal: 50,
+    backgroundColor: "#3CAABB",
+    position:'absolute',
+    padding: 10,
   },
 });
 
