@@ -40,18 +40,7 @@ const PostedTask  = () => {
     const [TaskData, setTaskData] = useState("")
     const [LoginData,setLoginData] = useState("");
     const [loading, setLoading] = useState(true);
-    // const [TaskData, setTaskData] = useState("");
 
-    useEffect(()=>{
-
-      AsyncStorage.getItem("user").then((value) => {
-        console.log(JSON.parse(value))
-        
-      });
-    },[])
-    
-
-    
     //Refresh Data
     const Refresh = () => {
       data();
@@ -66,14 +55,14 @@ const PostedTask  = () => {
       })
       .then(response => response.json())
       .then(response=> {
-        console.log(response.success)
+        // console.log(response.success)
         if(response.success){
           //make loader off
           
         }
         setTaskData(response.data)
       })
-      .catch(response => console.log(response))
+      .catch(error => console.log(error))
       }
   
    useEffect(() =>  {
