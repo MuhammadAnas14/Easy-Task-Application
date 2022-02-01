@@ -42,7 +42,14 @@ const PostedTask  = () => {
     const [loading, setLoading] = useState(true);
     // const [TaskData, setTaskData] = useState("");
 
+    useEffect(()=>{
 
+      AsyncStorage.getItem("user").then((value) => {
+        console.log(JSON.parse(value))
+        
+      });
+    },[])
+    
 
     
     //Refresh Data
@@ -50,9 +57,10 @@ const PostedTask  = () => {
       data();
     }
     
+
     // Getting Data from Backend
     const data = async () => {
-      setLoading(true)
+
       await fetch(`${Url}/task/Collection`,{
         method:'GET',
       })
@@ -61,6 +69,7 @@ const PostedTask  = () => {
         console.log(response.success)
         if(response.success){
           //make loader off
+          
         }
         setTaskData(response.data)
       })
@@ -69,10 +78,7 @@ const PostedTask  = () => {
   
    useEffect(() =>  {
     data();  
-    AsyncStorage.getItem("user").then((value) => {
-      setLoginData(JSON.parse(value))
-      console.log("asdasd",LoginData);
-       setLoading(false);});
+    setLoading(false);
   }, []);
   
 
