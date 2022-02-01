@@ -11,8 +11,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
-import Loader from '../Components/Loader';
-import Url from '../Components/Url';
+import Loader from '../../Components/Loader';
+import Url from '../../Components/Url';
 
 const ForgetPasswordScreen = ({ route,navigation}) => {
     const [userNewPassword, setUserNewPassword] = useState('');
@@ -75,7 +75,7 @@ const ForgetPasswordScreen = ({ route,navigation}) => {
             <KeyboardAvoidingView enabled>
               <View style={{alignItems: 'center'}}>
                 <Image
-                  source={require('../../assets/logo.png')}
+                  source={require('../../../assets/logo.png')}
                   style={{
                     width: '50%',
                     height: 100,
