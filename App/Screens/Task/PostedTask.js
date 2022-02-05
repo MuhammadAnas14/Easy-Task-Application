@@ -10,10 +10,20 @@ import { useNavigation } from '@react-navigation/native';
 function Item({ item}) {
 
   const navigation = useNavigation();
+  const [locationMethod,setLocationMethod] = useState("Online");
 
   const tracklocation = () => {
     navigation.navigate('Task Details',{item})
-  }    
+  }
+  useEffect(() => {
+  
+  if (item.taskLocation){
+    setLocationMethod(item.taskLocation)
+  }
+  else{
+    setLocationMethod("Online")
+  }
+  }, [])
   return (
     <View style={styles.listItem}>
       <Image source={{uri:`data:image/jpg;base64,${item.userPhoto}`}}  style={{width:60, height:60,borderRadius:30}} />
@@ -21,7 +31,7 @@ function Item({ item}) {
         <Text style={{fontWeight:"bold"}}>{item.taskName}</Text>
         <View style={styles.location}>
             <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.taskLocation}</Text>
+            <Text>{locationMethod}</Text>
         </View>
         <Text>{item.comments} Comments</Text>
       </View>
@@ -40,18 +50,7 @@ const PostedTask  = () => {
     const [TaskData, setTaskData] = useState("")
     const [LoginData,setLoginData] = useState("");
     const [loading, setLoading] = useState(true);
-    // const [TaskData, setTaskData] = useState("");
 
-    useEffect(()=>{
-
-      AsyncStorage.getItem("user").then((value) => {
-        console.log(JSON.parse(value))
-        
-      });
-    },[])
-    
-
-    
     //Refresh Data
     const Refresh = () => {
       data();
@@ -66,14 +65,14 @@ const PostedTask  = () => {
       })
       .then(response => response.json())
       .then(response=> {
-        console.log(response.success)
+        // console.log(response.success)
         if(response.success){
           //make loader off
           
         }
         setTaskData(response.data)
       })
-      .catch(response => console.log(response))
+      .catch(error => console.log(error))
       }
   
    useEffect(() =>  {

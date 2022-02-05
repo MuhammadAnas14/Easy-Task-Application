@@ -22,6 +22,7 @@ import * as Location from "expo-location";
 const TaskDetails = ({ route, navigation }) => {
 
   const Data = route.params.item;
+  // console.log(Data.bids)
   const [BidOffer, setBidOffer] = useState();
   const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,8 +69,35 @@ const TaskDetails = ({ route, navigation }) => {
   } 
   };
 
-  const completeHandler = () => {
-    console.log("Task Completed")
+  const completeHandler = async() => {
+    
+    let dataToSend;
+    dataToSend = {
+      TaskId: Data._id,
+    };
+
+    await fetch(`${Url}/task/CompleteTask`, {
+      method: "PUT",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        navigation.replace("ScreenManager");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+    
+  }
+
+  const paymentTransferHandler = async () => {
+    console.log("payment initiated");
   }
 
   const [StatusButton, setStatusButton] = useState(
@@ -91,13 +119,14 @@ const TaskDetails = ({ route, navigation }) => {
 
       return getUser._id;
     });
-    console.log("from aync", userID);
-    console.log("data", Data.userId);
+
+    console.log("from aync",userID)
+    console.log("data",Data.userId)
 
     if (Data.userId === userID) {
       setAcceptButton(false);
     }
-    if (Data.status === "0.25") {
+    if (Data.status === "0.25" || Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
     if (Data.userId === userID && Data.status === "0.25") {
@@ -111,11 +140,52 @@ const TaskDetails = ({ route, navigation }) => {
         <Text style={styles.buttoncolor}>Completed</Text>
       </TouchableOpacity>)
     }
+    if (Data.userId === userID && Data.paymentStatus === "pending") {
+      setStatusButton(<TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={paymentTransferHandler}
+      >
+        <Text style={styles.buttoncolor}>PAY The MONEY</Text>
+      </TouchableOpacity>)
+    }
+    if (Data.taskAssignTo === userID  && Data.paymentStatus === "pending"){
+      setStatusButton(<Text style={styles.StatusButtonText}>Payment Pending</Text>);
+    }
+    if (Data.userId === userID  && Data.paymentStatus === "paid"){
+      setStatusButton(<Text style={styles.StatusButtonText}>Payment Received Confirmation</Text>);
+    }
+    if (Data.taskAssignTo === userID  && Data.paymentStatus === "paid"){
+      setStatusButton(<TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={paymentTransferHandler}
+      >
+        <Text style={styles.buttoncolor}>Received</Text>
+      </TouchableOpacity>)
+    }
+    if (Data.userId === userID  && Data.paymentStatus === "Received" && Data.status === "0.60"){
+      setStatusButton(<TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={paymentTransferHandler}
+      >
+        <Text style={styles.buttoncolor}>FeedBack</Text>
+      </TouchableOpacity>)
+    }
+    if (Data.taskAssignTo === userID  && Data.paymentStatus === "Received" && Data.status === "0.60"){
+      setStatusButton(<TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={paymentTransferHandler}
+      >
+        <Text style={styles.buttoncolor}>FeedBack</Text>
+      </TouchableOpacity>)
+    }
+
   };
 
   useEffect(() => {
     getOffers();
   }, []);
+
+
 
   //Handler for offer
   const handleSubmitOffer = async () => {
