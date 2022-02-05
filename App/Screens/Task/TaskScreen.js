@@ -97,7 +97,7 @@ const TaskDetails = ({ route, navigation }) => {
   }
 
   const paymentTransferHandler = async () => {
-    navigation.navigate("Card Payment")
+    navigation.navigate("Cod Payment")
   }
 
   const [StatusButton, setStatusButton] = useState(

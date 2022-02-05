@@ -14,6 +14,7 @@ import TaskScreen from './App/Screens/Task/TaskScreen'
 import TrackLocation from './App/Screens/Maps/Tracking';
 import LiveScreen from './App/Screens/Task/LiveTask'
 import CardPayment from './App/Screens/Payments/Cardpayments';
+import CodPayment from './App/Screens/Payments/CodPayment';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from 'react-redux'
@@ -98,6 +99,11 @@ export default function App() {
     <Stack.Screen
     name="Card Payment"
     component={CardPayment}
+    options={{headerShown:true}}
+    />
+    <Stack.Screen
+    name="Cod Payment"
+    component={CodPayment}
     options={{headerShown:true}}
     />
 
