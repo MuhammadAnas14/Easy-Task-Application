@@ -16,6 +16,8 @@ import * as Progress from "react-native-progress";
 import Entypo from "react-native-vector-icons/Entypo";
 import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
+
 
 const TaskDetails = ({ route, navigation }) => {
 
@@ -25,9 +27,45 @@ const TaskDetails = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [UserData, setUserData] = useState("");
   const [AcceptButton, setAcceptButton] = useState(true);
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  })
+
+  
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      console.log("ss",latitude)
+      setLocation({
+        latitude: latitude,
+        longitude: longitude,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // getLocation();
+  // console.log('hehehe',location)
+  //   useEffect(() => {
+  //     if(Data.taskMethod === 'live'){  
+  //     getLocation();
+  //     return;
+  //     }
+  //   }, []);
+  //   console.log('extracted location is',location);
+  
 
   const Offerhandler = () => {
     setModalVisible(true);
+    if(Data.taskMethod === 'live'){
+    getLocation();
+  } 
   };
 
   const completeHandler = () => {
@@ -81,12 +119,15 @@ const TaskDetails = ({ route, navigation }) => {
 
   //Handler for offer
   const handleSubmitOffer = async () => {
+    console.log('heheheh2',location);
     let datatoSend;
     datatoSend = {
       TaskId: Data._id,
       UserId: UserData._id,
       Username: UserData.firstName + " " + UserData.lastName,
       Bid: BidOffer,
+      latitude: location.latitude,
+      longitude:location.longitude
     };
     if (!BidOffer) {
       setErrorText("Please Enter Some Amount");
