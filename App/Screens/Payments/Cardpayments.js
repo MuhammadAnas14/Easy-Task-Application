@@ -27,6 +27,25 @@ export default function CardPayment() {
       keyboardVerticalOffset={20}
       style={styles.container}
     >
+      <View style={styles.TotalPayment}>
+        <Text style={styles.TotalPaymentText}>
+          Your Task Has Been Completed
+        </Text>
+        <Text style={styles.TotalPaymentText}>Please Pay Rs.{UserData.acceptedBid}</Text>
+      </View>
+      <View style={styles.SectionStyle}>
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={(money) => setMoney(money)}
+          underlineColorAndroid="#f000"
+          keyboardType="numeric"
+          placeholder="Enter Your Amount"
+          placeholderTextColor="#8b9cb5"
+          autoCapitalize="sentences"
+          returnKeyType="next"
+          blurOnSubmit={false}
+        />
+      </View>
       <CreditCard ref={creditCardRef} labels={{ holder: 'Name', expiration: 'Expiry', cvv: 'CVV' }}/>
       <View style={styles.SectionStyle}>
           <TextInput

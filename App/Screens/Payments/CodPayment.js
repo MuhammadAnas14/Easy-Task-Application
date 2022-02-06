@@ -53,7 +53,7 @@ const CodPayment = ({ navigation, route }) => {
 
   const handlePostedTask = () => {
     setModalVisible(!modalVisible);
-    navigation.replace("ScreenManager");
+    navigation.replace("Feedback", {UserData});
   };
 
   return (
@@ -104,13 +104,13 @@ const CodPayment = ({ navigation, route }) => {
             <Text style={styles.modalText}>
               Your Payment has been paid successfully
             </Text>
-            <Text style={styles.modalText}>Thankyou for Using Easy App</Text>
+            <Text style={styles.modalText}>Please Give the FeedBack</Text>
             <View style={styles.buttonView}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={handlePostedTask}
               >
-                <Text style={styles.textStyle}>Go to Home</Text>
+                <Text style={styles.textStyle}>FeedBack</Text>
               </Pressable>
             </View>
           </View>
