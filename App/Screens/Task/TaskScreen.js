@@ -97,7 +97,12 @@ const TaskDetails = ({ route, navigation }) => {
   }
 
   const paymentTransferHandler = async () => {
-    navigation.navigate("Cod Payment")
+    if (Data.paymentMethod === "Card"){
+      navigation.navigate("Card Payment",{Data})
+    }
+    else{
+      navigation.navigate("Cod Payment",{Data})
+    }
   }
 
   const [StatusButton, setStatusButton] = useState(
@@ -171,12 +176,7 @@ const TaskDetails = ({ route, navigation }) => {
       </TouchableOpacity>)
     }
     if (Data.taskAssignTo === userID  && Data.paymentStatus === "Received" && Data.status === "0.60"){
-      setStatusButton(<TouchableOpacity
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={paymentTransferHandler}
-      >
-        <Text style={styles.buttoncolor}>FeedBack</Text>
-      </TouchableOpacity>)
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
     }
 
   };

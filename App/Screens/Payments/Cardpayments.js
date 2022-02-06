@@ -28,6 +28,19 @@ export default function CardPayment() {
       style={styles.container}
     >
       <CreditCard ref={creditCardRef} labels={{ holder: 'Name', expiration: 'Expiry', cvv: 'CVV' }}/>
+      <View style={styles.SectionStyle}>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={(money) => setMoney(money)}
+            underlineColorAndroid="#f000"
+            keyboardType="numeric"
+            placeholder="Enter Your Amount"
+            placeholderTextColor="#8b9cb5"
+            autoCapitalize="sentences"
+            returnKeyType="next"
+            blurOnSubmit={false}
+          />
+        </View>
       <View style = {styles.ButtonView}>
         <Pressable title="Submit" onPress={handleSubmit}>
             <Text style={styles.ButtonInside}>Submit</Text>
@@ -55,5 +68,22 @@ const styles = StyleSheet.create({
       color:"white",
       fontWeight:"bold",
       fontSize:20,
-  }
+  },
+  SectionStyle: {
+    flexDirection: "row",
+    height: 40,
+    marginTop: 20,
+    marginLeft: 55,
+    marginRight: 55,
+    marginBottom: 20,
+  },
+  inputStyle: {
+    flex: 1,
+    color: "black",
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#3CAABB",
+  },
 });

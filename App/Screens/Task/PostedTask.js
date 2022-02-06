@@ -38,7 +38,7 @@ function Item({ item}) {
       </View>
       <View style={styles.bugget}>
       <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}} onPress={tracklocation}>
-        <Text style={{color:"white",backgroundColor:"#",padding:5}}>Open</Text>
+        <Text style={{color:"white",backgroundColor:"#3CAABB",padding:5}}>Open</Text>
       </TouchableOpacity>    
       <Text style={{color:"#3CAABB",paddingRight:5}}>Rs.{item.taskBudget}</Text>
       </View>
