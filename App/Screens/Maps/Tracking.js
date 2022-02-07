@@ -9,7 +9,7 @@ import Url from '../../Components/Url'
 
 
 export default function TrackLocation({route,navigation}) {
-  const ENDPOINT = '192.168.1.105:5000' ;
+  const ENDPOINT = Url ;
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT, {      
       transports: ['websocket'], jsonp: false });
