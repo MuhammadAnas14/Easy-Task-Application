@@ -1,14 +1,50 @@
 import StarRating from "react-native-star-rating";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import Url from '../Components/Url'
 
-const Feedback = () => {
+const Feedback = ({navigation,route}) => {
   const [StarRatings, setStarRatings] = useState(2);
   const [textInputValue, setTextInputValue] = useState("");
 
   const changeRating = (rating) => {
     setStarRatings(rating);
   };
+
+  const UserData = route.params.Data
+
+  const handleSubmitFeedBack = () => {
+    
+    const dataToSend= {
+      FeedbackFrom:UserData.userId,
+      Rating: StarRatings,
+      feedback: textInputValue,
+      TaskID: UserData._id,
+      FeedbackTo: UserData.taskAssignTo,
+    }
+    // console.log(dataToSend)
+
+    await fetch(`${Url}/task/CompleteTask`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
+    })
+    .then((res) => res.json())
+    .then((response) => {
+      console.log(response)
+      if(response.success){
+        navigation.navigate("ScreenManager")
+      }
+    }
+    )
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+
 
   return (
     <View style={styles.mainBody}>
@@ -32,11 +68,13 @@ const Feedback = () => {
           placeholderTextColor="grey"
           numberOfLines={10}
           multiline={true}
+          onChangeText={(feedback) => setTextInputValue(feedback)}
         />
       </View>
       <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
+        onPress={handleSubmitFeedBack}
       >
         <Text style={styles.buttonTextStyle}>SUBMIT</Text>
       </TouchableOpacity>
