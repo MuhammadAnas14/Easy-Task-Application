@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -296,18 +296,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#3CAABB",
-  },
-  textAreaContainer: {
-    borderColor: "#3CAABB",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 20,
-    marginLeft: 35,
-    marginRight: 35,
-  },
-  textArea: {
-    height: 120,
-    justifyContent: "flex-start",
   },
   RadioButton: {
     flexDirection: "row",

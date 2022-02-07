@@ -22,6 +22,7 @@ function Item({ item}) {
   }
   else{
     setLocationMethod("Online")
+    item.taskLocation= "Online"
   }
   }, [])
   return (

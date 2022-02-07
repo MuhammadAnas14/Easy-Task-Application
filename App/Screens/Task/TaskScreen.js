@@ -96,10 +96,18 @@ const TaskDetails = ({ route, navigation }) => {
     
   }
 
-  const paymentTransferHandler = async () => {
-    console.log("payment initiated");
+  const paymentTransferHandler = () => {
+    if (Data.paymentMethod === "Card"){
+      navigation.navigate("Card Payment",{Data})
+    }
+    else{
+      navigation.navigate("Cod Payment",{Data})
+    }
   }
 
+  const feedBackHandler =  () => {
+    navigation.navigate("Feedback",{Data})
+  }
   const [StatusButton, setStatusButton] = useState(
     <TouchableOpacity
       style={{ justifyContent: "center", alignItems: "center" }}
@@ -151,32 +159,22 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.taskAssignTo === userID  && Data.paymentStatus === "pending"){
       setStatusButton(<Text style={styles.StatusButtonText}>Payment Pending</Text>);
     }
-    if (Data.userId === userID  && Data.paymentStatus === "paid"){
-      setStatusButton(<Text style={styles.StatusButtonText}>Payment Received Confirmation</Text>);
-    }
     if (Data.taskAssignTo === userID  && Data.paymentStatus === "paid"){
-      setStatusButton(<TouchableOpacity
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={paymentTransferHandler}
-      >
-        <Text style={styles.buttoncolor}>Received</Text>
-      </TouchableOpacity>)
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>)
     }
-    if (Data.userId === userID  && Data.paymentStatus === "Received" && Data.status === "0.60"){
+    if (Data.userId === userID  && Data.paymentStatus === "paid"){
       setStatusButton(<TouchableOpacity
         style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={paymentTransferHandler}
+        onPress={feedBackHandler}
       >
         <Text style={styles.buttoncolor}>FeedBack</Text>
       </TouchableOpacity>)
     }
-    if (Data.taskAssignTo === userID  && Data.paymentStatus === "Received" && Data.status === "0.60"){
-      setStatusButton(<TouchableOpacity
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={paymentTransferHandler}
-      >
-        <Text style={styles.buttoncolor}>FeedBack</Text>
-      </TouchableOpacity>)
+    if (Data.taskAssignTo === userID  && Data.paymentStatus === "Completed"){
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
+    };
+    if (Data.userId === userID  && Data.paymentStatus === "Completed"){
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
     }
 
   };
