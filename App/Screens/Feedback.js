@@ -21,7 +21,7 @@ const Feedback = ({ navigation, route }) => {
     setStarRatings(rating);
   };
 
-  const UserData = route.params.Data;
+  const UserData = route.params.UserData;
 
   const handleSubmitFeedBack = async () => {
     const dataToSend = {

@@ -106,7 +106,7 @@ const TaskDetails = ({ route, navigation }) => {
   }
 
   const feedBackHandler =  () => {
-    navigation.navigate("Feedback",{Data})
+    navigation.navigate("Feedback",{UserData:Data})
   }
   const [StatusButton, setStatusButton] = useState(
     <TouchableOpacity
@@ -137,7 +137,7 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.status === "0.25" || Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
-    if (Data.userId === userID && Data.status === "0.25") {
+    if (Data.userId === userID && (Data.status === "0.25" || Data.paymentStatus === "pending" || Data.paymentStatus === "paid" || Data.paymentStatus === "Completed")) {
       setAcceptButton(true);
     }
     if (Data.taskAssignTo === userID  && Data.status === "0.25"){

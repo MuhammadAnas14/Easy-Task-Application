@@ -80,7 +80,7 @@ const CodPayment = ({ navigation, route }) => {
       <View style={styles.bottomView}>
         <Button
           style={{ paddingHorizontal: 50 }}
-          title={"Confirm Your Order"}
+          title={"Confirm Your Payment"}
           onPress={paymentSubmitHandler}
           color="#3CAABB"
         />
