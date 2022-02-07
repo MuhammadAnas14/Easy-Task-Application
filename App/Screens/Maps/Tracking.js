@@ -3,27 +3,28 @@ import MapView ,{Callout, Marker}  from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
 import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
+import socketIOClient from "socket.io-client";
+import Url from '../../Components/Url'
+
 
 
 export default function TrackLocation({route,navigation}) {
-
-  // const [state, setstate] = useState({
-  //   pickupCords:{
-  //     latitude: 24.935529799106686,
-  //     longitude: 67.0970856025815,
-  //     latitudeDelta: 0.0922,
-  //     longitudeDelta: 0.0421,
-  //   },
-  //   droplocationCords:{
-  //     latitude: 24.935529799106686,
-  //     longitude: 67.0970856025815,
-  //     latitudeDelta: 0.0922,
-  //     longitudeDelta: 0.0421,
-  //   }
-  // }) 
+  const ENDPOINT = '192.168.1.105:5000' ;
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT, {      
+      transports: ['websocket'], jsonp: false });
+      socket.connect();
+      socket.on('connection', () => { 
+      console.log('connected to socket server'); 
+      debugger;
+    });
+    const sendmessage = () => {
+      socket.emit('location',"Hey it worked");
+    }
+  }, []);
 
   const PosterLocation = route.params.Location;
-  console.log("Location Recieved",PosterLocation);
+  // console.log("Location Recieved",PosterLocation);
   const originLocation = {
     latitude: PosterLocation.latitude,
     longitude:PosterLocation.longitude,
@@ -82,7 +83,7 @@ export default function TrackLocation({route,navigation}) {
     }
   };
 
-  console.log(LocationName)
+  // console.log(LocationName)
 
   useEffect(() => {
     getLocation();
