@@ -345,7 +345,7 @@ const TaskDetails = ({ route, navigation }) => {
                         <Text style={styles.OfferName}>{item.Username}</Text>
                       </View>
                       <View style={{ marginLeft: -5 }}>
-                        <Text style={styles.Rating}>⭐ 5.0 (5 Review)</Text>
+                        <Text style={styles.Rating}>⭐ {item.userRating} ({item.totalReviews} Review)</Text>
                       </View>
                     </View>
                     <View style={styles.OffersButton}>
