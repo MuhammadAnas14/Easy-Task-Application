@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Url from '../../Components/Url'
 import Loader from '../../Components/Loader'
 import { useNavigation } from '@react-navigation/native';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 function Item({ item}) {
 
@@ -50,7 +51,7 @@ const PostedTask  = () => {
 
     const [TaskData, setTaskData] = useState("")
     const [LoginData,setLoginData] = useState("");
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     //Refresh Data
     const Refresh = () => {
@@ -68,8 +69,7 @@ const PostedTask  = () => {
       .then(response=> {
         // console.log(response.success)
         if(response.success){
-          //make loader off
-          
+          console.log(response.success)
         }
         setTaskData(response.data)
       })
@@ -78,13 +78,16 @@ const PostedTask  = () => {
   
    useEffect(() =>  {
     data();  
-    setLoading(false);
   }, []);
   
 
     return (
       <View style={styles.container}>
-        <Loader loading={loading} />
+        <Spinner
+          visible={loading}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
         <FlatList
           style={{flex:1}}
           data={TaskData}
