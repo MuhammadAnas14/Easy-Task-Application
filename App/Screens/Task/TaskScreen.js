@@ -16,31 +16,109 @@ import * as Progress from "react-native-progress";
 import Entypo from "react-native-vector-icons/Entypo";
 import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
 
 const TaskDetails = ({ route, navigation }) => {
-
   const Data = route.params.item;
+  // console.log(Data.bids)
   const [BidOffer, setBidOffer] = useState();
   const [errorText, setErrorText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [UserData, setUserData] = useState("");
   const [AcceptButton, setAcceptButton] = useState(true);
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [ChatButton, setChatButton] = useState(<View></View>);
+
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      console.log("ss", latitude);
+      setLocation({
+        latitude: latitude,
+        longitude: longitude,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // getLocation();
+  // console.log('hehehe',location)
+  //   useEffect(() => {
+  //     if(Data.taskMethod === 'live'){
+  //     getLocation();
+  //     return;
+  //     }
+  //   }, []);
+  //   console.log('extracted location is',location);
+
+
+  // console.log(MakeOffer)
 
   const Offerhandler = () => {
     setModalVisible(true);
+    if (Data.taskMethod === "live") {
+      getLocation();
+    }
   };
 
-  const completeHandler = () => {
-    console.log("Task Completed")
-  }
+  const completeHandler = async () => {
+    let dataToSend;
+    dataToSend = {
+      TaskId: Data._id,
+    };
 
+    await fetch(`${Url}/task/CompleteTask`, {
+      method: "PUT",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        navigation.replace("ScreenManager");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const paymentTransferHandler = () => {
+    if (Data.paymentMethod === "Card") {
+      navigation.navigate("Card Payment", { Data });
+    } else {
+      navigation.navigate("Cod Payment", { Data });
+    }
+  };
+
+  const feedBackHandler = () => {
+    navigation.navigate("Feedback", { UserData: Data });
+  };
+
+  const chatScreenHandler = () => {
+    console.log("Chat Screen")
+  }
+  
+  
   const [StatusButton, setStatusButton] = useState(
-    <TouchableOpacity
-      style={{ justifyContent: "center", alignItems: "center" }}
+    <Pressable
+    style={[
+      styles.buttonView2,
+    ]}
       onPress={Offerhandler}
     >
-      <Text style={styles.buttoncolor}>MAKE OFFER</Text>
-    </TouchableOpacity>
+      <Text style={styles.buttonTextAccept}>MAKE OFFER</Text>
+    </Pressable>
   );
 
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
@@ -53,25 +131,83 @@ const TaskDetails = ({ route, navigation }) => {
 
       return getUser._id;
     });
+
     console.log("from aync", userID);
     console.log("data", Data.userId);
 
     if (Data.userId === userID) {
       setAcceptButton(false);
     }
-    if (Data.status === "0.25") {
+    if (Data.status === "0.25" || Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
-    if (Data.userId === userID && Data.status === "0.25") {
+    if(Data.userId === userID && Data.status === "0.25" ){
+      setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
+      setChatButton( <TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "flex-end",marginTop:10 }}
+        onPress={chatScreenHandler}
+      >
+        <Text style={styles.buttoncolor}>Private Chat</Text>
+      </TouchableOpacity>)
+    }
+    if (
+      Data.userId === userID &&
+      (Data.status === "0.25" ||
+        Data.paymentStatus === "pending" ||
+        Data.paymentStatus === "paid" ||
+        Data.paymentStatus === "Completed")
+    ) {
       setAcceptButton(true);
     }
-    if (Data.taskAssignTo === userID  && Data.status === "0.25"){
-      setStatusButton(<TouchableOpacity
-        style={{ justifyContent: "center", alignItems: "center" }}
-        onPress={completeHandler}
+    if (Data.taskAssignTo === userID && Data.status === "0.25") {
+      setStatusButton(
+        <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={completeHandler}
+        >
+          <Text style={styles.buttoncolor}>Completed</Text>
+        </TouchableOpacity>
+      );
+      setChatButton( <TouchableOpacity
+        style={{ justifyContent: "flex-start", alignItems: "flex-end",marginTop:10 }}
+        onPress={chatScreenHandler}
       >
-        <Text style={styles.buttoncolor}>Completed</Text>
+        <Text style={styles.buttoncolor}>Private Chat</Text>
       </TouchableOpacity>)
+    }
+    if (Data.userId === userID && Data.paymentStatus === "pending") {
+      setStatusButton(
+        <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={paymentTransferHandler}
+        >
+          <Text style={styles.buttoncolor}>PAY The MONEY</Text>
+        </TouchableOpacity>
+      );
+    }
+    if (Data.taskAssignTo === userID && Data.paymentStatus === "pending") {
+      setStatusButton(
+        <Text style={styles.StatusButtonText}>Payment Pending</Text>
+      );
+    }
+    if (Data.taskAssignTo === userID && Data.paymentStatus === "paid") {
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
+    }
+    if (Data.userId === userID && Data.paymentStatus === "paid") {
+      setStatusButton(
+        <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={feedBackHandler}
+        >
+          <Text style={styles.buttoncolor}>FeedBack</Text>
+        </TouchableOpacity>
+      );
+    }
+    if (Data.taskAssignTo === userID && Data.paymentStatus === "Completed") {
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
+    }
+    if (Data.userId === userID && Data.paymentStatus === "Completed") {
+      setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
     }
   };
 
@@ -81,12 +217,15 @@ const TaskDetails = ({ route, navigation }) => {
 
   //Handler for offer
   const handleSubmitOffer = async () => {
+    console.log("heheheh2", location);
     let datatoSend;
     datatoSend = {
       TaskId: Data._id,
       UserId: UserData._id,
       Username: UserData.firstName + " " + UserData.lastName,
       Bid: BidOffer,
+      latitude: location.latitude,
+      longitude: location.longitude,
     };
     if (!BidOffer) {
       setErrorText("Please Enter Some Amount");
@@ -114,8 +253,6 @@ const TaskDetails = ({ route, navigation }) => {
         console.log(error);
       });
   };
-
-  
 
   const handleAcceptOffer = async (item) => {
     let BidToSend = {
@@ -208,6 +345,7 @@ const TaskDetails = ({ route, navigation }) => {
               <Text style={styles.buttoncolor}>MAKE OFFER</Text>
             </TouchableOpacity> */}
             {StatusButton}
+            {ChatButton}
           </View>
         </View>
         {/* BIDS OFFER BOX */}
@@ -236,7 +374,9 @@ const TaskDetails = ({ route, navigation }) => {
                         <Text style={styles.OfferName}>{item.Username}</Text>
                       </View>
                       <View style={{ marginLeft: -5 }}>
-                        <Text style={styles.Rating}>⭐ 5.0 (5 Review)</Text>
+                        <Text style={styles.Rating}>
+                          ⭐ {item.userRating} ({item.totalReviews} Review)
+                        </Text>
                       </View>
                     </View>
                     <View style={styles.OffersButton}>
@@ -510,6 +650,6 @@ const styles = StyleSheet.create({
   StatusButtonText: {
     fontSize: 25,
     fontWeight: "bold",
-  }
+  },
 });
 export default TaskDetails;

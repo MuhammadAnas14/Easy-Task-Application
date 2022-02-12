@@ -27,6 +27,8 @@
     "react-credit-card-input": "^1.1.5",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-credit-card-form-ui": "^1.2.5",
+    "react-native-credit-card-ui": "^0.1.1",
     "react-native-dotenv": "^3.2.0",
     "react-native-elements": "^3.4.2",
     "react-native-gifted-chat": "^0.16.3",

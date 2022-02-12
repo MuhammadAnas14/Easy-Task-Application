@@ -20,22 +20,53 @@ const Profile = () => {
   const [UserData, setUserData] = useState({});
   const [pickedImagePath, setPickedImagePath] = useState("");
   const [ImgBase64, setImageBase64] = useState("");
+  const [TotalReviews, setTotalReviews] = useState(0);
 
   //   const changeRating = (rating) => {
   //   setStarRatings(rating);
   // }
 
+  const GetMyTask = async () => {
+
+    let userID;
+    userID = await AsyncStorage.getItem("user").then((value) => {
+      const getUser= JSON.parse(value);
+      // console.log("user = ",getUser)
+      return getUser._id
+    });
+    const Id = {UserId: userID}
+    console.log("userID = ",userID)
+    
+    await fetch(`${Url}/feedback/GetRating`, {
+      method: "POST",
+      body: JSON.stringify(Id),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+    .then((res) => 
+      res.json()
+    )
+    .then((response) => {
+      setStarRatings(response.UserRating)
+      setTotalReviews(response.TotalReviews)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
+
   useEffect(() => {
     AsyncStorage.getItem("user").then((value) =>
       setUserData(JSON.parse(value))
     );
+    GetMyTask();
     return () => console.log("unmounting...");
   },[]);
-  // console.log("image url is",pickedImagePath);
-  // console.log("Your final image base64 is",ImgBase64);
 
   const showImagePicker = async () => {
-    // Ask the user for the permission to access the media library
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -109,7 +140,6 @@ const Profile = () => {
             <Text style={styles.name}>
               {UserData.firstName} {UserData.lastName}
             </Text>
-            <Text style={styles.info}>Away / Online</Text>
           </View>
         </View>
         <View style={styles.star}>
@@ -120,7 +150,7 @@ const Profile = () => {
             rating={StarRatings}
           />
         </View>
-        <Text style={styles.description}>No Completion Rate </Text>
+        <Text style={styles.description}>({TotalReviews} Reviews )</Text>
 
         <View style={{ flex: 1 }}>
           <View style={styles.Heading}>

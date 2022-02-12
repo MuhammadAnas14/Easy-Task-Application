@@ -32,27 +32,14 @@ export default function App({ navigation, route }) {
     longitudeDelta: 0.0421,
   });
 
-  const getLocation = async () => {
-    try {
-      const { granted } = await Location.requestForegroundPermissionsAsync();
-      if (!granted) return;
-      const {
-        coords: { latitude, longitude },
-      } = await Location.getCurrentPositionAsync();
-      setLocation({
-        latitude: latitude,
-        longitude: longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+  console.log(location);
+  console.log(LocationName)
 
   let locationDetails;
 
   const getLocationAddress = async (e) => {
+    // console.log(e)
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync();
       if (!granted) return;
@@ -69,6 +56,27 @@ export default function App({ navigation, route }) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+      if (!granted) return;
+      const {
+        coords: { latitude, longitude },
+      } = await Location.getCurrentPositionAsync();
+      setLocation({
+        latitude: latitude,
+        longitude: longitude,
+      });
+      getLocationAddress({
+        latitude: latitude,
+        longitude: longitude,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   useEffect(() => {

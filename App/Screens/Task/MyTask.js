@@ -9,11 +9,23 @@ import Loader from '../../Components/Loader';
 function Item({ item }) {
 
   const navigation = useNavigation();
+  const [locationMethod,setLocationMethod] = useState("Online");
 
 
   const tracklocation = () => {
     navigation.navigate('Live Tracking',{item})
   }  
+
+  useEffect(() => {
+  
+    if (item.taskLocation){
+      setLocationMethod(item.taskLocation)
+    }
+    else{
+      setLocationMethod("Online")
+      item.taskLocation= "Online"
+    }
+    }, [])
 
   return (
     <View style={styles.listItem}>
@@ -22,7 +34,7 @@ function Item({ item }) {
         <Text style={{fontWeight:"bold"}}>{item.taskName}</Text>
         <View style={styles.location}>
             <Entypo style={styles.icons}  name="location-pin" />
-            <Text>{item.taskMethod}</Text>
+            <Text>{locationMethod}</Text>
         </View>
         <Text>{item.comments} Comments</Text>
       </View>
@@ -75,6 +87,7 @@ const PostedTask  = () => {
     useEffect(()=> {
       GetMyTask();
       setLoading(false);
+      
     },[]);
 
     console.log(TaskData)
