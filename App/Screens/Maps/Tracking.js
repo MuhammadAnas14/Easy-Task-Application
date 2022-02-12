@@ -10,18 +10,16 @@ import Url from '../../Components/Url'
 
 export default function TrackLocation({route,navigation}) {
   const ENDPOINT = Url ;
+  
   useEffect(() => {
+    console.log("ddw")
     const socket = socketIOClient(ENDPOINT, {      
       transports: ['websocket'], jsonp: false });
-      socket.connect();
       socket.on('connection', () => { 
-      console.log('connected to socket server'); 
-      debugger;
+      console.log('connected to socket server');
+        socket.emit("hello world", "hello world");
     });
-    const sendmessage = () => {
-      socket.emit('location',"Hey it worked");
-    }
-  }, []);
+  },[]);
 
   const PosterLocation = route.params.Location;
   // console.log("Location Recieved",PosterLocation);
