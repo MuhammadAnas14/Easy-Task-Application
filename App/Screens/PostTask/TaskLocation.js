@@ -177,7 +177,7 @@ const TaskLocation = ({ route, navigation }) => {
     setModalVisible(!modalVisible)
     navigation.replace("ScreenManager")
   }
-
+  
   return (
     <View style={styles.mainBody}>
       {errorText != "" ? (
@@ -210,6 +210,7 @@ const TaskLocation = ({ route, navigation }) => {
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
+          minimumDate={new window.Date()}
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
