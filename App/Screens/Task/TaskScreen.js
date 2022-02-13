@@ -109,6 +109,10 @@ const TaskDetails = ({ route, navigation }) => {
     console.log("Chat Screen")
   }
   
+  const locationTracker = () => {
+    console.log('pressed to navigate');
+    navigation.navigate('Live Tracking');
+  }
   
   const [StatusButton, setStatusButton] = useState(
     <Pressable
@@ -132,7 +136,7 @@ const TaskDetails = ({ route, navigation }) => {
       return getUser._id;
     });
 
-    console.log("from aync", userID);
+    console.log("from async", userID);
     console.log("data", Data.userId);
 
     if (Data.userId === userID) {
@@ -141,7 +145,8 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.status === "0.25" || Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
-    if(Data.userId === userID && Data.status === "0.25" ){
+
+    if(Data.userId === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')){
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
       setChatButton( <TouchableOpacity
         style={{ justifyContent: "center", alignItems: "flex-end",marginTop:10 }}
@@ -159,7 +164,7 @@ const TaskDetails = ({ route, navigation }) => {
     ) {
       setAcceptButton(true);
     }
-    if (Data.taskAssignTo === userID && Data.status === "0.25") {
+    if (Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) {
       setStatusButton(
         <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center" }}
@@ -209,6 +214,14 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.userId === userID && Data.paymentStatus === "Completed") {
       setStatusButton(<Text style={styles.StatusButtonText}>Completed</Text>);
     }
+
+
+    if (Data.taskAssignTo === userID && Data.status === "0.25" && Data.taskMethod === "live") {
+      setStatusButton(<TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} onPress={locationTracker} >
+      <Text style={styles.buttoncolor}>Track Location</Text>
+      </TouchableOpacity> );  
+    }
+
   };
 
   useEffect(() => {

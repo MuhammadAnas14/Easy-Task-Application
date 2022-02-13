@@ -12,23 +12,12 @@ export default function TrackLocation({route,navigation}) {
   const ENDPOINT = Url ;
   useEffect(() => {
     console.log("socket scope");
-    // const socket = io('localhost:8080', {      
-    //   transports: ['websocket'], jsonp: false });
-    //   socket.on('connection', () => { 
-    //   console.log('connected to socket server'); 
-    //   debugger;
-    // });
-    // const sendmessage = () => {
-    //   socket.emit('location',"Hey it worked");
-    // }
-    componentDidMount() {
-      this.socket = io("http://127.0.0.1:8080");
-       this.socket.on("chat message", msg => {
-            console.log('msg');   
-        });
-     });
-   }
-  }, []);
+    const socket = io("http:/192.168.1.110:8080", {      
+      transports: ['websocket'], jsonp: false });
+      socket.on('connection', () => { 
+      console.log('connected to socket server'); 
+    }
+    )});
 
 
   const PosterLocation = route.params.Location;
