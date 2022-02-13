@@ -3,25 +3,33 @@ import MapView ,{Callout, Marker}  from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
 import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
-import socketIOClient from "socket.io-client";
 import Url from '../../Components/Url'
+import io from "socket.io-client";
 
 
 
 export default function TrackLocation({route,navigation}) {
   const ENDPOINT = Url ;
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT, {      
-      transports: ['websocket'], jsonp: false });
-      socket.connect();
-      socket.on('connection', () => { 
-      console.log('connected to socket server'); 
-      debugger;
-    });
-    const sendmessage = () => {
-      socket.emit('location',"Hey it worked");
-    }
+    console.log("socket scope");
+    // const socket = io('localhost:8080', {      
+    //   transports: ['websocket'], jsonp: false });
+    //   socket.on('connection', () => { 
+    //   console.log('connected to socket server'); 
+    //   debugger;
+    // });
+    // const sendmessage = () => {
+    //   socket.emit('location',"Hey it worked");
+    // }
+    componentDidMount() {
+      this.socket = io("http://127.0.0.1:8080");
+       this.socket.on("chat message", msg => {
+            console.log('msg');   
+        });
+     });
+   }
   }, []);
+
 
   const PosterLocation = route.params.Location;
   // console.log("Location Recieved",PosterLocation);
