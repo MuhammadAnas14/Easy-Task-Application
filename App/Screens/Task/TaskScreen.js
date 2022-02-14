@@ -111,7 +111,7 @@ const TaskDetails = ({ route, navigation }) => {
   
   const locationTracker = () => {
     console.log('pressed to navigate');
-    navigation.replace('Live Tracking');
+    navigation.replace('Track Location',{item: Data});
   }
 
   const [StatusButton, setStatusButton] = useState(
