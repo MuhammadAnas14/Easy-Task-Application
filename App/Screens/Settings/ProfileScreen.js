@@ -21,10 +21,7 @@ const Profile = () => {
   const [pickedImagePath, setPickedImagePath] = useState("");
   const [ImgBase64, setImageBase64] = useState("");
   const [TotalReviews, setTotalReviews] = useState(0);
-
-  //   const changeRating = (rating) => {
-  //   setStarRatings(rating);
-  // }
+  const [imageUserData,setImageUserData] = useState("");
 
   const GetMyTask = async () => {
 
@@ -34,6 +31,16 @@ const Profile = () => {
       // console.log("user = ",getUser)
       return getUser._id
     });
+    let userImage;
+    userImage=await AsyncStorage.getItem("user").then((value) => {
+      const getUser= JSON.parse(value);
+      return getUser.picture
+    });
+    setImageUserData({uri:`data:image/jpg;base64,${userImage}`});
+
+
+    
+
     const Id = {UserId: userID}
     console.log("userID = ",userID)
     
@@ -60,10 +67,9 @@ const Profile = () => {
 
   useEffect(() => {
     AsyncStorage.getItem("user").then((value) =>
-      setUserData(JSON.parse(value))
+      setUserData(JSON.parse(value)),
     );
     GetMyTask();
-    return () => console.log("unmounting...");
   },[]);
 
   const showImagePicker = async () => {
@@ -76,7 +82,7 @@ const Profile = () => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({base64:true,    aspect:[4,3],
-      quality:0.5});
+      quality:0.2});
 
     // Explore the Base64
 
@@ -84,7 +90,6 @@ const Profile = () => {
 
     if(imagecode.length !== 0){
       setImageBase64(imagecode);
-      console.log("img c9ode mmis fsdfsdf", imagecode);
     }
     else{
       alert("please try again")
@@ -113,7 +118,7 @@ const Profile = () => {
       alert("Your Image is Upload");
       UserData.picture = imagecode;
       AsyncStorage.setItem('user',JSON.stringify(UserData))
-      console.log(response);
+      setImageUserData({uri:`data:image/jpg;base64,${imagecode}`});
     })
     .catch((error)=>{
       console.log(error);
@@ -130,7 +135,7 @@ const Profile = () => {
           
             <Image
               style={styles.avatar}
-              source={{uri: base64Icon}}
+              source={imageUserData}
             />
         
         </View>
