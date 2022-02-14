@@ -65,7 +65,6 @@ const TaskDetails = ({ route, navigation }) => {
           numberOfLines={6}
           multiline={true}
           onSubmitEditing={Keyboard.dismiss}
-          ref={descriptionRef}
         />
       </View>
       <TouchableOpacity

@@ -21,7 +21,7 @@ export default function TrackLocation({route,navigation}) {
     });
   },[]);
 
-  const PosterLocation = route.params.Location;
+  const PosterLocation = route.params.item;
   // console.log("Location Recieved",PosterLocation);
   const originLocation = {
     latitude: PosterLocation.latitude,
