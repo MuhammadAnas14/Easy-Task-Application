@@ -15,7 +15,7 @@ export default function TrackLocation({route,navigation}) {
     console.log("ddw")
     const socket = socketIOClient(ENDPOINT, {      
       transports: ['websocket'], jsonp: false });
-      socket.on('connection', () => { 
+      socket.on('connection', () => {
       console.log('connected to socket server');
         socket.emit("hello world", "hello world");
     });
