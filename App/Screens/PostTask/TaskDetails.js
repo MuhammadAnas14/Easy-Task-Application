@@ -122,11 +122,11 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: "100%",
     height: 80,
-    flex: 1, 
     justifyContent: "flex-end",
     alignItems: "center",
     position: "absolute",
-    bottom: 10,
+    bottom: 20,
+    paddingHorizontal:20,
   },
   buttonTextStyle: {
     color: "black",

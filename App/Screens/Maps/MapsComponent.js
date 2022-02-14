@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MapView, { Callout, Marker } from "react-native-maps";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE  } from "react-native-maps";
 import Feather from "react-native-vector-icons/Feather";
 import Url from "../../Components/Url";
 import {
@@ -32,10 +32,6 @@ export default function App({ navigation, route }) {
     longitudeDelta: 0.0421,
   });
 
-  
-  console.log(location);
-  console.log(LocationName)
-
   let locationDetails;
 
   const getLocationAddress = async (e) => {
@@ -65,9 +61,12 @@ export default function App({ navigation, route }) {
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
+      console.log("swdn", latitude, longitude);
       setLocation({
         latitude: latitude,
         longitude: longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
       });
       getLocationAddress({
         latitude: latitude,
@@ -150,10 +149,10 @@ export default function App({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={mapRegion}>
+      <MapView style={styles.map} initialRegion={mapRegion} provider={ PROVIDER_GOOGLE }>
         <Marker
           draggable
-          coordinate={mapRegion}
+          coordinate={location}
           title="Location"
           onDragEnd={(e) => {
             getLocationAddress(e.nativeEvent.coordinate);
