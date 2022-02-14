@@ -5,11 +5,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Url from '../../Components/Url';
 import { useNavigation } from '@react-navigation/native';
 import Loader from '../../Components/Loader';
+import DefaultImage from '../../../assets/default-pic.jpg'
 
 function Item({ item }) {
 
   const navigation = useNavigation();
   const [locationMethod,setLocationMethod] = useState("Online");
+  const [imageDefault, setImageDefault] = useState("");
 
 
   const tracklocation = () => {
@@ -25,11 +27,18 @@ function Item({ item }) {
       setLocationMethod("Online")
       item.taskLocation= "Online"
     }
+    if (item.userPhoto === ""){
+      setImageDefault(DefaultImage)
+    }
+    else{
+      setImageDefault({uri:`data:image/jpg;base64,${item.userPhoto}`})
+    }
     }, [])
 
   return (
     <View style={styles.listItem}>
-      <Image source={{uri:`data:image/jpg;base64,${item.userPhoto}`}}  style={{width:60, height:60,borderRadius:30}} />
+      {/* <Image source={{uri:`data:image/jpg;base64,${item.userPhoto}`}}  style={{width:60, height:60,borderRadius:30}} /> */}
+      <Image source={imageDefault}  style={{width:60, height:60,borderRadius:30}} />
       <View style={{alignItems:"center",flex:1}}>
         <Text style={{fontWeight:"bold"}}>{item.taskName}</Text>
         <View style={styles.location}>
