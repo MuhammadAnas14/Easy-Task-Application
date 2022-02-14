@@ -61,7 +61,8 @@
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "svg-social-icons": "^1.1.0",
-    "tslib": "^2.3.1"
+    "tslib": "^2.3.1",
+    "use-force-update": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
