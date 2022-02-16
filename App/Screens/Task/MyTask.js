@@ -20,9 +20,17 @@ function Item({ item }) {
       navigation.navigate('Live Tracking',{item})
     }
     if(item.taskMethod == "live" && item.status == "0.25"){
-      navigation.navigate('Live Tracking',{item})
+      const toSendData={
+        latitude:item.latitude,
+        longitude:item.longitude,
+        assignTo:item.taskAssignTo
+      }
+      console.log("Data",toSendData)
+       navigation.navigate('Track Location',{item:toSendData})
     }
-    
+    if(item.taskMethod == "Online" || item.taskMethod== "Scheduled"){
+      navigation.navigate('Task Details',{item})
+    }
   }  
 
   useEffect(() => {
