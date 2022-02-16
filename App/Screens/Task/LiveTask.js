@@ -40,7 +40,7 @@ const LiveTasks = ({route}) => {
                 res.json()
               )
               .then((response) => {
-                console.log(response.success)
+                // console.log(response.success)
               })
               .catch((error) => {
                 console.log(error)
@@ -53,7 +53,12 @@ const LiveTasks = ({route}) => {
 }
 
   const handleAcceptance = async(item) =>{
-    console.log('Acceptance done',item)
+    console.log('Acceptance done',  item)
+    const BothLocation = {
+      ...Location,
+      assignTo:item.UserId,
+    }
+
     await fetch(`${Url}/task/AcceptBid`, {
         method: "PUT",
         body: JSON.stringify(item),
@@ -66,9 +71,9 @@ const LiveTasks = ({route}) => {
           res.json()
         )
         .then((response) => {
-          console.log(response.success)
+          // console.log(response.success)
           if(response.success){
-            navigation.navigate("Track Location",{Location});
+            navigation.navigate("Track Location",{item:BothLocation});
           }
         })
         .catch((error) => {
