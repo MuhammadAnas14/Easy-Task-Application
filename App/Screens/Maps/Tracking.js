@@ -13,6 +13,9 @@ export default function TrackLocation({route,navigation}) {
   const PosterLocation = route.params.item;
   const [LocationName, setLocationName] = useState([]);
   const [location, setLocation] = useState();
+  const [test, setTest] =useState("")
+
+
 
   const originLocation = {
     latitude: 24.935529799106686,
@@ -34,32 +37,37 @@ export default function TrackLocation({route,navigation}) {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }});
+  useEffect(()=>{
+    const socket = socketIOClient(ENDPOINT, {      
+      transports: ['websocket'], jsonp: false });
+
+      socket.on('connection', () => {
+      console.log('connected to socket server');
+      socket.emit('location', "location");
+    }); 
+  },[])
+  
   
   useEffect(() => {
-  WorkerLocationUpdate(); 
-  const socket = socketIOClient(ENDPOINT, {      
-    transports: ['websocket'], jsonp: false });
-    socket.on('connection', () => {
-    console.log('connected to socket server');
-    socket.emit('hello world', "hey bro im connected");
-  }); 
-  },[]);
+    setTimeout(()=>{
+      getLocation();
+      console.log(location);
+     }, 3000)
+  });
 
   const getLocation = async () => {
-    
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
-      setLocation({ latitude, longitude });
+      setLocation({latitude,longitude})
     } 
     catch (error) {
       console.log(error);
     }
   };
-
 
   const WorkerLocationUpdate = async () => {
     let userID;
@@ -70,6 +78,8 @@ export default function TrackLocation({route,navigation}) {
   
       return getUser._id;
     });
+
+  
 
     console.log(PosterLocation.assingTo);
     console.log(userID);
