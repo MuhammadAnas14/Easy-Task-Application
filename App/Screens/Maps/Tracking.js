@@ -10,6 +10,17 @@ import Url from '../../Components/Url'
 
 export default function TrackLocation({route,navigation}) {
 
+  const ENDPOINT = Url ;
+
+  useEffect(() => {
+    // console.log("ddw")
+    const socket = socketIOClient(ENDPOINT, {      
+      transports: ['websocket'], jsonp: false });
+      socket.on('connection', () => {
+      console.log('connected to socket server');
+        socket.emit("hello world", "hello world");
+    });
+  },[]);
   
 
   const PosterLocation = route.params.item;
@@ -57,7 +68,7 @@ export default function TrackLocation({route,navigation}) {
   };
 
   const getLocationAddress = async (e) => {
-    console.log(e)
+    // console.log(e)
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
