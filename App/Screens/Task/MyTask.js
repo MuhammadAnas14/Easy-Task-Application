@@ -107,7 +107,7 @@ const PostedTask  = () => {
           style={{flex:1}}
           data={TaskData}
           renderItem={({ item }) => <Item item={item}/>}
-          keyExtractor={item => item.userId}
+          keyExtractor={item => item.taskName}
         />
       </View>
     );

@@ -108,7 +108,7 @@ const TaskDetails = ({ route, navigation }) => {
   const chatScreenHandler = () => {
     console.log("Chat Screen")
   }
-  
+  console.log("To see what is coming",Data);
   const locationTracker = () => {
     console.log('pressed to navigate');
     navigation.replace('Track Location',{item:Data});
