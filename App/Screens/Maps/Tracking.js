@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import MapView ,{Callout, Marker}  from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity} from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
 import socketIOClient from "socket.io-client";
@@ -12,15 +13,28 @@ export default function TrackLocation({route,navigation}) {
 
   const ENDPOINT = Url ;
 
-  useEffect(() => {
-    // console.log("ddw")
+  
+  useEffect(async() => {
+    let userID;
+
+    userID = await AsyncStorage.getItem("user").then((value) => {
+      const getUser = JSON.parse(value);
+  
+      return getUser._id;
+    });
+    if (PosterLocation.assignTo === userID ){
+    console.log("ddw")
     const socket = socketIOClient(ENDPOINT, {      
       transports: ['websocket'], jsonp: false });
       socket.on('connection', () => {
       console.log('connected to socket server');
         socket.emit("hello world", "hello world");
     });
+  }  
+  
   },[]);
+
+
   
 
   const PosterLocation = route.params.item;

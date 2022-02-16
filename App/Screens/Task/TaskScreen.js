@@ -62,6 +62,7 @@ const TaskDetails = ({ route, navigation }) => {
 
   // console.log(MakeOffer)
 
+
   const Offerhandler = () => {
     setModalVisible(true);
     if (Data.taskMethod === "live") {
@@ -110,8 +111,26 @@ const TaskDetails = ({ route, navigation }) => {
   }
   console.log("To see what is coming",Data);
   const locationTracker = () => {
-    console.log('pressed to navigate');
-    navigation.replace('Track Location',{item:Data});
+
+
+    let BidsIterator = Data.bids;
+    let AssignedUser;
+    for(let k=0; k<=BidsIterator.length;k++){
+      if(UserData.UserId === Data.taskAssignTo){
+        AssignedUser = BidsIterator[k];
+        console.log(BidsIterator[k])
+      }
+    }
+    
+    // let toSendData ={
+    //   longitude: AssignedUser.longitude,
+    //   latitude: AssignedUser.latitude,
+    //   assingTo: Data.taskAssignTo,
+    // }
+    
+    
+    // console.log('pressed to navigate');
+    // navigation.replace('Track Location',{item:toSendData});
   }
 
   const [StatusButton, setStatusButton] = useState(
