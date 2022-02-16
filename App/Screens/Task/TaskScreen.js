@@ -39,7 +39,7 @@ const TaskDetails = ({ route, navigation }) => {
       const {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync();
-      console.log("ss", latitude);
+      // console.log("ss", latitude);
       setLocation({
         latitude: latitude,
         longitude: longitude,
@@ -86,7 +86,7 @@ const TaskDetails = ({ route, navigation }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         navigation.replace("ScreenManager");
       })
       .catch((error) => {
@@ -107,7 +107,7 @@ const TaskDetails = ({ route, navigation }) => {
   };
 
   const chatScreenHandler = () => {
-    console.log("Chat Screen")
+    // console.log("Chat Screen")
   }
   
   const locationTracker = async() => {
@@ -166,8 +166,6 @@ const TaskDetails = ({ route, navigation }) => {
       return getUser._id;
     });
 
-    console.log("from aync", userID);
-    console.log("data", Data.userId);
 
     if (Data.userId === userID) {
       setAcceptButton(false);
@@ -256,7 +254,7 @@ const TaskDetails = ({ route, navigation }) => {
 
   //Handler for offer
   const handleSubmitOffer = async () => {
-    console.log("heheheh2", location);
+    // console.log("heheheh2", location);
     let datatoSend;
     datatoSend = {
       TaskId: Data._id,
@@ -270,8 +268,8 @@ const TaskDetails = ({ route, navigation }) => {
       setErrorText("Please Enter Some Amount");
       return;
     }
-    console.log(BidOffer);
-    console.log("data sending", datatoSend);
+    // console.log(BidOffer);
+    // console.log("data sending", datatoSend);
 
     await fetch(`${Url}/task/Bids`, {
       method: "PUT",
@@ -283,7 +281,7 @@ const TaskDetails = ({ route, navigation }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response.UserTask.totalbids);
+        // console.log(response.UserTask.totalbids);
         Data.totalbids = response.UserTask.totalbids;
         setModalVisible(false);
         navigation.replace("ScreenManager");
@@ -299,7 +297,7 @@ const TaskDetails = ({ route, navigation }) => {
       TaskId: item.TaskId,
       Bid: item.Bid,
     };
-    console.log(BidToSend);
+    // console.log(BidToSend);
 
     await fetch(`${Url}/task/AcceptBid`, {
       method: "PUT",
@@ -311,7 +309,7 @@ const TaskDetails = ({ route, navigation }) => {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         navigation.replace("ScreenManager");
       })
       .catch((error) => {
