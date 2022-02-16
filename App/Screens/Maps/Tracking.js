@@ -5,66 +5,45 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
 import socketIOClient from "socket.io-client";
-import Url from '../../Components/Url'
-
-
+import Url from '../../Components/Url';
 
 export default function TrackLocation({route,navigation}) {
 
   const ENDPOINT = Url ;
-
-  
-  useEffect(async() => {
-    let userID;
-
-    userID = await AsyncStorage.getItem("user").then((value) => {
-      const getUser = JSON.parse(value);
-  
-      return getUser._id;
-    });
-    if (PosterLocation.assignTo === userID ){
-    console.log("ddw")
-    const socket = socketIOClient(ENDPOINT, {      
-      transports: ['websocket'], jsonp: false });
-      socket.on('connection', () => {
-      console.log('connected to socket server');
-        socket.emit("hello world", "hello world");
-    });
-  }  
-  
-  },[]);
-
-
-  
-
   const PosterLocation = route.params.item;
-  console.log("Location Recieved",PosterLocation);
+  const [LocationName, setLocationName] = useState([]);
+  const [location, setLocation] = useState();
+
   const originLocation = {
-    latitude: PosterLocation.latitude,
-    longitude:PosterLocation.longitude,
+    latitude: 24.935529799106686,
+    longitude: 67.0970856025815,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   }
+  
   const [mapRegion, setmapRegion] = useState({
     latitude:24.923306, 
     longitude:67.068015,
-    // latitude:PosterLocation.latitude,
-    // longitude:PosterLocation.longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  const [LocationName, setLocationName] = useState([]);
-
-  const [location, setLocation] = useState();
 
   const [DestinationLocation, setDestinationLocation] = useState({droplocationCords:{
-        latitude: 24.935529799106686,
-        longitude: 67.0970856025815,
+        latitude: PosterLocation.latitude,
+        longitude:PosterLocation.longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }});
-
-  // const [pickupCords,droplocationCords] = state;
+  
+  useEffect(() => {
+  WorkerLocationUpdate(); 
+  const socket = socketIOClient(ENDPOINT, {      
+    transports: ['websocket'], jsonp: false });
+    socket.on('connection', () => {
+    console.log('connected to socket server');
+      socket.emit('location', "hey bro im connected");
+  }); 
+  },[]);
 
   const getLocation = async () => {
     
@@ -81,36 +60,31 @@ export default function TrackLocation({route,navigation}) {
     }
   };
 
-  const getLocationAddress = async (e) => {
-    // console.log(e)
-    try {
-      const { granted } = await Location.requestForegroundPermissionsAsync()
-      if (!granted) return;
-      const name = await Location.reverseGeocodeAsync(e);
-      setLocationName([
-        e,
-        name[0]
-      ])
-    } 
-    catch (error) {
-      console.log(error);
-    }
-  };
 
-  // console.log(LocationName)
+  const WorkerLocationUpdate = async () => {
+    let userID;
 
-  useEffect(() => {
-    getLocation();
-  }, []);
+    userID = await AsyncStorage.getItem("user").then((value) => {
+      const getUser = JSON.parse(value);
 
-  const handlerSubmitLocation = (flag) => {
+  
+      return getUser._id;
+    });
 
-    setLocationName([...LocationName,{method:flag}])
-
-    navigation.replace('ScreenManager',{location:LocationName})
+    console.log(PosterLocation.assingTo);
+    console.log(userID);
+    if (PosterLocation.assingTo === userID ){
+      console.log('Im true');
+      getLocation();
+      console.log(location);
+    //   const socket = socketIOClient(ENDPOINT, {      
+    //   transports: ['websocket'], jsonp: false });
+    //   socket.on('connection', () => {
+    //   console.log('connected to socket server');
+    //     socket.emit('location', "hey bro im connected");
+    // });
+  } 
   }
-
-  // console.log(LocationName)   
   
   
   return (

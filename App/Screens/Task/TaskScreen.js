@@ -109,28 +109,38 @@ const TaskDetails = ({ route, navigation }) => {
   const chatScreenHandler = () => {
     console.log("Chat Screen")
   }
-  console.log("To see what is coming",Data);
-  const locationTracker = () => {
+  
+  const locationTracker = async() => {
 
+    let userID;
+    
+    userID = await AsyncStorage.getItem("user").then((value) => {
+      const getUser = JSON.parse(value);
 
+      return getUser._id;
+    });
+  
     let BidsIterator = Data.bids;
     let AssignedUser;
-    for(let k=0; k<=BidsIterator.length;k++){
-      if(UserData.UserId === Data.taskAssignTo){
-        AssignedUser = BidsIterator[k];
-        console.log(BidsIterator[k])
-      }
+
+    for(let k=0; k<BidsIterator.length;k++){
+      if(userID === Data.taskAssignTo){
+        console.log(UserData._id)
+        console.log(Data.taskAssignTo)
+         AssignedUser = BidsIterator[k];
+         console.log("Assign data in scope",AssignedUser);
+        }
+    }
+    console.log(AssignedUser)
+    
+    let toSendData ={
+      longitude: AssignedUser.longitude,
+      latitude: AssignedUser.latitude,
+      assingTo: Data.taskAssignTo,
     }
     
-    // let toSendData ={
-    //   longitude: AssignedUser.longitude,
-    //   latitude: AssignedUser.latitude,
-    //   assingTo: Data.taskAssignTo,
-    // }
-    
-    
-    // console.log('pressed to navigate');
-    // navigation.replace('Track Location',{item:toSendData});
+
+    navigation.replace('Track Location',{item:toSendData});
   }
 
   const [StatusButton, setStatusButton] = useState(
@@ -144,11 +154,12 @@ const TaskDetails = ({ route, navigation }) => {
     </Pressable>
   );
 
+  
   AsyncStorage.getItem("user").then((value) => setUserData(JSON.parse(value)));
-
+    
   const getOffers = async () => {
     let userID;
-
+    
     userID = await AsyncStorage.getItem("user").then((value) => {
       const getUser = JSON.parse(value);
 
