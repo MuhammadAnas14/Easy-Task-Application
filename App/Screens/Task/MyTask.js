@@ -15,7 +15,14 @@ function Item({ item }) {
 
 
   const tracklocation = () => {
-    navigation.navigate('Live Tracking',{item})
+
+    if(item.taskMethod == "live" && item.status == "0.17"){
+      navigation.navigate('Live Tracking',{item})
+    }
+    if(item.taskMethod == "live" && item.status == "0.25"){
+      navigation.navigate('Live Tracking',{item})
+    }
+    
   }  
 
   useEffect(() => {
