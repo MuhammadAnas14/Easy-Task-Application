@@ -41,7 +41,7 @@ export default function TrackLocation({route,navigation}) {
     transports: ['websocket'], jsonp: false });
     socket.on('connection', () => {
     console.log('connected to socket server');
-      socket.emit('location', "hey bro im connected");
+    socket.emit('hello world', "hey bro im connected");
   }); 
   },[]);
 
@@ -89,10 +89,6 @@ export default function TrackLocation({route,navigation}) {
   
   return (
     <View style={styles.container}>
-      {/* <MapView style={styles.map}
-          region={mapRegion}>
-            <Marker draggable coordinate={mapRegion} title='Marker' onDragEnd={(e)=> {getLocationAddress(e.nativeEvent.coordinate)}}></Marker>
-          </MapView> */}
           <MapView style={styles.map} initialRegion={mapRegion}>
             <MapViewDirections
             lineDashPattern={[4]}
