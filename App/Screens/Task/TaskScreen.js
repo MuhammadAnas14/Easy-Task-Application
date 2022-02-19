@@ -88,6 +88,7 @@ const TaskDetails = ({ route, navigation }) => {
       .then((response) => {
         // console.log(response);
         navigation.replace("ScreenManager");
+        // console.log("Api hit")
       })
       .catch((error) => {
         console.log(error);
@@ -106,8 +107,32 @@ const TaskDetails = ({ route, navigation }) => {
     navigation.navigate("Feedback", { UserData: Data });
   };
 
-  const chatScreenHandler = () => {
+  const chatScreenHandler = async() => {
     // console.log("Chat Screen")
+    let dataToSend;
+    dataToSend = {
+      UserId: Data.userId, //Async
+      Chattime: new Date(),
+      chatWith: Data.taskAssignTo , //taskAssignto
+    };
+
+    await fetch(`${Url}/Chats/ChatLog`, {
+      method: "POST",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        // console.log(response);
+        // navigation.replace("ScreenManager");
+        console.log("APi Hit")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   
   const locationTracker = async() => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   button,
 } from "react-native";
 import MessageData from "../Data/Chat.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Container,
   Card,
@@ -21,6 +22,7 @@ import {
   MessageText,
   TextSection,
 } from "../Styles/Messagestyle";
+import Url from '../../Components/Url'
 
 function Item({ item }) {
   return (
@@ -51,8 +53,40 @@ function Item({ item }) {
 }
 
 const MessagesScreen = ({ navigation }) => {
-  const [TaskData, setTaskData] = useState(MessageData);
+  const [TaskData, setTaskData] = useState(MessageData);//api data
+    
+  // Getting Data from Backend
+    const data = async () => {
+      let userId;
 
+      userId = await AsyncStorage.getItem("user").then((value) => {
+        const getUser = JSON.parse(value);
+        return getUser._id;
+      });
+      console.log(userId);
+      await fetch(`${Url}/Chats/GetLog`,{
+        method: 'POST',
+        body: JSON.stringify(userId),
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      })
+      .then(response => response.json())
+      .then(response=> {
+        console.log(response.success)
+        if(response.success){
+          // setTaskData(response);
+          console.log("successful")
+        }
+      })
+      .catch(response => console.log(response))
+    }
+
+      useEffect(() =>  {
+        data();  
+      }, []);
+      
   return (
     <View style={styles.container}>
       <Container>
@@ -65,7 +99,7 @@ const MessagesScreen = ({ navigation }) => {
               <UserInfo>
                 <UserImgWrapper>
                   <UserImg source={{ uri: item.photo }} />
-                </UserImgWrapper>
+                </UserImgWrapper> 
                 <TextSection>
                   <UserInfoText>
                     <UserName>{item.name}</UserName>

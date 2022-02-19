@@ -50,7 +50,7 @@ export default function TrackLocation({route,navigation}) {
   
   useEffect(() => {
     setTimeout(()=>{
-      getLocation();
+      WorkerLocationUpdate();
       console.log(location);
      }, 3000)
   });
@@ -87,13 +87,48 @@ export default function TrackLocation({route,navigation}) {
       console.log('Im true');
       getLocation();
       console.log(location);
-    //   const socket = socketIOClient(ENDPOINT, {      
-    //   transports: ['websocket'], jsonp: false });
-    //   socket.on('connection', () => {
-    //   console.log('connected to socket server');
-    //     socket.emit('location', "hey bro im connected");
-    // });
+    let dataToSend = {
+      workerId: assingTo,
+      posterId: userID,
+      ...location, 
+    }
+    console.log(dataToSend);
+    // await fetch(`${Url}/Locations/LiveLocation`, {
+    //   method: "POST",
+    //   body: JSON.stringify(location),
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((response) => {
+    //     // console.log(response);
+    //     // navigation.replace("ScreenManager");
+    //     console.log("APi Hit"); //location Updated
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   } 
+  // if (userid === userID ){
+  //   await fetch(`${Url}/Locations/GetTracking`, {
+  //     method: "POST",
+  //     body: JSON.stringify(userID),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //        setLocation({response.latitude,response.longitude})
+  //       console.log("APi Hit"); //location Updated
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
   }
   
   

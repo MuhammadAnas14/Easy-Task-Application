@@ -3,9 +3,6 @@
         "id": "1",
         "name": "Shakir",
         "chat": "I will be there for you by tomorrow after ...",
-        "position": "Karachi,Pakistan",
-        "comments": "12",
-        "cost": "500",
         "messageTime": "2 hours ago",
         "photo": "https://randomuser.me//api//portraits//men//44.jpg"
     },
@@ -13,19 +10,13 @@
         "id": "2",
         "name": "Ali",
         "chat": "I'm not availavable for this week. I will be shortlydfgggggggggg",
-        "position": "Karachi,Pakistan",
-        "comments": "5",
         "messageTime": "2 hours ago",
-        "cost": "7000",
         "photo": "https://randomuser.me//api//portraits//men//45.jpg"
     },
     {
         "id": "3",
         "name": "Mushtaq",
         "chat": "Kindly, Elaborate the API details for the",
-        "position": "Lahore,Pakistan",
-        "comments": "8",
-        "cost": "10000",
         "messageTime": "2 hours ago",
         "photo": "https://randomuser.me//api//portraits//men//16.jpg"
     },
@@ -33,10 +24,6 @@
         "id": "4",
         "name": "Rajab",
         "chat": "I'm interested for your work. I have a priorr work. I have a prio",
-        "position": "Lahore,Pakistan",
-        "comments": "2",
-        "cost": "50000",
-        "messageTime": "2 hours ago",
         "photo": "https://randomuser.me//api//portraits//men//47.jpg"
     }
 ]
