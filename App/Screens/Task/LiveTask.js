@@ -16,9 +16,9 @@ const LiveTasks = ({route}) => {
 
   const navigation = useNavigation();
 
-  const lat = route.params.item.latitude;
-  const long = route.params.item.longitude;
-  const Location = {latitude: lat, longitude: long};
+  // const lat = route.params.item.latitude;
+  // const long = route.params.item.longitude;
+  // const Location = {latitude: lat, longitude: long};
 
   const [BidsData, setBidsData] = useState(Data1.bids);
 
@@ -54,8 +54,13 @@ const LiveTasks = ({route}) => {
 
   const handleAcceptance = async(item) =>{
     console.log('Acceptance done',  item)
+    
+    
     const BothLocation = {
-      ...Location,
+      latitude: item.latitude,
+        longitude: item.longitude,
+        DestinationLongitude: Data1.longitude,
+      DestinationLatitude: Data1.latitude,
       assignTo:item.UserId,
       UserID: Data1.userId
     }
@@ -72,9 +77,9 @@ const LiveTasks = ({route}) => {
           res.json()
         )
         .then((response) => {
-          // console.log(response.success)
+          console.log(response.success)
           if(response.success){
-            navigation.navigate("Track Location",{item:BothLocation});
+            navigation.replace("Track Location",{item:BothLocation});
           }
         })
         .catch((error) => {

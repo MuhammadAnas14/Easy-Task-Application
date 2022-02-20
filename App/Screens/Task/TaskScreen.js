@@ -159,10 +159,13 @@ const TaskDetails = ({ route, navigation }) => {
     console.log(AssignedUser)
     
     let toSendData ={
+      DestinationLongitude: Data.longitude,
+      DestinationLatitude: Data.latitude,
+      latitude :AssignedUser.latitude,
       longitude: AssignedUser.longitude,
-      latitude: AssignedUser.latitude,
       assingTo: Data.taskAssignTo,
       UserID:Data.userId,
+      taskId:Data._id
     }
     
 
@@ -196,10 +199,10 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.userId === userID) {
       setAcceptButton(false);
     }
-    if (Data.status === "0.25" || Data.status === "0.60") {
+    if (Data.status === "0.25" || Data.status== "0.30" ||  Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
-    if(Data.userId === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')){
+    if(Data.userId === userID && ((Data.status === "0.25" && Data.taskMethod !== 'live') || (Data.status === "0.30" && Data.taskMethod !== 'live'))){
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
       setChatButton( <TouchableOpacity
         style={{ justifyContent: "center", alignItems: "flex-end",marginTop:10 }}
@@ -217,7 +220,7 @@ const TaskDetails = ({ route, navigation }) => {
     ) {
       setAcceptButton(true);
     }
-    if (Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) {
+    if ((Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) || (Data.taskAssignTo === userID && Data.status === "0.30" && Data.taskMethod == 'live')) {
       setStatusButton(
         <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center" }}
@@ -512,12 +515,12 @@ const TaskDetails = ({ route, navigation }) => {
               />
             </View>
             <View style={styles.buttonView}>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
                 onPress={handleSubmitOffer}
               >
                 <Text style={styles.textStyle}>Submit</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -555,7 +558,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     backgroundColor: "green",
-    padding: 10,
   },
   warning: {
     backgroundColor: "green",
@@ -648,10 +650,8 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom:10,
   },
   inputStyle: {
     flex: 1,
@@ -661,11 +661,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#3CAABB",
+
   },
   button: {
     borderRadius: 15,
-    padding: 15,
     backgroundColor: "#219653",
+    padding:10,
+    paddingRight:30,
+    paddingLeft:30,
   },
   textStyle: {
     color: "white",

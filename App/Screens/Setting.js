@@ -98,7 +98,7 @@ const Settings = ({ navigation }) => {
               <Text style={styles.textStyle}>Confirm</Text>
             </Pressable>
             <Pressable
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.button, {backgroundColor:"green"}]}
               onPress={() => setModalVisible(!modalVisible)}
             >
               <Text style={styles.textStyle}>Cancel</Text>
@@ -151,18 +151,16 @@ const styles = StyleSheet.create({
   },
   buttonView:{
     flex:1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: "center",
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    margin: 20,
   },
   button: {
     borderRadius: 15,
     padding: 14,
     elevation: 2,
-    margin: 25,
   },
   button1: {
     color: 'black',
