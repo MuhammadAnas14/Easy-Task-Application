@@ -23,7 +23,8 @@ function Item({ item }) {
       const toSendData={
         latitude:item.latitude,
         longitude:item.longitude,
-        assignTo:item.taskAssignTo
+        assignTo:item.taskAssignTo,
+        userID:item.userId,
       }
       console.log("Data",toSendData)
        navigation.navigate('Track Location',{item:toSendData})
