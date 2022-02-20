@@ -159,10 +159,13 @@ const TaskDetails = ({ route, navigation }) => {
     console.log(AssignedUser)
     
     let toSendData ={
+      DestinationLongitude: Data.longitude,
+      DestinationLatitude: Data.latitude,
+      latitude :AssignedUser.latitude,
       longitude: AssignedUser.longitude,
-      latitude: AssignedUser.latitude,
       assingTo: Data.taskAssignTo,
       UserID:Data.userId,
+      taskId:Data._id
     }
     
 
@@ -196,10 +199,10 @@ const TaskDetails = ({ route, navigation }) => {
     if (Data.userId === userID) {
       setAcceptButton(false);
     }
-    if (Data.status === "0.25" || Data.status === "0.60") {
+    if (Data.status === "0.25" || Data.status== "0.30" ||  Data.status === "0.60") {
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
     }
-    if(Data.userId === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')){
+    if(Data.userId === userID && ((Data.status === "0.25" && Data.taskMethod !== 'live') || (Data.status === "0.30" && Data.taskMethod !== 'live'))){
       setStatusButton(<Text style={styles.StatusButtonText}>ASSIGNED</Text>);
       setChatButton( <TouchableOpacity
         style={{ justifyContent: "center", alignItems: "flex-end",marginTop:10 }}
@@ -217,7 +220,7 @@ const TaskDetails = ({ route, navigation }) => {
     ) {
       setAcceptButton(true);
     }
-    if (Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) {
+    if ((Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) || (Data.taskAssignTo === userID && Data.status === "0.30" && Data.taskMethod == 'live')) {
       setStatusButton(
         <TouchableOpacity
           style={{ justifyContent: "center", alignItems: "center" }}
