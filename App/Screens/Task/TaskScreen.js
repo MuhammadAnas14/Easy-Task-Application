@@ -162,6 +162,7 @@ const TaskDetails = ({ route, navigation }) => {
       longitude: AssignedUser.longitude,
       latitude: AssignedUser.latitude,
       assingTo: Data.taskAssignTo,
+      UserID:Data.userId,
     }
     
 

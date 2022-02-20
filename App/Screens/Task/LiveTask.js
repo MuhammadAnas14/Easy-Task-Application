@@ -57,6 +57,7 @@ const LiveTasks = ({route}) => {
     const BothLocation = {
       ...Location,
       assignTo:item.UserId,
+      UserID: Data1.userId
     }
 
     await fetch(`${Url}/task/AcceptBid`, {

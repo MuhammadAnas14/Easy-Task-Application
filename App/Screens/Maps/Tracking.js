@@ -82,53 +82,66 @@ export default function TrackLocation({route,navigation}) {
   
 
     console.log(PosterLocation.assingTo);
-    console.log(userID);
+    console.log(PosterLocation.userID);
+
     if (PosterLocation.assingTo === userID ){
       console.log('Im true');
       getLocation();
       console.log(location);
+
     let dataToSend = {
-      workerId: assingTo,
-      posterId: userID,
+      workerId: PosterLocation.assingTo,
+      posterId: PosterLocation.assingTo,
       ...location, 
     }
     console.log(dataToSend);
-    // await fetch(`${Url}/Locations/LiveLocation`, {
-    //   method: "POST",
-    //   body: JSON.stringify(location),
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     // console.log(response);
-    //     // navigation.replace("ScreenManager");
-    //     console.log("APi Hit"); //location Updated
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    await fetch(`${Url}/Locations/LiveLocation`, {
+      method: "POST",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log("APi Hit"); //location Updated
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } 
-  // if (userid === userID ){
-  //   await fetch(`${Url}/Locations/GetTracking`, {
-  //     method: "POST",
-  //     body: JSON.stringify(userID),
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //        setLocation({response.latitude,response.longitude})
-  //       console.log("APi Hit"); //location Updated
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+
+  if (PosterLocation.UserID === userID ){
+
+    let dataToSend = {
+      workerId: PosterLocation.assingTo,
+      posterId: PosterLocation.assingTo,
+      ...location, 
+    }
+
+    await fetch(`${Url}/Locations/GetTracking`, {
+      method: "POST",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (response.foundLocation){
+         setLocation(response.foundLocation)
+        console.log("APi Hit"); //location Updated
+        }
+        else{
+          console.log(response)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   }
   
   
@@ -144,6 +157,14 @@ export default function TrackLocation({route,navigation}) {
             strokeColor="blue"
             />
           </MapView>
+          <Callout style={styles.buttonCallout}>
+        <TouchableOpacity
+          style={[styles.touchable]}
+          // onPress={() => handlerSubmitLocation("live")}
+        >
+          <Text style={styles.touchableText}>Arrived</Text>
+        </TouchableOpacity>
+      </Callout>
     </View>
   );
 }
@@ -206,4 +227,5 @@ const styles = StyleSheet.create({
     padding:10,
     paddingHorizontal:25
   },
+
 });
