@@ -18,8 +18,8 @@ export default function TrackLocation({route,navigation}) {
 
 
   const originLocation = {
-    latitude: 24.935529799106686,
-    longitude: 67.0970856025815,
+    latitude: location.latitude,
+    longitude: location.longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   }
