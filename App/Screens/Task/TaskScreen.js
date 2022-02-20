@@ -515,12 +515,12 @@ const TaskDetails = ({ route, navigation }) => {
               />
             </View>
             <View style={styles.buttonView}>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
                 onPress={handleSubmitOffer}
               >
                 <Text style={styles.textStyle}>Submit</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -558,7 +558,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     backgroundColor: "green",
-    padding: 10,
   },
   warning: {
     backgroundColor: "green",
@@ -651,10 +650,8 @@ const styles = StyleSheet.create({
   SectionStyle: {
     flexDirection: "row",
     height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom:10,
   },
   inputStyle: {
     flex: 1,
@@ -664,11 +661,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#3CAABB",
+
   },
   button: {
     borderRadius: 15,
-    padding: 15,
     backgroundColor: "#219653",
+    padding:10,
+    paddingRight:30,
+    paddingLeft:30,
   },
   textStyle: {
     color: "white",
