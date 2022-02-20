@@ -55,43 +55,36 @@ const LiveTasks = ({route}) => {
   const handleAcceptance = async(item) =>{
     console.log('Acceptance done',  item)
     
-    let BidsIterator = item.bids;
-      let AssignedUser;
-      for (let k = 0; k < BidsIterator.length; k++) {
-        if (BidsIterator.UserId === Data1.taskAssignTo) {
-          AssignedUser = BidsIterator[k];
-          console.log("Assign data in scope", AssignedUser);
-        }
-      }
+    
     const BothLocation = {
-      latitude: AssignedUser.latitude,
-        longitude: AssignedUser.longitude,
+      latitude: item.latitude,
+        longitude: item.longitude,
         DestinationLongitude: Data1.longitude,
       DestinationLatitude: Data1.latitude,
       assignTo:item.UserId,
       UserID: Data1.userId
     }
 
-    // await fetch(`${Url}/task/AcceptBid`, {
-    //     method: "PUT",
-    //     body: JSON.stringify(item),
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //     },
-    //     })
-    //     .then((res) => 
-    //       res.json()
-    //     )
-    //     .then((response) => {
-    //       // console.log(response.success)
-    //       if(response.success){
-    //         navigation.replace("Track Location",{item:BothLocation});
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
+    await fetch(`${Url}/task/AcceptBid`, {
+        method: "PUT",
+        body: JSON.stringify(item),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        })
+        .then((res) => 
+          res.json()
+        )
+        .then((response) => {
+          console.log(response.success)
+          if(response.success){
+            navigation.replace("Track Location",{item:BothLocation});
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
   }
 
   return (

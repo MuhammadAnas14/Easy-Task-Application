@@ -23,12 +23,12 @@ export default function TrackLocation({route,navigation}) {
 
 
 
-  const originLocation = {
-    latitude: location.latitude,
-    longitude: location.longitude,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }
+  // const originLocation = {
+  //   latitude: location.latitude,
+  //   longitude: location.longitude,
+  //   latitudeDelta: 0.0922,
+  //   longitudeDelta: 0.0421,
+  // }
   
   const [mapRegion, setmapRegion] = useState({
     latitude:24.923306, 

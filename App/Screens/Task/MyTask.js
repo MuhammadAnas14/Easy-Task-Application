@@ -21,10 +21,11 @@ function Item({ item }) {
 
   
   const tracklocation = () => {
+    console.log()
     if (item.taskMethod == "live" && item.status == "0.17") {
       navigation.navigate("Live Tracking", { item });
     }
-    if (item.taskMethod == "live" && item.status == "0.25") {
+    else if (item.taskMethod == "live" && item.status == "0.25") {
 
       let BidsIterator = item.bids;
       let AssignedUser;
@@ -46,9 +47,12 @@ function Item({ item }) {
       console.log("Data", toSendData);
       navigation.navigate("Track Location", { item: toSendData });
     }
-    if (item.taskType == "Online" || item.taskType == "Onsite") {
-      navigation.navigate("Task Details", { item });
-    }
+    // if (item.taskType == "Online"  || item.taskType == "Onsite") {
+    //   navigation.navigate("Task Details", { item });
+    // }
+    else(
+      navigation.navigate("Task Details", { item })
+    )
   };
 
   useEffect(() => {
