@@ -7,32 +7,5 @@
         "comments": "12",
         "cost": "500",
         "photo": "https:\/\/images.unsplash.com\/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6"
-    },
-    {
-        "name": "Jazz Bulk sms API ",
-        "_id":"1231",
-        "email": "june.cha@gmail.com",
-        "position": "Karachi,Pakistan",
-        "comments": "5",
-        "cost": "7000",
-        "photo": "https:\/\/randomuser.me\/api\/portraits\/women\/44.jpg"
-    },
-    {
-        "name": "Upwork profile needed",
-        "_id":"123",
-        "email": "iida.niskanen@gmail.com",
-        "position": "Lahore,Pakistan",
-        "comments": "8",
-        "cost": "10000",
-        "photo": "https:\/\/randomuser.me\/api\/portraits\/women\/68.jpg"
-    },
-    {
-        "name": "Business Proposal Maker",
-        "_id":"1",
-        "email": "renee.sims@gmail.com",
-        "position": "Lahore,Pakistan",
-        "comments": "2",
-        "cost": "50000",
-        "photo": "https:\/\/randomuser.me\/api\/portraits\/women\/65.jpg"
     }
 ]
