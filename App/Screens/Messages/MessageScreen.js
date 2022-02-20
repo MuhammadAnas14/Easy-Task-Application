@@ -86,18 +86,18 @@ const MessagesScreen = ({ navigation }) => {
           for(let X in data){
             if(data[X].PosterId === UserId){
               let tosave = {
-                id: data[X].PosterId,
-                name: data[X].postername,
-                messageTime: data[X].ChatTime
+                id: data[X].workerId,
+                name: data[X].workername,
+                messageTime: data[X].ChatTime,
               }
               console.log("as an poster",tosave)
               logs1.push(tosave);
             }
             else{
               let tosave={
-                id: data[X].workerId,
-                name: data[X].workername,
-                messageTime: data[X].ChatTime,
+                id: data[X].PosterId,
+                name: data[X].postername,
+                messageTime: data[X].ChatTime
               }
               console.log("as an worker",tosave);
               logs1.push(tosave);
@@ -123,8 +123,8 @@ const MessagesScreen = ({ navigation }) => {
           style={{ flex: 1 }}
           data={logs}
           keyExtractor={(item) => item.messageTime}
-          renderItem={({ item }) => (
-            <Card onPress={() => navigation.navigate("Chat", {userName: item.name})}>
+          renderItem={({ item }) => ( 
+            <Card onPress={() => navigation.navigate("Chat", {data: item})}>
               <UserInfo>
                 <UserImgWrapper>
                   <UserImg source={{ uri: item.photo }} />

@@ -30,7 +30,7 @@ const MessageStack = ({ navigation }) => (
       name="Chat"
       component={ChatScreen}
       options={({ route }) => ({
-        title: route.params.userName,
+        title: route.params.data.name,
         headerBackTitle: false,
         tabBarVisible: false,
       })}
