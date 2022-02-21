@@ -45,7 +45,7 @@ function Item({ item}) {
             <Entypo style={styles.icons}  name="location-pin" />
             <Text>{locationMethod}</Text>
         </View>
-        <Text>{item.comments} Comments</Text>
+        <Text>Total Bids: {item.totalbids}</Text>
       </View>
       <View style={styles.bugget}>
       <TouchableOpacity style={{height:50,width:50, justifyContent:"center",alignItems:"center"}} onPress={tracklocation}>

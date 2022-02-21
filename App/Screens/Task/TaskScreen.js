@@ -223,7 +223,7 @@ const TaskDetails = ({ route, navigation }) => {
     if ((Data.taskAssignTo === userID && (Data.status === "0.25" && Data.taskMethod !== 'live')) || (Data.taskAssignTo === userID && Data.status === "0.30" && Data.taskMethod == 'live')) {
       setStatusButton(
         <TouchableOpacity
-          style={{ justifyContent: "center", alignItems: "center" }}
+          style={{ justifyContent: "center", alignItems: "center"}}
           onPress={completeHandler}
         >
           <Text style={styles.buttoncolor}>Completed</Text>
@@ -558,6 +558,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     backgroundColor: "green",
+    padding: 10,
   },
   warning: {
     backgroundColor: "green",
