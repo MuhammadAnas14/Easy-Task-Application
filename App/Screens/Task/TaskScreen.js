@@ -127,7 +127,7 @@ const TaskDetails = ({ route, navigation }) => {
       .then((res) => res.json())
       .then((response) => {
         // console.log(response);
-        // navigation.replace("ScreenManager");
+        navigation.navigate("Message");
         console.log("APi Hit")
       })
       .catch((error) => {

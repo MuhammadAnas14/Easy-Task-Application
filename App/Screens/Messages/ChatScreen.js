@@ -8,12 +8,19 @@ import Url from '../../Components/Url';
 
 const ChatScreen = ({navigation,route}) =>{
     const metadata = route.params.data;
+    const [UserData, setUserData] = useState({});
 
-    const [messages, setMessages] = useState([]);
+    const [Messages, setMessages] = useState([]);
+    
+    useEffect(() => {
+      AsyncStorage.getItem("user").then((value) =>
+        setUserData(JSON.parse(value)),
+      );
+    },[]);
 
     useEffect(()=>{
       getMessages();
-    })
+    },[])
 
     const getMessages = async () => {
       let userID;
@@ -40,39 +47,7 @@ const ChatScreen = ({navigation,route}) =>{
       )
       .then((response) => {
         console.log("hello",response.MessLogs.messages)
-        setMessages(response.MessLogs.messages);
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
-
-    const sentMessages = async (newMess) => {
-      let userID;
-    
-      userID = await AsyncStorage.getItem("user").then((value) => {
-        const getUser = JSON.parse(value);
-  
-        return getUser._id;
-      });
-      const chat = {
-        sender: userID,
-        reciever: metadata.id,
-        messages: newMess,
-      }
-      await fetch(`${Url}/Chats/MessageLogs`, {
-        method: "POST",
-        body: JSON.stringify(chat),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => 
-        res.json()
-      )
-      .then((response) => {
-        
+        setMessages(previousMessages => GiftedChat.append([], response.MessLogs.messages));
       })
       .catch((error) => {
         console.log(error)
@@ -94,10 +69,38 @@ const ChatScreen = ({navigation,route}) =>{
           },
         ],)
       }, [])
-      const onSend = useCallback((messages = []) => {
+      const onSend = useCallback(async (messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
         console.log("im the messages",messages);
-        sentMessages(messages);
+        let userID;
+    
+      userID = await AsyncStorage.getItem("user").then((value) => {
+        const getUser = JSON.parse(value);
+  
+        return getUser._id;
+      });
+      const chat = {
+        sender: userID,
+        reciever: metadata.id,
+        messages: messages,
+      }
+      await fetch(`${Url}/Chats/MessageLogs`, {
+        method: "POST",
+        body: JSON.stringify(chat),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => 
+        res.json()
+      )
+      .then((response) => {
+        
+      })
+      .catch((error) => {
+        console.log(error)
+      })
       }, [])
     
     const renderSend = (props) =>{
@@ -136,10 +139,11 @@ const ChatScreen = ({navigation,route}) =>{
 
       return(
         <GiftedChat
-        messages={messages}
+        messages={Messages}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 2,
+          _id: UserData._id,
+          name:UserData.firstName,
         }}
         renderBubble={renderBubble}
         alwaysShowSend
