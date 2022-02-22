@@ -19,7 +19,9 @@ const ChatScreen = ({navigation,route}) =>{
     },[]);
 
     useEffect(()=>{
-      getMessages();
+      setTimeout(()=>{
+        getMessages()
+    },5000)
     },[])
 
     const getMessages = async () => {
@@ -47,7 +49,12 @@ const ChatScreen = ({navigation,route}) =>{
       )
       .then((response) => {
         console.log("hello",response.MessLogs.messages)
-        setMessages(previousMessages => GiftedChat.append([], response.MessLogs.messages));
+        let arrMsg = GiftedChat.append(Messages, response.MessLogs.messages);
+        arrMsg = arrMsg.sort((a,b)=> 
+          Date.parse(b.createdAt) - Date.parse(a.createdAt)
+        )
+        console.log("ecws",arrMsg)
+        setMessages(arrMsg)
       })
       .catch((error) => {
         console.log(error)
@@ -69,10 +76,12 @@ const ChatScreen = ({navigation,route}) =>{
           },
         ],)
       }, [])
+      console.log("efhew",Messages)
       const onSend = useCallback(async (messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
         console.log("im the messages",messages);
         let userID;
+        
     
       userID = await AsyncStorage.getItem("user").then((value) => {
         const getUser = JSON.parse(value);
