@@ -56,18 +56,7 @@ const ChatScreen = ({navigation,route}) =>{
 
 
     useEffect(() => {
-        setMessages([
-          {
-            _id: 1,
-            text: 'Hello World',
-            createdAt: "2022-02-20T18:45:24.479Z",
-            user: {
-              _id: 2,//worker =2 
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },
-        ],)
+        setMessages([],)
       }, [])
       const onSend = useCallback(async (messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
