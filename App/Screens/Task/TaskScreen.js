@@ -7,6 +7,7 @@ import {
   Modal,
   Pressable,
   TextInput,
+  SafeAreaView,
   Image,
   ScrollView,
   TouchableOpacity,
@@ -18,6 +19,9 @@ import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import DefaultImage from "../../../assets/default-pic.jpg";
+import { LogBox } from 'react-native';
+
+
 
 const TaskDetails = ({ route, navigation }) => {
   const Data = route.params.item;
@@ -50,19 +54,9 @@ const TaskDetails = ({ route, navigation }) => {
     }
   };
 
-  // getLocation();
-  // console.log('hehehe',location)
-  //   useEffect(() => {
-  //     if(Data.taskMethod === 'live'){
-  //     getLocation();
-  //     return;
-  //     }
-  //   }, []);
-  //   console.log('extracted location is',location);
-
-
-  // console.log(MakeOffer)
-
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+}, [])
 
   const Offerhandler = () => {
     setModalVisible(true);
@@ -429,10 +423,12 @@ const TaskDetails = ({ route, navigation }) => {
               Offers
             </Text>
           </View>
-          <View style={styles.container}>
+          {/* <View style={styles.container}> */}
+          <SafeAreaView style={{flex: 1}}>
             <FlatList
               style={{ marginTop: 10, flex: 1 }}
               data={Data.bids}
+              keyExtractor={(item) => item.mainDetails}
               renderItem={({ item }) => (
                 <View style={styles.listItem2}>
                   <View style={styles.Main}>
@@ -469,7 +465,8 @@ const TaskDetails = ({ route, navigation }) => {
                 </View>
               )}
             />
-          </View>
+            </SafeAreaView>
+          {/* </View> */}
         </View>
         {/* Task Details */}
         <View style={{ marginLeft: 30 }}>

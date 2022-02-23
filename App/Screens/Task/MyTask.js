@@ -17,7 +17,7 @@ import DefaultImage from "../../../assets/default-pic.jpg";
 function Item({ item }) {
   const navigation = useNavigation();
   const [locationMethod, setLocationMethod] = useState("Online");
-  const [imageDefault, setImageDefault] = useState("");
+  const [imageDefault, setImageDefault] = useState(DefaultImage);
 
   
   const tracklocation = () => {
@@ -144,10 +144,12 @@ const PostedTask = () => {
 
   useEffect(() => {
     GetMyTask();
-    
   }, []);
 
-  console.log(TaskData);
+  const onRefresh = () => {
+    data();
+  }
+
   return (
     <View style={styles.container}>
       <Loader loading={Loading} />
@@ -156,6 +158,9 @@ const PostedTask = () => {
         data={TaskData}
         renderItem={({ item }) => <Item item={item} />}
         keyExtractor={(item) => item.taskName}
+        onRefresh={() => onRefresh}
+        refreshing={Loading}
+        progressViewOffset={100}
       />
     </View>
   );
