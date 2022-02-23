@@ -70,7 +70,7 @@ export default function TrackLocation({route,navigation}) {
 
     const userID =uiD;
 
-    console.log("userID",userID)
+    // console.log("userID",userID)
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
@@ -124,15 +124,15 @@ export default function TrackLocation({route,navigation}) {
     // if (PosterLocation.assingTo === userID ){
     setTimeout(()=>{
         getLocation()
-    },5000)
+    },20000)
   });
   
   useEffect(() => {
     setTimeout(()=>{
       WorkerLocationUpdate();
       // console.log(location);
-     }, 3000)
-  },[]);
+     }, 100000)
+  });
 
   
   
@@ -150,14 +150,14 @@ export default function TrackLocation({route,navigation}) {
 
   
 
-    // console.log("dd",PosterLocation.assingTo);
-    // console.log("ww",PosterLocation.UserID);
+    console.log("dd",PosterLocation.assingTo);
+    console.log("ww",PosterLocation.UserID);
 
     if (PosterLocation.assingTo === userID ){
       console.log("dd",PosterLocation.assingTo);
       // console.log('Im true');
       // await getLocation();
-      console.log("location",location);
+      // console.log("location",location);
     
       setArrivedButton(<Callout style={styles.buttonCallout}>
         <TouchableOpacity
@@ -169,27 +169,27 @@ export default function TrackLocation({route,navigation}) {
       </Callout>)
 
     // if (location){
-      // let dataToSend = {
-      //   workerId: PosterLocation.assingTo,
-      //   posterId: PosterLocation.UserID,
-      //   ...location, 
-      // }
-      // console.log("dataToSend",dataToSend);
-      // await fetch(`${Url}/Locations/LiveLocation`, {
-      //   method: "POST",
-      //   body: JSON.stringify(dataToSend),
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then((response) => {
-      //     console.log("response",response.foundLocation); //location Updated
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      let dataToSend = {
+        workerId: PosterLocation.assingTo,
+        posterId: PosterLocation.UserID,
+        ...location, 
+      }
+      console.log("dataToSend",dataToSend);
+      await fetch(`${Url}/Locations/LiveLocation`, {
+        method: "POST",
+        body: JSON.stringify(dataToSend),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          console.log("response",response); //location Updated
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       // }
       } 
 
