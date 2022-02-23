@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   button,
 } from "react-native";
-import MessageData from "../Data/Chat.json";
+import MessageData1 from "../Data/Chat.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DefaultImage from "../../../assets/default-pic.jpg";
 import {
@@ -26,8 +26,8 @@ import {
 import Url from '../../Components/Url'
 
 const MessagesScreen = ({ navigation }) => {
-  let [logs,setlogs] =useState(MessageData) ;
-  const [TaskData, setTaskData] = useState(MessageData);//api data
+  let [logs,setlogs] =useState([]) ;
+  const [TaskData, setTaskData] = useState(MessageData1);//api data
     
   // Getting Data from Backend
     const data = async () => {
@@ -87,14 +87,14 @@ const MessagesScreen = ({ navigation }) => {
       useEffect(() =>  {
         data();  
       }, []);
-      
+      console.log("value is",logs.length);
   return (
     
     <View style={styles.container}>
       <Container>
         <FlatList
           style={{ flex: 1 }}
-          data={logs}
+          data={logs.length < 1 ? TaskData : logs}
           keyExtractor={(item) => item.messageTime}
           renderItem={({ item }) => ( 
             <Card onPress={() => navigation.navigate("Chat", {data: item})}>
