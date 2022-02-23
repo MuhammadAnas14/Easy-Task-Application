@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   Modal,
+  TouchableOpacity
 } from "react-native";
 import CreditCard from "react-native-credit-card-form-ui";
 import Feather from "react-native-vector-icons/Feather";
@@ -21,19 +22,21 @@ const CardPayment = ({ navigation, route }) => {
 
   const UserData = route.params.Data;
 
-  const handleSubmit = React.useCallback(() => {
+  // console.log(UserData)
+  console.log(Money);
+
+  const handleSubmit = () => {
     let cardData;
     if (creditCardRef.current) {
       const { error, data } = creditCardRef.current.submit();
       // console.log("ERROR: ", error);
-      // console.log("CARD DATA: ", data);
+      console.log("CARD DATA: ", data);
       cardData = data;
     }
-    // console.log(cardData);
+    
 
     if (!Money || Money != UserData.acceptedBid) {
-      console.log("Error")
-      return;
+      console.log(Money)
          }
 
     const paymentDataToSend = {
@@ -66,7 +69,7 @@ const CardPayment = ({ navigation, route }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
 
   const handlePostedTask = () => {
     setModalVisible(!modalVisible);
@@ -106,9 +109,9 @@ const CardPayment = ({ navigation, route }) => {
         />
       </View>
       <View style={styles.ButtonView}>
-        <Pressable title="Submit" onPress={handleSubmit}>
+        <TouchableOpacity onPress={handleSubmit}>
           <Text style={styles.ButtonInside}>Submit</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
       
       <Modal
