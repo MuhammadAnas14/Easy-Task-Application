@@ -50,8 +50,6 @@ export default function TrackLocation({route,navigation}) {
     });
 
     const userID =uiD;
-
-    // console.log("userID",userID)
     try {
       const { granted } = await Location.requestForegroundPermissionsAsync()
       if (!granted) return;
@@ -104,21 +102,18 @@ export default function TrackLocation({route,navigation}) {
       }
       
   
-  useEffect(() => {
-
-    // const userID = getUser();
-    // if (PosterLocation.assingTo === userID ){
-    setTimeout(()=>{
-        getLocation()
-    },5000)
-    // setmarker(newmarkerpos);
-  });
+  // useEffect(() => {
+  //   setTimeout(()=>{
+        
+  //   },50000)
+  //   // setmarker(newmarkerpos);
+  // });
   
   useEffect(() => {
     setTimeout(()=>{
       WorkerLocationUpdate();
-      // console.log(location);
-     }, 100000)
+      getLocation()
+     }, 20000)
   });
 
   
@@ -135,16 +130,7 @@ export default function TrackLocation({route,navigation}) {
       return getUser._id;
     });
 
-  
-
-    console.log("dd",PosterLocation.assingTo);
-    console.log("ww",PosterLocation.UserID);
-
     if (PosterLocation.assingTo === userID ){
-      console.log("dd",PosterLocation.assingTo);
-      // console.log('Im true');
-      // await getLocation();
-      // console.log("location",location);
     
       setArrivedButton(<Callout style={styles.buttonCallout}>
         <TouchableOpacity
@@ -159,6 +145,7 @@ export default function TrackLocation({route,navigation}) {
       let dataToSend = {
         workerId: PosterLocation.assingTo,
         posterId: PosterLocation.UserID,
+        TaskId: PosterLocation.taskId,
         ...location, 
       }
       console.log("dataToSend",dataToSend);
@@ -177,33 +164,35 @@ export default function TrackLocation({route,navigation}) {
         .catch((error) => {
           console.log(error);
         });
-      // }
+  //     // }
       } 
 
-  if (PosterLocation.UserID===userID){
+  // if (PosterLocation.UserID===userID){
 
-    let dataToSend = {
-      workerId: PosterLocation.assingTo,
-      posterId: PosterLocation.UserID,
-    }
+  //   let dataToSend = {
+  //     workerId: PosterLocation.assingTo,
+  //     posterId: PosterLocation.UserID,
+  //   }
 
-    await fetch(`${Url}/Locations/GetTracking`, {
-      method: "POST",
-      body: JSON.stringify(dataToSend),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response) //location Updated
-        setLocation(response.foundLocation)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  //   await fetch(`${Url}/Locations/GetTracking`, {
+  //     method: "POST",
+  //     body: JSON.stringify(dataToSend),
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       console.log(response.foundLocation)
+  //        if (response.foundLocation){
+  //         setLocation(response.foundLocation)
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     }); 
+  // }
   }
   
   
