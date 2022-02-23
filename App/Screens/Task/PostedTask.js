@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Url from '../../Components/Url'
 import Loader from '../../Components/Loader'
 import { useNavigation } from '@react-navigation/native';
-import Spinner from 'react-native-loading-spinner-overlay';
 import DefaultImage from '../../../assets/default-pic.jpg'
 
 function Item({ item}) {
@@ -89,8 +88,12 @@ const PostedTask  = () => {
   
    useEffect(() =>  {
     data();  
+    setLoading(false);
   }, []);
-  
+
+    const onRefresh = () => {
+      setLoading({loading:true,},()=>{data();});
+    }
 
     return (
       <View style={styles.container}>
@@ -100,7 +103,9 @@ const PostedTask  = () => {
           data={TaskData}
           renderItem={({ item}) => <Item item={item}/>}
           keyExtractor={item => item._id}
-          // onRefresh={Refresh}
+          onRefresh={() => onRefresh}
+          refreshing={loading}
+          progressViewOffset={100}
         />
       </View>
     );
