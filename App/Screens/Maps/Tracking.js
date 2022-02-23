@@ -167,32 +167,33 @@ export default function TrackLocation({route,navigation}) {
   //     // }
       } 
 
-  // if (PosterLocation.UserID===userID){
+  if (PosterLocation.UserID===userID){
 
-  //   let dataToSend = {
-  //     workerId: PosterLocation.assingTo,
-  //     posterId: PosterLocation.UserID,
-  //   }
+    let dataToSend = {
+      workerId: PosterLocation.assingTo,
+      posterId: PosterLocation.UserID,
+      TaskId: PosterLocation.taskId,
+    }
 
-  //   await fetch(`${Url}/Locations/GetTracking`, {
-  //     method: "POST",
-  //     body: JSON.stringify(dataToSend),
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       console.log(response.foundLocation)
-  //        if (response.foundLocation){
-  //         setLocation(response.foundLocation)
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     }); 
-  // }
+    await fetch(`${Url}/Locations/GetTracking`, {
+      method: "POST",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response.foundLocation)
+         if (response.foundLocation){
+          setLocation(response.foundLocation)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      }); 
+  }
   }
   
   
