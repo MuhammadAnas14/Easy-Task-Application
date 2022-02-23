@@ -1,5 +1,6 @@
+import { requestBackgroundPermissionsAsync } from 'expo-location';
 import React from 'react';
-import {StyleSheet, View, Modal, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Modal, ActivityIndicator, Text} from 'react-native';
 
 const Loader = (props) => {
   const {loading, ...attributes} = props;
@@ -17,10 +18,11 @@ const Loader = (props) => {
         <View style={styles.activityIndicatorWrapper}>
           <ActivityIndicator
             animating={true}
-            color="#000000"
+            color="#3CAABB"
             size="large"
             style={styles.activityIndicator}
           />
+          <Text style={styles.textstyle}>Loading</Text>
         </View>
       </View>
     </Modal>
@@ -31,16 +33,15 @@ export default Loader;
 
 const styles = StyleSheet.create({
   modalBackground: {
+    backgroundColor:'rgba(255,255,255,0.4)',
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    backgroundColor: '#000000',
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
-    height: 100,
-    width: 100,
+    height: 80,
+    width: 80,
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
@@ -48,6 +49,10 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     alignItems: 'center',
-    height: 80,
+    height: 120,
   },
+  textstyle:{
+    color:"#3CAABB",
+    fontSize:16
+  }
 });

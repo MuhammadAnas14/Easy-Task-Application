@@ -61,7 +61,7 @@ const PostedTask  = () => {
 
     const [TaskData, setTaskData] = useState("")
     const [LoginData,setLoginData] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     //Refresh Data
     const Refresh = () => {
@@ -82,6 +82,7 @@ const PostedTask  = () => {
           console.log(response.success)
         }
         setTaskData(response.data)
+        setLoading(false);
       })
       .catch(error => console.log(error))
       }
@@ -93,11 +94,7 @@ const PostedTask  = () => {
 
     return (
       <View style={styles.container}>
-        <Spinner
-          visible={loading}
-          textContent={'Loading...'}
-          textStyle={styles.spinnerTextStyle}
-        />
+      <Loader loading={loading} />
         <FlatList
           style={{flex:1}}
           data={TaskData}

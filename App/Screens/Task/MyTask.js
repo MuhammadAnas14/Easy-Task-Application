@@ -135,6 +135,7 @@ const PostedTask = () => {
       .then((res) => res.json())
       .then((response) => {
         setTaskData(response.UserTask);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -143,7 +144,7 @@ const PostedTask = () => {
 
   useEffect(() => {
     GetMyTask();
-    setLoading(false);
+    
   }, []);
 
   console.log(TaskData);
