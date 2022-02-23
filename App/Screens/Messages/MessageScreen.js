@@ -105,7 +105,7 @@ const MessagesScreen = ({ navigation }) => {
                 <TextSection>
                   <UserInfoText>
                     <UserName>{item.name}</UserName>
-                    <PostTime>{item.messageTime}</PostTime>
+                    <PostTime>{item.messageTime.slice(11,16)}             </PostTime>
                   </UserInfoText>
                 </TextSection>
               </UserInfo>

@@ -4,12 +4,10 @@ import { StyleSheet, Text, View, Dimensions ,Button, Touchable, TouchableOpacity
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import MapViewDirections from 'react-native-maps-directions';
-import socketIOClient from "socket.io-client";
 import Url from '../../Components/Url';
 
 export default function TrackLocation({route,navigation}) {
 
-  const ENDPOINT = Url ;
   const PosterLocation = route.params.item;
   const [LocationName, setLocationName] = useState([]);
   const [location, setLocation] = useState({
@@ -19,20 +17,10 @@ export default function TrackLocation({route,navigation}) {
   const [test, setTest] =useState("")
   const [ArrivedButton, setArrivedButton] = useState(<View></View>);
 
-  // console.log("data from wd",PosterLocation)
-
-
-
-  // const originLocation = {
-  //   latitude: location.latitude,
-  //   longitude: location.longitude,
-  //   latitudeDelta: 0.0922,
-  //   longitudeDelta: 0.0421,
-  // }
   
   const [mapRegion, setmapRegion] = useState({
-    latitude:24.923306, 
-    longitude:67.068015,
+    latitude:24.9156, 
+    longitude:67.0921,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -40,23 +28,16 @@ export default function TrackLocation({route,navigation}) {
     setLocation({latitude: PosterLocation.latitude,
       longitude:PosterLocation.longitude})
   },[])
-
+  
   const [DestinationLocation, setDestinationLocation] = useState({droplocationCords:{
         latitude: PosterLocation.DestinationLatitude,
         longitude:PosterLocation.DestinationLongitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
       }});
-  // useEffect(()=>{
-  //   const socket = socketIOClient(ENDPOINT, {      
-  //     transports: ['websocket'], jsonp: false });
 
-  //     socket.on('connection', () => {
-  //     console.log('connected to socket server');
-  //     socket.emit('location', "location");
-  //   }); 
-  // },[])
-      // console.log(location)
+  const [marker,setmarker]=useState({
+    latitude:24.9156, 
+    longitude:67.0921,
+  })
 
   const getLocation = async () => {
     let uiD;
@@ -116,7 +97,12 @@ export default function TrackLocation({route,navigation}) {
       });
   }
 
-
+      
+      let newmarkerpos = {
+        latitude:PosterLocation.latitude,
+        longitude: PosterLocation.longitude,
+      }
+      
   
   useEffect(() => {
 
@@ -124,7 +110,8 @@ export default function TrackLocation({route,navigation}) {
     // if (PosterLocation.assingTo === userID ){
     setTimeout(()=>{
         getLocation()
-    },20000)
+    },5000)
+    // setmarker(newmarkerpos);
   });
   
   useEffect(() => {
@@ -199,7 +186,6 @@ export default function TrackLocation({route,navigation}) {
       workerId: PosterLocation.assingTo,
       posterId: PosterLocation.UserID,
     }
-    console.log("dsad",dataToSend);
 
     await fetch(`${Url}/Locations/GetTracking`, {
       method: "POST",
@@ -226,6 +212,12 @@ export default function TrackLocation({route,navigation}) {
   return (
     <View style={styles.container}>
           <MapView style={styles.map} initialRegion={mapRegion}>
+            {/* <Marker 
+            coordinate={location}
+            /> */}
+            {/* <Marker
+            coordinate={marker}
+            /> */}
             <MapViewDirections
             lineDashPattern={[4]}
             origin={location}

@@ -25,7 +25,17 @@ const Stack = createNativeStackNavigator();
 
 const MessageStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Messages" component={MessageScreen} />
+    <Stack.Screen name="Messages"
+    options={{
+      headerStyle: {
+        backgroundColor: "#3CAABB",
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+    component={MessageScreen} />
     <Stack.Screen
       name="Chat"
       component={ChatScreen}
@@ -39,8 +49,16 @@ const MessageStack = ({ navigation }) => (
 );
 const SettingsStack = ({ navigation }) => (
   <Stack.Navigator>
-    <Stack.Screen name="Account Settings" component={Settings} options={() => ({
+    <Stack.Screen name="Account Settings" 
+    component={Settings} options={() => ({
         headerBackTitle: false,
+        headerStyle: {
+          backgroundColor: "#3CAABB",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
       })} />
     <Stack.Screen
       name="Profile"
