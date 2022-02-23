@@ -17,6 +17,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import Url from "../../Components/Url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
+import DefaultImage from "../../../assets/default-pic.jpg";
 
 const TaskDetails = ({ route, navigation }) => {
   const Data = route.params.item;
@@ -366,7 +367,7 @@ const TaskDetails = ({ route, navigation }) => {
         {/* Profile of the Poster */}
         <View style={styles.ProfCont}>
           <Image
-            source={{ uri: `data:image/jpg;base64,${Data.userPhoto}` }}
+            source={Data.userPhoto  === "" ?  DefaultImage :{ uri: `data:image/jpg;base64,${Data.userPhoto}` }}
             style={{ width: 60, height: 60, borderRadius: 30, marginTop: 10 }}
           />
           <View style={{ flex: 1, padding: 15 }}>

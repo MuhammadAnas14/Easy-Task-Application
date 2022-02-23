@@ -14,6 +14,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import Url from '../../Components/Url';
+import DefaultImage from "../../../assets/default-pic.jpg";
 
 const Profile = () => {
   const [StarRatings, setStarRatings] = useState(0);
@@ -36,8 +37,14 @@ const Profile = () => {
       const getUser= JSON.parse(value);
       return getUser.picture
     });
-    setImageUserData({uri:`data:image/jpg;base64,${userImage}`});
+    console.log("userImage = ",userImage)
 
+    if (userImage=== ""){
+      setImageUserData(DefaultImage)
+    }
+    else{
+    setImageUserData({uri:`data:image/jpg;base64,${userImage}`});
+    }
 
     
 
@@ -117,6 +124,7 @@ const Profile = () => {
       if(response.success)
       alert("Your Image is Upload");
       UserData.picture = imagecode;
+      
       AsyncStorage.setItem('user',JSON.stringify(UserData))
       setImageUserData({uri:`data:image/jpg;base64,${imagecode}`});
     })

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import MessageData from "../Data/Chat.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import DefaultImage from "../../../assets/default-pic.jpg";
 import {
   Container,
   Card,
@@ -99,7 +100,7 @@ const MessagesScreen = ({ navigation }) => {
             <Card onPress={() => navigation.navigate("Chat", {data: item})}>
               <UserInfo>
                 <UserImgWrapper>
-                  <UserImg source={{ uri: `data:image/jpg;base64,${item.userPhoto}` }} />
+                  <UserImg source={item.userPhoto  === "" ?  DefaultImage :{ uri: `data:image/jpg;base64,${item.userPhoto}` }} />
                 </UserImgWrapper> 
                 <TextSection>
                   <UserInfoText>
