@@ -17,7 +17,7 @@ import DefaultImage from "../../../assets/default-pic.jpg";
 function Item({ item }) {
   const navigation = useNavigation();
   const [locationMethod, setLocationMethod] = useState("Online");
-  const [imageDefault, setImageDefault] = useState("");
+  const [imageDefault, setImageDefault] = useState(DefaultImage);
 
   
   const tracklocation = () => {

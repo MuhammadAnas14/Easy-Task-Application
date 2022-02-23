@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import AccountSettings from "./Data/AccountSettings.json";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Url from '../Components/Url'
 
 
 const Settings = ({ navigation }) => {
@@ -31,8 +32,40 @@ const Settings = ({ navigation }) => {
 
     AsyncStorage.clear();
     setModalVisible(!modalVisible)
-    navigation.replace("SplashScreen")
+    navigation.replace("SplashScreen");
 
+  }
+
+  const deletemyaccount = async() => {
+    let userID;
+
+    userID = await AsyncStorage.getItem("user").then((value) => {
+      const getUser= JSON.parse(value);
+      // console.log("user = ",getUser)
+      return getUser._id
+    });
+    
+
+    await fetch(`${Url}/auth/deleteAccount`, {
+      method: "POST",
+      body: JSON.stringify({userId: userID}),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.success) {
+          AsyncStorage.clear();
+          navigation.replace("SplashScreen");
+          console.log("success")
+        }
+        else{
+          console.log(response.error)
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -67,6 +100,7 @@ const Settings = ({ navigation }) => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        onPress={deletemyaccount}
       >
         <Text style={{ color: "white", backgroundColor: "red", padding: 9 }}>
           Delete My Account

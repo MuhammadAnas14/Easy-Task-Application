@@ -22,7 +22,7 @@ const Profile = () => {
   const [pickedImagePath, setPickedImagePath] = useState("");
   const [ImgBase64, setImageBase64] = useState("");
   const [TotalReviews, setTotalReviews] = useState(0);
-  const [imageUserData,setImageUserData] = useState("");
+  const [imageUserData,setImageUserData] = useState(DefaultImage);
 
   const GetMyTask = async () => {
 
