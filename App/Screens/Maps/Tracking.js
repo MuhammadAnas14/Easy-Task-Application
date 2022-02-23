@@ -110,10 +110,11 @@ export default function TrackLocation({route,navigation}) {
   // });
   
   useEffect(() => {
-    setTimeout(()=>{
+    const timer = setTimeout(()=>{
       WorkerLocationUpdate();
       getLocation()
      }, 20000)
+     return () => clearTimeout(timer);
   });
 
   

@@ -19,9 +19,10 @@ const ChatScreen = ({navigation,route}) =>{
     },[]);
 
     useEffect(()=>{
-      setTimeout(()=>{
+      const timer = setTimeout(()=>{
         getMessages()
     },5000)
+    return () => clearTimeout(timer);
     })
 
     const getMessages = async () => {
