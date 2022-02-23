@@ -147,7 +147,7 @@ const PostedTask = () => {
   }, []);
 
   const onRefresh = () => {
-    data();
+    GetMyTask();
   }
 
   return (

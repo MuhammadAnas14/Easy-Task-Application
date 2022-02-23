@@ -63,9 +63,9 @@ const PostedTask  = () => {
     const [loading, setLoading] = useState(true);
 
     //Refresh Data
-    const Refresh = () => {
-      data();
-    }
+    // const Refresh = () => {
+    //   data();
+    // }
     
 
     // Getting Data from Backend
@@ -80,6 +80,7 @@ const PostedTask  = () => {
         if(response.success){
           console.log(response.success)
         }
+        // console.log(response.data)
         setTaskData(response.data)
         setLoading(false);
       })
@@ -92,7 +93,9 @@ const PostedTask  = () => {
   }, []);
 
     const onRefresh = () => {
+      // setLoading(true);
       setLoading({loading:true,},()=>{data();});
+      // data();
     }
 
     return (
