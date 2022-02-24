@@ -201,7 +201,7 @@ const LoginScreen = ({ navigation }) => {
     .then((response) => {
         if (response.success) {
           console.log(response.user.email)
-          if (response.user.email == "admin@gmail.com") {
+          if (response.user.email == "admin@yopmail.com") {
             navigation.replace('Admin Panel');
           }
 

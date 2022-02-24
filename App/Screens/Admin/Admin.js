@@ -27,7 +27,7 @@ const adminPanel = ({ navigation }) => {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        let temp = response?.user?.filter((item)=> {return item.email != "Vahajab@gmail.com" })
+        let temp = response?.user?.filter((item)=> {return item.email != "admin@yopmail.com" })
         console.log("temp = ",temp)
         setUsersData(temp);
       })
