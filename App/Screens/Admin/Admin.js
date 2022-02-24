@@ -130,6 +130,11 @@ const adminPanel = ({ navigation }) => {
                   Delete User
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.OfferedBid,backgroundColor="green" ]}>
+              <Text style={styles.OfferedBidText}>
+                  Approved
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       />
