@@ -16,12 +16,6 @@ const Payment = ({navigation}) => {
   
   const [paymentData , setPaymentData] = useState("");
 
-  const pay = [{
-    "_id": "62125ec7a15d588630a2eaa4",
-    "paymentAmount": "500",
-    "paymentMethod": "Cash On Delivery",
-  }]
-
   
   const getPaymentData = async () => {
     let userID;

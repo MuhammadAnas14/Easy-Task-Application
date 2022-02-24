@@ -200,10 +200,16 @@ const LoginScreen = ({ navigation }) => {
     .then(res => res.json())
     .then((response) => {
         if (response.success) {
-          AsyncStorage.setItem('token', response.token);
+          console.log(response.user.email)
+          if (response.user.email == "admin@gmail.com") {
+            navigation.replace('Admin Panel');
+          }
+
+          else 
+          {
+            AsyncStorage.setItem('token', response.token);
           AsyncStorage.setItem('user',JSON.stringify(response.user))
-          // console.log("Responseeeee",response);
-          navigation.replace('ScreenManager');
+          navigation.replace('ScreenManager');}
         } else {
           setErrortext(response.error);
           setLoading(false);

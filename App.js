@@ -16,6 +16,7 @@ import LiveScreen from "./App/Screens/Task/LiveTask";
 import CardPayment from "./App/Screens/Payments/Cardpayments";
 import CodPayment from "./App/Screens/Payments/CodPayment";
 import Feedback from "./App/Screens/Feedback";
+import Admin from "./App/Screens/Admin/Admin";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
@@ -108,6 +109,11 @@ export default function App() {
         <Stack.Screen
           name="Feedback"
           component={Feedback}
+          options={{ headerShown: true }}
+        />
+      <Stack.Screen
+          name="Admin Panel"
+          component={Admin}
           options={{ headerShown: true }}
         />
       </Stack.Navigator>
