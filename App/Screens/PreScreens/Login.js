@@ -129,6 +129,7 @@ const LoginScreen = ({ navigation }) => {
       .then((response) => {
           if (response.success) {
             AsyncStorage.setItem('token', response.token);
+            AsyncStorage.setItem('user',JSON.stringify(response.user))
             navigation.replace('ScreenManager');
           } else {
             setErrortext(response.error);

@@ -39,7 +39,7 @@ const Profile = () => {
     });
     console.log("userImage = ",userImage)
 
-    if (userImage=== ""){
+    if (userImage=== "" ){
       setImageUserData(DefaultImage)
     }
     else{
